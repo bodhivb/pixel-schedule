@@ -15,7 +15,7 @@ var config = {
     rules: [{ test: /\.tsx?$/, use: "ts-loader" }],
   },
   plugins: [
-    new CopyWebpackPlugin({ patterns: [{ from: "resource/", to: "assets/" }] }),
+    new CopyWebpackPlugin({ patterns: [{ from: "assets/", to: "assets/" }] }),
     new HtmlWebpackPlugin({ title: "Pixel Schedule" }),
     new HtmlWebpackTagsPlugin({ tags: ["assets/css/base.css"] }),
   ],
@@ -25,6 +25,7 @@ var config = {
   },
 };
 
+//Export config
 module.exports = (env, argv) => {
   config.mode = argv.mode;
 
