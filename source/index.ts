@@ -1,3 +1,4 @@
-import { App } from "./app";
+import Canvas from "./canvas";
 
-document.body.appendChild(App());
+const canvas = new Canvas();
+document.body.appendChild(canvas.view);
