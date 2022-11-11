@@ -11,10 +11,8 @@ export default class App extends Application {
     this.ticker.maxFPS = 90;
     this.ticker.add((dt) => this.Update(dt));
 
-    this.Resize();
-
     // Listen for window resize events
-    window.addEventListener("resize", this.Resize);
+    window.addEventListener("resize", () => this.Resize());
 
     this.AddBunny();
   }
