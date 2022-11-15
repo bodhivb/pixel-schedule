@@ -11,6 +11,8 @@ export default class App extends Application {
       height: window.innerHeight,
     });
 
+    // Disable interpolation when scaling, will make texture be pixelated
+    settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
     // Listen for window resize events
     window.addEventListener("resize", () => this.Resize());
