@@ -1,6 +1,9 @@
-import { Application, Texture, Sprite } from "pixi.js";
+import { GameManager } from "./managers/gameManager";
+import { Application, SCALE_MODES, settings } from "pixi.js";
 
 export default class App extends Application {
+  readonly game: GameManager;
+
   constructor() {
     super({
       backgroundColor: 0x1099bb,
@@ -8,42 +11,22 @@ export default class App extends Application {
       height: window.innerHeight,
     });
 
-    this.ticker.maxFPS = 90;
-    this.ticker.add((dt) => this.Update(dt));
 
     // Listen for window resize events
     window.addEventListener("resize", () => this.Resize());
 
-    this.AddBunny();
+    this.game = new GameManager(this);
+
+    this.ticker.maxFPS = 90;
+    this.ticker.add((dt) => this.Update(dt));
   }
 
-  // Resize function window
   Resize() {
     // Resize the renderer
     this.renderer.resize(window.innerWidth, window.innerHeight);
-
-    //this.app.stage.scale.set(5);
-    //rect.position.set(app.screen.width / 2, app.screen.height / 2);
   }
 
-  Update(dt: number) {}
-
-  AddBunny() {
-    const bunny = new Sprite(Texture.from("assets/examples/bunny.png"));
-    bunny.anchor.set(0.5);
-    bunny.x = 200;
-    bunny.y = 120;
-
-    //Rotate bunny a little
-    this.ticker.add(() => {
-      bunny.rotation += 0.1;
-    });
-
-    this.AddGraphics(bunny);
-  }
-
-  // Add it to the stage
-  AddGraphics(obj: any) {
-    this.stage.addChild(obj);
+  Update(dt: number) {
+    this.game.Update(dt);
   }
 }
