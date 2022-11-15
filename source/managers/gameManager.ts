@@ -1,4 +1,5 @@
 import App from "app";
+import { SchoolView } from "../Views/schoolView";
 import { ScreenManager } from "./screenManager";
 
 export class GameManager {
@@ -8,6 +9,9 @@ export class GameManager {
   constructor(app: App) {
     this.application = app;
     this.screen = new ScreenManager(this);
+
+    let SintLucas = new SchoolView();
+    this.screen.Add(SintLucas);
   }
 
   Update(dt: number) {
