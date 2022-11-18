@@ -17,7 +17,9 @@ var config = {
   plugins: [
     new CopyWebpackPlugin({ patterns: [{ from: "assets/", to: "assets/" }] }),
     new HtmlWebpackPlugin({ title: "Pixel Schedule" }),
-    new HtmlWebpackTagsPlugin({ tags: ["assets/css/base.css"] }),
+    new HtmlWebpackTagsPlugin({
+      tags: ["assets/css/base.css", "assets/css/elements.css"],
+    }),
   ],
   output: {
     filename: "main.js",

@@ -1,10 +1,11 @@
 import { GameManager } from "./managers/gameManager";
 import { Application, SCALE_MODES, settings } from "pixi.js";
+import Overlay from "overlay";
 
 export default class App extends Application {
   readonly game: GameManager;
 
-  constructor() {
+  constructor(overlay?: Overlay) {
     super({
       backgroundColor: 0x1099bb,
       width: window.innerWidth,
@@ -17,7 +18,7 @@ export default class App extends Application {
     // Listen for window resize events
     window.addEventListener("resize", () => this.Resize());
 
-    this.game = new GameManager(this);
+    this.game = new GameManager(this, overlay);
 
     this.ticker.maxFPS = 90;
     this.ticker.add((dt) => this.Update(dt));
