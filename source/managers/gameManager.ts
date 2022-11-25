@@ -1,7 +1,7 @@
 import App from "../app";
 import Overlay from "../overlay";
-import { LoginView } from "../view/loginView";
-import { SchoolView } from "../view/schoolView";
+import { LoginView } from "../views/loginView";
+import { SchoolView } from "../views/schoolView";
 import { ScreenManager } from "./screenManager";
 
 export class GameManager {
