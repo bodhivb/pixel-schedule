@@ -1,15 +1,27 @@
 import { createTextField } from "./elements/textField";
+import { HTMLView } from "./Views/htmlView";
 
 /** The full-screen HTML overlay. */
 export default class Overlay {
   view: HTMLDivElement;
 
   constructor() {
-    this.view = this.createOverlay();
-    this.view.appendChild(createTextField());
+    this.view = this.CreateOverlay();
   }
 
-  private createOverlay(): HTMLDivElement {
+  public Add(component: HTMLElement | HTMLView) {
+    if (component instanceof HTMLView) {
+      this.view.appendChild(component.view);
+    } else {
+      this.view.appendChild(component);
+    }
+  }
+
+  public Clear() {
+    this.view.innerHTML = "";
+  }
+
+  private CreateOverlay(): HTMLDivElement {
     const overlay = document.createElement("div");
     overlay.setAttribute("id", "overlay");
     return overlay;

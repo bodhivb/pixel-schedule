@@ -18,13 +18,12 @@ export class GameManager {
     this.HTMLoverlay = overlay;
     this.screen = new ScreenManager(this);
 
-    let SintLucas = new SchoolView();
-    this.screen.Add(SintLucas);
-
-    //let loginView = new LoginView();
-    //this.screen.Add(loginView);
+    const sintLucas = new SchoolView();
+    this.screen.Add(sintLucas);
 
     // Page -> View -> Component -> Element
+    const loginView = new LoginView();
+    this.HTMLoverlay?.Add(loginView);
   }
 
   Update(dt: number) {
