@@ -1,6 +1,7 @@
-export const createTextField = () => {
-  let el = document.createElement("input");
-  el.type = "email";
+export const createTextField = (type: string = "text") => {
+  const el = document.createElement("input");
+  el.type = type;
+  el.name = type;
   el.className = "testClass";
 
   return el;
