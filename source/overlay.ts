@@ -1,5 +1,5 @@
 import { createTextField } from "./elements/textField";
-import { HTMLView } from "./Views/htmlView";
+import { HTMLView } from "./view/htmlView";
 
 /** The full-screen HTML overlay. */
 export default class Overlay {

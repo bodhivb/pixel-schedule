@@ -1,4 +1,4 @@
-import { View } from "Views/view";
+import { View } from "view/view";
 import { GameManager } from "./gameManager";
 
 //SceneManager
