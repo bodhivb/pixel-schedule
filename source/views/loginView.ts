@@ -9,10 +9,11 @@ export class LoginView extends HTMLView {
 
     // Create a login form using html
     this.form = document.createElement("form");
+    this.form.id = "loginForm";
     this.form.addEventListener("submit", (event) => this.Submit(event));
 
-    this.form.appendChild(createTextField("email"));
-    this.form.appendChild(createTextField("password"));
+    this.form.appendChild(createTextField("email", "iemand@example.com"));
+    this.form.appendChild(createTextField("password", "Wachtwoord"));
 
     this.form.appendChild(this.createSubmitButton());
 
