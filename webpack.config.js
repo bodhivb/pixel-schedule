@@ -10,6 +10,9 @@ var config = {
   entry: "./source/index.ts",
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
+    fallback: {
+      util: require.resolve("util/"),
+    },
   },
   module: {
     rules: [{ test: /\.tsx?$/, use: "ts-loader" }],

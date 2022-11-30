@@ -1,5 +1,6 @@
 import App from "../app";
 import Overlay from "../overlay";
+import { LoginService } from "../services/loginService";
 import { LoginView } from "../views/loginView";
 import { SchoolView } from "../views/schoolView";
 import { ScreenManager } from "./screenManager";
@@ -24,6 +25,9 @@ export class GameManager {
     // Page -> View -> Component -> Element
     const loginView = new LoginView();
     this.HTMLoverlay?.Add(loginView);
+
+    const loginService = new LoginService();
+    loginService.CheckAuthentication();
   }
 
   Update(dt: number) {
