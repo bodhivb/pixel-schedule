@@ -1,4 +1,5 @@
 import { Texture } from "pixi.js";
+import { SchoolBuilder } from "../builders/schoolBuilder";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
 import { Room } from "../objects/room";
@@ -13,7 +14,6 @@ export class SchoolView extends View {
 
   constructor() {
     super("School");
-
     this.LoadSchool();
 
     let bodhi = new Teacher(Texture.from("assets/teachers/bodhi.png"));
@@ -26,15 +26,30 @@ export class SchoolView extends View {
     //Sample data - for testing
     let school = this.GetData();
 
+    let schoolBuilder = new SchoolBuilder();
+    schoolBuilder.SetFloor([0, 2, 3]);
+
+    schoolBuilder.SetWall(Texture.from("assets/buildings/wall.png"));
+    schoolBuilder.SetDoor(Texture.from("assets/buildings/front_door.png"));
+    schoolBuilder.SetRoofSign(Texture.from("assets/examples/bunny.png"));
+
     for (let i = 0; i < school.length; i++) {
       let rooms = school[i].rooms;
 
       for (let r = 0; r < rooms.length; r++) {
-        const newRoom = new Room(rooms[r], r);
-        this.entities.push(newRoom);
-        this.addChild(newRoom);
+        schoolBuilder.SetRoom(school[i].floor, rooms[r]);
+        //const newRoom = new Room(rooms[r], r);
+        //this.entities.push(newRoom);
+        //this.addChild(newRoom);
       }
     }
+
+    const s = schoolBuilder.GetProduct();
+
+    s.x = 200;
+    s.y = 800;
+    this.addChild(s);
+    console.log("school added");
   }
 
   //This should be replaced with schedule API
@@ -46,6 +61,14 @@ export class SchoolView extends View {
           this.test_classroom,
           { number: "74", type: RoomType.classroom_window },
           { number: "75", type: RoomType.classroom },
+        ],
+      },
+      {
+        floor: 2,
+        rooms: [
+          this.test_classroom,
+          { number: "32", type: RoomType.classroom_window },
+          { number: "33", type: RoomType.classroom_window },
         ],
       },
     ];
