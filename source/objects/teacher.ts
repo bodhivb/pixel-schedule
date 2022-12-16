@@ -1,4 +1,5 @@
 import { Resource, Texture } from "pixi.js";
+import { SortingLayer } from "../interfaces/sortingLayerEnum";
 import { Entity } from "./entity";
 
 export class Teacher extends Entity {
@@ -10,6 +11,7 @@ export class Teacher extends Entity {
     this.x = 400;
     this.y = 400;
 
+    this.zIndex = SortingLayer.Character;
     this.scale.set(2);
   }
 

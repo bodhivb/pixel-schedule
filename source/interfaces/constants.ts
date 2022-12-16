@@ -1,0 +1,8 @@
+export const GET_BUILDING_PIXEL = Object.freeze({
+  FLOOR_HEIGHT: 115,
+  ROOM_HEIGHT: 94,
+  WALL_HEIGHT: 21,
+
+  ROOM_WIDTH: 160,
+  WALL_WIDTH: 17,
+});
