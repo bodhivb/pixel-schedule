@@ -1,0 +1,28 @@
+# Deploy GitHub Pages Site
+name: Deployment
+
+on:
+  # Triggers the workflow on push event but only for the "production" branch
+  push:
+    branches: [ "production" ]
+
+jobs:
+  build:
+    name: Build website
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+        
+      - name: Install and Build 🔧
+        run: |
+          npm install
+          npm run build
+          
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: dist
