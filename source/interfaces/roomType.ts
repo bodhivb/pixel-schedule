@@ -1,27 +1,17 @@
 import { IRoomType } from "./roomTypeInterface";
 
 export const RoomType: { [key: string]: IRoomType } = {
-  classroom: { name: "Instructie", size: 1, url: "rooms/leskamer.png" },
+  classroom: { name: "Instructie", url: "rooms/classroom.png" },
   classroom_window: {
     name: "Instructie",
-    size: 1,
-    url: "rooms/leskamer_met_ramen.png",
+    url: "rooms/classroom_with_windows.png",
   },
-  classroom_Large: {
-    name: "Instructie",
-    size: 2.5,
-    url: "rooms/leskamer_lang.png",
-  },
+  classroom_Large: { name: "Instructie", url: "rooms/classroom_large.png" },
   networking_plaza: {
     name: "Netwerkplein",
-    size: 2.5,
-    url: "rooms/netwerkplein.png",
+    url: "rooms/classroom_network.png",
   },
-  conversation_booth: {
-    name: "Gespreksruimte",
-    size: 0.5,
-    url: "rooms/tafelkamer_1.png",
-  },
-  office: { name: "Docentenruimte", size: 1, url: "rooms/tafelkamer_2.png" },
-  elevator: { name: "Liftkamer", size: 0.5, url: "rooms/liftkamer.png" },
+  conversation_booth: { name: "Gespreksruimte", url: "rooms/workplace.png" },
+  office: { name: "Docentenruimte", url: "rooms/office.png" },
+  elevator: { name: "Liftkamer", url: "rooms/liftkamer.png" },
 };
