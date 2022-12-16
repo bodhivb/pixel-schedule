@@ -27,20 +27,25 @@ export class SchoolView extends View {
     let school = this.GetData();
 
     let schoolBuilder = new SchoolBuilder();
-    schoolBuilder.SetFloor([0, 2, 3]);
+    //schoolBuilder.SetFloor([0, 2, 3]);
 
+    // Default texture
     schoolBuilder.SetWall(Texture.from("assets/buildings/wall.png"));
-    schoolBuilder.SetDoor(Texture.from("assets/buildings/front_door.png"));
-    schoolBuilder.SetRoofSign(Texture.from("assets/examples/bunny.png"));
+    schoolBuilder.SetDoor(Texture.from("assets/buildings/door.png"));
+    schoolBuilder.SetFrontDoor(Texture.from("assets/buildings/front_door.png"));
+
+    // SintLucas texture
+    schoolBuilder.SetFrontDoorSign(
+      Texture.from("assets/buildings/sintlucas_doorsign.png")
+    );
+    schoolBuilder.SetRoofSign(
+      Texture.from("assets/buildings/sintlucas_roofsign.png")
+    );
 
     for (let i = 0; i < school.length; i++) {
       let rooms = school[i].rooms;
-
       for (let r = 0; r < rooms.length; r++) {
-        schoolBuilder.SetRoom(school[i].floor, rooms[r]);
-        //const newRoom = new Room(rooms[r], r);
-        //this.entities.push(newRoom);
-        //this.addChild(newRoom);
+        schoolBuilder.AddRoom(school[i].floor, rooms[r]);
       }
     }
 
@@ -67,8 +72,15 @@ export class SchoolView extends View {
         floor: 2,
         rooms: [
           this.test_classroom,
-          { number: "32", type: RoomType.classroom_window },
+          { number: "32", type: RoomType.classroom_Large },
           { number: "33", type: RoomType.classroom_window },
+        ],
+      },
+      {
+        floor: 3,
+        rooms: [
+          { number: "32", type: RoomType.classroom_window },
+          { number: "33", type: RoomType.classroom },
         ],
       },
     ];
