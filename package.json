@@ -5,8 +5,8 @@
   "private": "true",
   "scripts": {
     "start": "webpack serve --mode=development",
-    "dev": "webpack --mode=development",
     "build": "webpack --mode=production",
+    "build:dev": "webpack --mode=development",
     "lint": "eslint source --ext .ts"
   },
   "repository": {
