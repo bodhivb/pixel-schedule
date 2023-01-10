@@ -26,4 +26,4 @@ jobs:
         with:
           branch: gh-pages
           folder: dist # The folder the action should deploy.
-          target_folder: development
+          target-folder: development
