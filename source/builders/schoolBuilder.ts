@@ -1,10 +1,8 @@
 import { Resource, Texture, TilingSprite } from "pixi.js";
-import { GET_BUILDING_PIXEL } from "../interfaces/constants";
 import { IRoom } from "../interfaces/roomInterface";
 import { IRoomType } from "../interfaces/roomTypeInterface";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 import { Entity } from "../objects/entity";
-import { Room } from "../objects/room";
 import { School } from "../objects/school";
 
 export class SchoolBuilder {
