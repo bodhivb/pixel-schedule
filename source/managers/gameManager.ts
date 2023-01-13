@@ -1,5 +1,6 @@
 import App from "../app";
 import Overlay from "../overlay";
+import { BackgroundView } from "../views/backgroundView";
 import { LoginView } from "../views/loginView";
 import { SchoolView } from "../views/schoolView";
 import { ScreenManager } from "./screenManager";
@@ -20,6 +21,9 @@ export class GameManager {
 
     const sintLucas = new SchoolView();
     this.screen.Add(sintLucas);
+
+    const background = new BackgroundView();
+    this.screen.Add(background);
 
     // Page -> View -> Component -> Element
     const loginView = new LoginView();
