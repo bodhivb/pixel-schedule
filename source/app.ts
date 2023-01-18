@@ -1,5 +1,6 @@
 import { GameManager } from "./managers/gameManager";
-import { Application, SCALE_MODES, settings } from "pixi.js";
+import { Application, Assets, SCALE_MODES, settings } from "pixi.js";
+import { assetsManifest } from "./assetsManifest";
 import Overlay from "overlay";
 
 export default class App extends Application {
@@ -17,6 +18,10 @@ export default class App extends Application {
 
     // Listen for window resize events
     window.addEventListener("resize", () => this.Resize());
+
+    //Load all assets
+    //Assets..baseUrl = "assets";
+    Assets.init({ manifest: assetsManifest });
 
     this.game = new GameManager(this, overlay);
 
