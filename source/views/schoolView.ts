@@ -2,7 +2,6 @@ import { Texture } from "pixi.js";
 import { SchoolBuilder } from "../builders/schoolBuilder";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
-import { Room } from "../objects/room";
 import { Teacher } from "../objects/teacher";
 import { View } from "./view";
 

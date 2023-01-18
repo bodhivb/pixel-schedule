@@ -22,7 +22,7 @@ export class GameManager {
     const sintLucas = new SchoolView();
     this.screen.Add(sintLucas);
 
-    const background = new BackgroundView();
+    const background = new BackgroundView(this);
     this.screen.Add(background);
 
     // Page -> View -> Component -> Element

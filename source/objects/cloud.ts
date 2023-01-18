@@ -18,7 +18,7 @@ export class Cloud extends Entity {
     this.anchor.set(0.5);
 
     this.zIndex = SortingLayer.Background;
-    this.scale.set(2);
+    this.scale.set(1);
   }
 
   public Update(dt: number): void {
