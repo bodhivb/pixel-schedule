@@ -1,5 +1,5 @@
 import { GameManager } from "./managers/gameManager";
-import { Application, Assets, SCALE_MODES, settings } from "pixi.js";
+import { Application, Assets, BaseTexture, SCALE_MODES } from "pixi.js";
 import { assetsManifest } from "./assetsManifest";
 import Overlay from "overlay";
 
@@ -14,7 +14,7 @@ export default class App extends Application<HTMLCanvasElement> {
     });
 
     // Disable interpolation when scaling, will make texture be pixelated
-    settings.SCALE_MODE = SCALE_MODES.NEAREST;
+    BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
 
     // Listen for window resize events
     window.addEventListener("resize", () => this.Resize());

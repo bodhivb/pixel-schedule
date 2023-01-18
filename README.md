@@ -37,7 +37,7 @@ https://bodhivb.github.io/pixel-schedule/
 
 # For developers
 
-The webapp is written in TypeScript using [PixiJS](https://github.com/pixijs/pixijs). When building the project, TypeScript files are compiles to JavaScript and all code is bundled into one minified file using [Webpack](https://github.com/webpack/webpack).
+The webapp is written in TypeScript using [PixiJS](https://github.com/pixijs/pixijs) v7. When building the project, TypeScript files are compiles to JavaScript and all code is bundled into one minified file using [Webpack](https://github.com/webpack/webpack).
 
 If you have any questions? Feel free to contact me via Discord [Bodhi#0001](https://discord.com/users/151423248020537345).
 Your feedbacks are welcome! :)
