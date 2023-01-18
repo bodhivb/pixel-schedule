@@ -16,7 +16,27 @@ var config = {
   },
   plugins: [
     new CopyWebpackPlugin({ patterns: [{ from: "assets/", to: "assets/" }] }),
-    new HtmlWebpackPlugin({ title: "Pixel Schedule" }),
+    new HtmlWebpackPlugin({
+      title: "Pixel Schedule",
+      meta: {
+        description: "An interactive SintLucas pixel schedule.",
+        "og:title": { property: "og:title", content: "Pixel Schedule" },
+        "og:type": { property: "og:type", content: "website" },
+        "og:url": {
+          property: "og:url",
+          content: "https://bodhivb.github.io/pixel-schedule/",
+        },
+        "og:image": {
+          property: "og:image",
+          content:
+            "https://bodhivb.github.io/pixel-schedule/assets/outdoors/tree.png",
+        },
+        "og:description": {
+          property: "og:description",
+          content: "An interactive SintLucas pixel schedule.",
+        },
+      },
+    }),
     new HtmlWebpackTagsPlugin({
       tags: ["assets/css/base.css", "assets/css/elements.css"],
     }),
