@@ -3,7 +3,7 @@ import { Application, Assets, SCALE_MODES, settings } from "pixi.js";
 import { assetsManifest } from "./assetsManifest";
 import Overlay from "overlay";
 
-export default class App extends Application {
+export default class App extends Application<HTMLCanvasElement> {
   readonly game: GameManager;
 
   constructor(overlay?: Overlay) {
