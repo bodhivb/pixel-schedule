@@ -1,3 +1,5 @@
+import { Assets } from "pixi.js";
+import { assetsManifest } from "../assetsManifest";
 import App from "../app";
 import Overlay from "../overlay";
 import { BackgroundView } from "../views/backgroundView";
@@ -17,6 +19,10 @@ export class GameManager {
   constructor(app: App, overlay?: Overlay) {
     this.application = app;
     this.HTMLoverlay = overlay;
+
+    //Load all assets
+    Assets.init({ manifest: assetsManifest });
+
     this.screen = new ScreenManager(this);
 
     const sintLucas = new SchoolView();
