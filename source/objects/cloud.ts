@@ -9,11 +9,9 @@ export enum ICloudSize {
 }
 
 export class Cloud extends Entity {
-  constructor() {
+  constructor(assets: any) {
     //TODO Random cloud size
-
-    const texture = Texture.from(Cloud.GetTexture(ICloudSize.Medium));
-    super(texture);
+    super(assets.outdoors.cloud_medium);
 
     this.anchor.set(0.5);
 

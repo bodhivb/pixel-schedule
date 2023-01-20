@@ -16,24 +16,47 @@ export class GameManager {
   // The canvas screen
   readonly screen: ScreenManager;
 
+  // Link to all loaded assets
+  assets: any;
+
   constructor(app: App, overlay?: Overlay) {
     this.application = app;
     this.HTMLoverlay = overlay;
 
-    //Load all assets
-    Assets.init({ manifest: assetsManifest });
-
     this.screen = new ScreenManager(this);
 
-    const sintLucas = new SchoolView();
-    this.screen.Add(sintLucas);
+    //Load all assets
+    this.LoadAssets().then((value) => {
+      this.assets = value;
+      this.OpenActiveScreen();
+    });
+  }
 
+  async LoadAssets() {
+    const startTime = Date.now();
+    await Assets.init({ manifest: assetsManifest });
+
+    const assets = await Assets.loadBundle(
+      ["buildings", "outdoors", "rooms", "teachers"],
+      (value) => console.log(value)
+    );
+
+    const endTime = Date.now();
+    console.log("Load time: " + Math.abs(endTime - startTime) / 1000 + " Seconds");
+
+    return assets;
+  }
+
+  OpenActiveScreen() {
     const background = new BackgroundView(this);
     this.screen.Add(background);
 
+    //const sintLucas = new SchoolView();
+    //this.screen.Add(sintLucas);
+
     // Page -> View -> Component -> Element
-    const loginView = new LoginView();
-    this.HTMLoverlay?.Add(loginView);
+    //const loginView = new LoginView();
+    //this.HTMLoverlay?.Add(loginView);
   }
 
   Update(dt: number) {

@@ -16,7 +16,7 @@ export class BackgroundView extends View {
     //Load clouds
     const cloudCount = 10;
     for (let i = 0; i < cloudCount; i++) {
-      let cloud = new Cloud();
+      let cloud = new Cloud(this.gameManager.assets);
       cloud.x = (this.gameManager.application.view.width / cloudCount) * i;
       cloud.y = Math.floor(Math.random() * 500);
 
