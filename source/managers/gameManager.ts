@@ -33,7 +33,7 @@ export class GameManager {
   }
 
   async LoadAssets() {
-    const startTime = Date.now();
+    //Loading screen
     await Assets.init({ manifest: assetsManifest });
 
     const assets = await Assets.loadBundle(
@@ -41,8 +41,7 @@ export class GameManager {
       (value) => console.log(value)
     );
 
-    const endTime = Date.now();
-    console.log("Load time: " + Math.abs(endTime - startTime) / 1000 + " Seconds");
+    //Loading complete
 
     return assets;
   }
@@ -51,8 +50,8 @@ export class GameManager {
     const background = new BackgroundView(this);
     this.screen.Add(background);
 
-    //const sintLucas = new SchoolView();
-    //this.screen.Add(sintLucas);
+    const sintLucas = new SchoolView();
+    this.screen.Add(sintLucas);
 
     // Page -> View -> Component -> Element
     //const loginView = new LoginView();
