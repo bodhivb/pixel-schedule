@@ -2,6 +2,7 @@ import { Resource, Sprite, Texture } from "pixi.js";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 import { GameManager } from "../managers/gameManager";
 import { getRandomInteger } from "../utils/random";
+import { IEntityEvent } from "../interfaces/entityEvent";
 
 enum ICloudSize {
   Small,
@@ -9,7 +10,7 @@ enum ICloudSize {
   Large,
 }
 
-export class Cloud extends Sprite {
+export class Cloud extends Sprite implements IEntityEvent {
   readonly gameManager: GameManager;
 
   constructor(gm: GameManager) {

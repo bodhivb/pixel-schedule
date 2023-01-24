@@ -1,8 +1,8 @@
-import { Resource, Texture, TilingSprite } from "pixi.js";
+import { Resource, Sprite, Texture, TilingSprite } from "pixi.js";
 import { IRoom } from "../interfaces/roomInterface";
 import { IRoomType } from "../interfaces/roomTypeInterface";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
-import { Entity } from "../objects/entity";
+import { IEntityEvent } from "../interfaces/entityEvent";
 import { School } from "../objects/school";
 
 export class SchoolBuilder {
@@ -33,7 +33,7 @@ export class SchoolBuilder {
 
     // Apply the front door to the building
     if (this.frontDoorTexture) {
-      const frontDoor = new Entity(this.frontDoorTexture);
+      const frontDoor = new Sprite(this.frontDoorTexture);
       frontDoor.anchor.set(0, 1);
       this.school.addChild(frontDoor);
     }
@@ -47,7 +47,7 @@ export class SchoolBuilder {
     for (let floor of this.school.floors) {
       let roomNumber = 0;
       for (let room of floor.rooms) {
-        const newRoom = new Entity(this.GetRoomTexture(room.type));
+        const newRoom = new Sprite(this.GetRoomTexture(room.type));
         newRoom.anchor.set(0, 1);
         newRoom.x =
           roomNumber * (this.school.GetRoomWidth + this.school.GetWallSize) +
@@ -57,7 +57,7 @@ export class SchoolBuilder {
 
         // If the room has an adjoining room? Place a door
         if (roomNumber > 0) {
-          const newDoor = new Entity(this.doorTexture);
+          const newDoor = new Sprite(this.doorTexture);
           newDoor.anchor.set(0, 1);
           newDoor.x =
             roomNumber * (this.school.GetRoomWidth + this.school.GetWallSize);
@@ -145,7 +145,7 @@ export class SchoolBuilder {
   /** Set the signboard at the entrance to the building */
   public SetFrontDoorSign(texture: Texture<Resource>) {
     //TODO add check if already in use
-    this.school.doorSign = new Entity(texture);
+    this.school.doorSign = new Sprite(texture);
     this.school.doorSign.anchor.set(1, 1);
     this.school.doorSign.zIndex = SortingLayer.Midground;
     this.school.addChild(this.school.doorSign);
@@ -154,13 +154,13 @@ export class SchoolBuilder {
   /** Set the roof sign on the building */
   public SetRoofSign(texture: Texture<Resource>) {
     //TODO add check if already in use
-    this.school.roofSign = new Entity(texture);
+    this.school.roofSign = new Sprite(texture);
     this.school.roofSign.anchor.set(0, 1);
     this.school.roofSign.zIndex = SortingLayer.Midground;
     this.school.addChild(this.school.roofSign);
   }
 
-  public AddEntity(link: Entity, texture: Texture<Resource>) {
+  public AddEntity(link: Sprite, texture: Texture<Resource>) {
     this.school.addChild(link);
   }
 }
