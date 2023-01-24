@@ -24,7 +24,7 @@ export class BackgroundView extends View {
       cloud.x = (view.width / cloudCount) * i;
       cloud.y = getRandomInteger(0, view.height / 3);
 
-      this.entities.push(cloud);
+      //this.entities.push(cloud);
       this.addChild(cloud);
     }
   }

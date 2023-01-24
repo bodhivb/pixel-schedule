@@ -1,8 +1,7 @@
-import { Resource, Texture } from "pixi.js";
+import { Resource, Sprite, Texture } from "pixi.js";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
-import { Entity } from "./entity";
 
-export class Teacher extends Entity {
+export class Teacher extends Sprite {
   constructor(texture?: Texture<Resource> | undefined) {
     super(texture);
 

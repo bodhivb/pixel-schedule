@@ -1,14 +1,13 @@
-import { Container, IPointData } from "pixi.js";
+import { Container, IPointData, Sprite } from "pixi.js";
 import { GET_BUILDING_PIXEL } from "../interfaces/constants";
 import { IFloor } from "../interfaces/floorInterface";
-import { Entity } from "./entity";
 
 export class School extends Container {
   //name: string;
   //location: string;
 
-  public doorSign?: Entity;
-  public roofSign?: Entity;
+  public doorSign?: Sprite;
+  public roofSign?: Sprite;
   //TODO convert this array into dictionary list
   public floors: IFloor[] = [];
 

@@ -1,9 +1,11 @@
-import { Entity } from "objects/entity";
 import { Container } from "pixi.js";
 
 export class View extends Container {
   name: string;
-  entities: Entity[] = [];
+
+  get getEntities() {
+    return this.children;
+  }
 
   constructor(config?: any) {
     super();

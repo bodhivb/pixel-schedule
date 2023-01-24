@@ -17,7 +17,7 @@ export class SchoolView extends View {
 
     let bodhi = new Teacher(Texture.from("assets/teachers/bodhi.png"));
 
-    this.entities.push(bodhi);
+    //this.entities.push(bodhi);
     this.addChild(bodhi);
   }
 
