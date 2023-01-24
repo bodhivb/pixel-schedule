@@ -1,5 +1,6 @@
 import { GameManager } from "../managers/gameManager";
 import { Cloud } from "../objects/cloud";
+import { getRandomInteger } from "../utils/random";
 import { View } from "./view";
 
 export class BackgroundView extends View {
@@ -15,10 +16,13 @@ export class BackgroundView extends View {
   public LoadBackground() {
     //Load clouds
     const cloudCount = 10;
+    const view = this.gameManager.application.view;
+
     for (let i = 0; i < cloudCount; i++) {
-      let cloud = new Cloud(this.gameManager.assets);
-      cloud.x = (this.gameManager.application.view.width / cloudCount) * i;
-      cloud.y = Math.floor(Math.random() * 500);
+      let cloud = new Cloud(this.gameManager);
+
+      cloud.x = (view.width / cloudCount) * i;
+      cloud.y = getRandomInteger(0, view.height / 3);
 
       this.entities.push(cloud);
       this.addChild(cloud);
