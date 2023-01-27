@@ -30,6 +30,7 @@ export class ScreenManager {
   UpdateEntity(dt: number) {
     for (let i = 0; i < this.activeViews.length; i++) {
       for (let e = 0; e < this.activeViews[i].getEntities.length; e++) {
+        //TODO Check before if function exists. If yes > add it to event listeren
         (this.activeViews[i].getEntities[e] as IEntityEvent).Update?.(dt);
       }
     }
