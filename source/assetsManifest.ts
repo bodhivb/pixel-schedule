@@ -6,6 +6,7 @@ export const assetsManifest: ResolverManifest = {
       name: "buildings",
       assets: [
         { name: "door", srcs: "assets/buildings/door.png" },
+        { name: "front_door", srcs: "assets/buildings/front_door.png" },
         {
           name: "sintlucas_doorsign",
           srcs: "assets/buildings/sintlucas_doorsign.png",

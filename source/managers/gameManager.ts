@@ -50,7 +50,7 @@ export class GameManager {
     const background = new BackgroundView(this);
     this.screen.Add(background);
 
-    const sintLucas = new SchoolView();
+    const sintLucas = new SchoolView(this);
     this.screen.Add(sintLucas);
 
     // Page -> View -> Component -> Element

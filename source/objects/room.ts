@@ -2,6 +2,7 @@ import { Sprite, Texture } from "pixi.js";
 import { IRoom } from "../interfaces/roomInterface";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 
+/*
 export class Room extends Sprite {
   constructor(data: IRoom, xAxis: number) {
     super(Texture.from("assets/" + data.type.url));
@@ -13,3 +14,4 @@ export class Room extends Sprite {
     this.y = 400;
   }
 }
+*/

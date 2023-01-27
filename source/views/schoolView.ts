@@ -2,20 +2,25 @@ import { Graphics, Texture } from "pixi.js";
 import { SchoolBuilder } from "../builders/schoolBuilder";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
+import { GameManager } from "../managers/gameManager";
 import { Teacher } from "../objects/teacher";
 import { View } from "./view";
 
 export class SchoolView extends View {
+  readonly gameManager: GameManager;
+
   test_classroom: IRoom = {
     number: "72a",
     type: RoomType.classroom,
   };
 
-  constructor() {
+  constructor(gm: GameManager) {
     super({ name: "School" });
+    this.gameManager = gm;
+
     this.LoadSchool();
 
-    let bodhi = new Teacher(Texture.from("assets/teachers/bodhi.png"));
+    let bodhi = new Teacher(this.gameManager.assets.teachers.bodhi);
 
     //this.entities.push(bodhi);
     this.addChild(bodhi);
@@ -30,6 +35,8 @@ export class SchoolView extends View {
   }
 
   public LoadSchool() {
+    const assets = this.gameManager.assets;
+
     //Sample data - for testing
     let school = this.GetData();
 
@@ -37,17 +44,13 @@ export class SchoolView extends View {
     //schoolBuilder.SetFloor([0, 2, 3]);
 
     // Default texture
-    schoolBuilder.SetWall(Texture.from("assets/buildings/wall.png"));
-    schoolBuilder.SetDoor(Texture.from("assets/buildings/door.png"));
-    schoolBuilder.SetFrontDoor(Texture.from("assets/buildings/front_door.png"));
+    schoolBuilder.SetWall(assets.buildings.wall);
+    schoolBuilder.SetDoor(assets.buildings.door);
+    schoolBuilder.SetFrontDoor(assets.buildings.front_door);
 
     // SintLucas texture
-    schoolBuilder.SetFrontDoorSign(
-      Texture.from("assets/buildings/sintlucas_doorsign.png")
-    );
-    schoolBuilder.SetRoofSign(
-      Texture.from("assets/buildings/sintlucas_roofsign.png")
-    );
+    schoolBuilder.SetFrontDoorSign(assets.buildings.sintlucas_doorsign);
+    schoolBuilder.SetRoofSign(assets.buildings.sintlucas_roofsign);
 
     for (let i = 0; i < school.length; i++) {
       let rooms = school[i].rooms;
@@ -56,7 +59,7 @@ export class SchoolView extends View {
       }
     }
 
-    const s = schoolBuilder.GetProduct();
+    const s = schoolBuilder.GetProduct(this.gameManager.assets);
 
     s.x = 200;
     s.y = 800;
