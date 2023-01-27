@@ -1,5 +1,6 @@
 import { Cache, Graphics, Texture } from "pixi.js";
 import { SchoolBuilder } from "../builders/schoolBuilder";
+import { IFloor } from "../interfaces/floorInterface";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
 import { Teacher } from "../objects/teacher";
@@ -59,14 +60,15 @@ export class SchoolView extends View {
   }
 
   //This should be replaced with schedule API
-  public GetData() {
+  public GetData(): IFloor[] {
     return [
       {
         floor: 0,
         rooms: [
           this.test_classroom,
           { number: "74", type: RoomType.classroom_window },
-          { number: "75", type: RoomType.classroom },
+          { number: "75", type: RoomType.classroom_window },
+          { number: "76", type: RoomType.classroom },
         ],
       },
       {
@@ -82,6 +84,7 @@ export class SchoolView extends View {
         rooms: [
           { number: "32", type: RoomType.classroom_window },
           { number: "33", type: RoomType.classroom },
+          { number: "37", type: RoomType.networking_plaza },
         ],
       },
     ];

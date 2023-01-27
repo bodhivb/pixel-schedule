@@ -46,12 +46,12 @@ export class SchoolBuilder {
     let floorNumber = 0;
     for (let floor of this.school.floors) {
       let roomNumber = 0;
+      let roomXPos = this.school.GetWallSize;
+
       for (let room of floor.rooms) {
         const newRoom = new Sprite(this.GetRoomTexture(room.type));
         newRoom.anchor.set(0, 1);
-        newRoom.x =
-          roomNumber * (this.school.GetRoomWidth + this.school.GetWallSize) +
-          this.school.GetWallSize;
+        newRoom.x = roomXPos;
         newRoom.y = -(floorNumber * this.school.GetFloorHeight);
         this.school.addChild(newRoom);
 
@@ -59,12 +59,12 @@ export class SchoolBuilder {
         if (roomNumber > 0) {
           const newDoor = new Sprite(this.doorTexture);
           newDoor.anchor.set(0, 1);
-          newDoor.x =
-            roomNumber * (this.school.GetRoomWidth + this.school.GetWallSize);
+          newDoor.x = roomXPos - this.school.GetWallSize;
           newDoor.y = -(floorNumber * this.school.GetFloorHeight);
           this.school.addChild(newDoor);
         }
 
+        roomXPos += newRoom.width + this.school.GetWallSize;
         roomNumber++;
       }
       floorNumber++;
