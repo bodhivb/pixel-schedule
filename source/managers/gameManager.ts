@@ -16,9 +16,6 @@ export class GameManager {
   // The canvas screen
   readonly screen: ScreenManager;
 
-  // Link to all loaded assets
-  assets: any;
-
   constructor(app: App, overlay?: Overlay) {
     this.application = app;
     this.HTMLoverlay = overlay;
@@ -26,8 +23,7 @@ export class GameManager {
     this.screen = new ScreenManager(this);
 
     //Load all assets
-    this.LoadAssets().then((value) => {
-      this.assets = value;
+    this.LoadAssets().then(() => {
       this.OpenActiveScreen();
     });
   }
@@ -50,7 +46,7 @@ export class GameManager {
     const background = new BackgroundView(this);
     this.screen.Add(background);
 
-    const sintLucas = new SchoolView(this);
+    const sintLucas = new SchoolView();
     this.screen.Add(sintLucas);
 
     // Page -> View -> Component -> Element

@@ -1,4 +1,4 @@
-import { Resource, Sprite, Texture } from "pixi.js";
+import { Cache, Resource, Sprite, Texture } from "pixi.js";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 import { GameManager } from "../managers/gameManager";
 import { getRandomInteger } from "../utils/random";
@@ -19,7 +19,7 @@ export class Cloud extends Sprite implements IEntityEvent {
       ICloudSize.Large
     );
 
-    super(Cloud.GetTexture(gm.assets, size));
+    super(Cloud.GetTexture(size));
     this.gameManager = gm;
 
     this.anchor.set(0);
@@ -35,14 +35,14 @@ export class Cloud extends Sprite implements IEntityEvent {
     this.x += 0.5 * dt;
   }
 
-  private static GetTexture(assets: any, size: ICloudSize): Texture<Resource> {
+  private static GetTexture(size: ICloudSize): Texture<Resource> {
     switch (size) {
       case ICloudSize.Small:
-        return assets.outdoors.cloud_small;
+        return Cache.get("cloud_small");
       case ICloudSize.Medium:
-        return assets.outdoors.cloud_medium;
+        return Cache.get("cloud_medium");
       case ICloudSize.Large:
-        return assets.outdoors.cloud_large;
+        return Cache.get("cloud_large");
     }
   }
 }

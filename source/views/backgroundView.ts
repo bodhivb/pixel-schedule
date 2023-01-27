@@ -1,4 +1,4 @@
-import { DisplayObject, Sprite } from "pixi.js";
+import { Cache, DisplayObject, Sprite } from "pixi.js";
 import { GameManager } from "../managers/gameManager";
 import { Cloud } from "../objects/cloud";
 import { Grass } from "../objects/grass";
@@ -37,11 +37,7 @@ export class BackgroundView extends View {
     }
 
     // Load ground
-    const ground = new Grass(
-      this.gameManager.assets.outdoors.grass,
-      view.width,
-      800
-    );
+    const ground = new Grass(Cache.get("grass"), view.width, 800);
     this.addChild(ground);
   }
 }

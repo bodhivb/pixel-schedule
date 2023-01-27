@@ -1,4 +1,4 @@
-import { Resource, Sprite, Texture, TilingSprite } from "pixi.js";
+import { Cache, Resource, Sprite, Texture, TilingSprite } from "pixi.js";
 import { IRoom } from "../interfaces/roomInterface";
 import { IRoomType } from "../interfaces/roomTypeInterface";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
@@ -18,7 +18,7 @@ export class SchoolBuilder {
     this.school = new School();
   }
 
-  public GetProduct(asests: any): School {
+  public GetProduct(): School {
     // Add wall to finish the building
     if (this.wallTexture) {
       const wall = new TilingSprite(
@@ -47,7 +47,7 @@ export class SchoolBuilder {
     for (let floor of this.school.floors) {
       let roomNumber = 0;
       for (let room of floor.rooms) {
-        const newRoom = new Sprite(this.GetRoomTexture(asests, room.type));
+        const newRoom = new Sprite(this.GetRoomTexture(room.type));
         newRoom.anchor.set(0, 1);
         newRoom.x =
           roomNumber * (this.school.GetRoomWidth + this.school.GetWallSize) +
@@ -75,14 +75,8 @@ export class SchoolBuilder {
     return result;
   }
 
-  private GetRoomTexture(assets: any, type: IRoomType) {
-    const names = type.assets.split(".");
-
-    if (names.length > 1) {
-      return assets[names[0]][names[1]];
-    } else if (names.length == 1) {
-      return assets[names[0]];
-    }
+  private GetRoomTexture(type: IRoomType) {
+    return Cache.get(type.assets);
   }
 
   /** Set floor for a building. */
