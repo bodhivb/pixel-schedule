@@ -1,6 +1,7 @@
 import { DisplayObject, Sprite } from "pixi.js";
 import { GameManager } from "../managers/gameManager";
 import { Cloud } from "../objects/cloud";
+import { Grass } from "../objects/grass";
 import { getRandomInteger } from "../utils/random";
 import { View } from "./view";
 
@@ -15,7 +16,7 @@ export class BackgroundView extends View {
   }
 
   public LoadBackground() {
-    //Load clouds
+    // Load clouds
     const cloudCount = 10;
     const view = this.gameManager.application.view;
 
@@ -35,6 +36,12 @@ export class BackgroundView extends View {
       this.addChild(cloud);
     }
 
-    //Load ground
+    // Load ground
+    const ground = new Grass(
+      this.gameManager.assets.outdoors.grass,
+      view.width,
+      800
+    );
+    this.addChild(ground);
   }
 }
