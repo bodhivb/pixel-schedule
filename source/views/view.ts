@@ -7,8 +7,8 @@ export class View extends Container {
     return this.children;
   }
 
-  constructor(config?: any) {
+  constructor(config?: { name?: string }) {
     super();
-    this.name = config.name || "Scene";
+    this.name = config?.name || "Scene";
   }
 }

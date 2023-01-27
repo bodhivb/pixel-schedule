@@ -9,7 +9,7 @@ export class BackgroundView extends View {
   readonly gameManager: GameManager;
 
   constructor(gm: GameManager) {
-    super("Background");
+    super({ name: "Background" });
 
     this.gameManager = gm;
     this.LoadBackground();

@@ -12,7 +12,7 @@ export class SchoolView extends View {
   };
 
   constructor() {
-    super("School");
+    super({ name: "School" });
     this.LoadSchool();
 
     let bodhi = new Teacher(Texture.from("assets/teachers/bodhi.png"));
