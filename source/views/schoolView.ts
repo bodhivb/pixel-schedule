@@ -1,4 +1,4 @@
-import { Texture } from "pixi.js";
+import { Graphics, Texture } from "pixi.js";
 import { SchoolBuilder } from "../builders/schoolBuilder";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
@@ -19,6 +19,14 @@ export class SchoolView extends View {
 
     //this.entities.push(bodhi);
     this.addChild(bodhi);
+
+    //Add ground floor
+    const graphics = new Graphics();
+    graphics.beginFill(0x292929);
+    graphics.drawRect(190, 800, 1000, 3);
+    graphics.endFill();
+
+    this.addChild(graphics);
   }
 
   public LoadSchool() {
@@ -53,7 +61,6 @@ export class SchoolView extends View {
     s.x = 200;
     s.y = 800;
     this.addChild(s);
-    console.log("school added");
   }
 
   //This should be replaced with schedule API
