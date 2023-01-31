@@ -1,6 +1,7 @@
 import { Container, IPointData, Sprite } from "pixi.js";
 import { GET_BUILDING_PIXEL } from "../interfaces/constants";
 import { IFloor } from "../interfaces/floorInterface";
+import { Floor } from "./floor";
 
 export class School extends Container {
   //name: string;
@@ -8,8 +9,7 @@ export class School extends Container {
 
   public doorSign?: Sprite;
   public roofSign?: Sprite;
-  //TODO convert this array into dictionary list
-  public floors: IFloor[] = [];
+  public floors: Map<number, Floor> = new Map<number, Floor>();
 
   constructor() {
     super();
@@ -18,7 +18,7 @@ export class School extends Container {
 
   /** Get the number of floors of a school. */
   get GetAmountOfFloor() {
-    return this.floors.length;
+    return this.floors.size;
   }
 
   /** Get height of the school in pixels. */

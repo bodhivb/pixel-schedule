@@ -2,8 +2,9 @@ import { Cache, Resource, Sprite, Texture, TilingSprite } from "pixi.js";
 import { IRoom } from "../interfaces/roomInterface";
 import { IRoomType } from "../interfaces/roomTypeInterface";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
-import { IEntityEvent } from "../interfaces/entityEvent";
 import { School } from "../objects/school";
+import { Floor } from "../objects/floor";
+import { Room } from "../objects/room";
 
 export class SchoolBuilder {
   // Builder output
@@ -43,52 +44,21 @@ export class SchoolBuilder {
       this.school.roofSign.y = -this.school.GetSchoolHeight;
     }
 
-    let floorNumber = 0;
-    for (let floor of this.school.floors) {
-      let roomNumber = 0;
-      let roomXPos = this.school.GetWallSize;
-
-      for (let room of floor.rooms) {
-        const newRoom = new Sprite(this.GetRoomTexture(room.type));
-        newRoom.anchor.set(0, 1);
-        newRoom.x = roomXPos;
-        newRoom.y = -(floorNumber * this.school.GetFloorHeight);
-        this.school.addChild(newRoom);
-
-        // If the room has an adjoining room? Place a door
-        if (roomNumber > 0) {
-          const newDoor = new Sprite(this.doorTexture);
-          newDoor.anchor.set(0, 1);
-          newDoor.x = roomXPos - this.school.GetWallSize;
-          newDoor.y = -(floorNumber * this.school.GetFloorHeight);
-          this.school.addChild(newDoor);
-        }
-
-        roomXPos += newRoom.width + this.school.GetWallSize;
-        roomNumber++;
-      }
-      floorNumber++;
-    }
-
     const result = this.school;
     this.Reset();
     return result;
   }
 
-  private GetRoomTexture(type: IRoomType) {
-    return Cache.get(type.assets);
-  }
-
   /** Set floor for a building. */
   public SetFloor(floorList: number[]) {
-    this.school.floors = [];
+    this.school.floors.clear();
     this.AddFloor(...floorList);
   }
 
   /** Add floor(s) to the building. */
   public AddFloor(...numbers: number[]) {
     for (let floor of numbers) {
-      this.school.floors.push({ floor: floor, rooms: [] });
+      this.school.floors.set(floor, new Floor());
     }
   }
 
@@ -96,18 +66,19 @@ export class SchoolBuilder {
    * Build a room on the selected floor.
    * This function automatically creates a new floor if it does not exist.
    * @param floorNumber
-   * @param room
+   * @param rooms
    */
-  public AddRoom(floorNumber: number, room: IRoom) {
-    for (let f of this.school.floors) {
-      if (f.floor === floorNumber) {
-        f.rooms.push(room);
-        return;
-      }
+  public AddRoom(floorNumber: number, ...rooms: IRoom[]) {
+    // Check if floor exists. If not, add new floor.
+    if (!this.school.floors.has(floorNumber)) {
+      this.AddFloor(floorNumber);
     }
 
-    // If there is no floor, add it to the new floor.
-    this.school.floors.push({ floor: floorNumber, rooms: [room] });
+    const floor = this.school.floors.get(floorNumber)!;
+    for (let data of rooms) {
+      floor.rooms.push(new Room(data));
+    }
+    this.school.floors.set(floorNumber, floor);
   }
 
   /**
@@ -116,15 +87,17 @@ export class SchoolBuilder {
    * @param floorNumber
    */
   public SetRoom(floorNumber: number, rooms: IRoom[]) {
-    for (let f of this.school.floors) {
-      if (f.floor === floorNumber) {
-        f.rooms = rooms;
-        return;
-      }
+    // Check if floor exists. If not, add new floor.
+    if (!this.school.floors.has(floorNumber)) {
+      this.AddFloor(floorNumber);
     }
 
-    // If there is no floor, add it to the new floor.
-    this.school.floors.push({ floor: floorNumber, rooms });
+    const floor = this.school.floors.get(floorNumber)!;
+    floor.rooms = [];
+    for (let data of rooms) {
+      floor.rooms.push(new Room(data));
+    }
+    this.school.floors.set(floorNumber, floor);
   }
 
   /** Set the texture on the background of the building */
