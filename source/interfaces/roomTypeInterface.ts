@@ -1,4 +1,4 @@
 export interface IRoomType {
   name: string;
-  assets: string;
+  asset: string;
 }
