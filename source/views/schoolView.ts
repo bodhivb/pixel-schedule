@@ -1,5 +1,5 @@
-import { Cache, Graphics, Texture } from "pixi.js";
-import { FloorBuilder } from "../builders/floorBuilder";
+import { Cache, Graphics } from "pixi.js";
+import { Director } from "../builders/director";
 import { SchoolBuilder } from "../builders/schoolBuilder";
 import { IFloor } from "../interfaces/floorInterface";
 import { IRoom } from "../interfaces/roomInterface";
@@ -31,37 +31,19 @@ export class SchoolView extends View {
   }
 
   public LoadSchool() {
-    //Sample data - for testing
-    let school = this.GetData();
+    // Sample data - for testing
+    const data = this.GetData();
 
-    let schoolBuilder = new SchoolBuilder();
-    //schoolBuilder.SetFloor([0, 2, 3]);
+    const schoolBuilder = new SchoolBuilder();
+    const director = new Director(schoolBuilder);
 
-    // Default texture
-    schoolBuilder.SetWall(Cache.get("wall"));
-    schoolBuilder.SetFrontDoor(Cache.get("front_door"));
+    // The director will only give correct orders to builders
+    director.buildSintLucas(data);
 
-    // SintLucas texture
-    schoolBuilder.SetFrontDoorSign(Cache.get("sintlucas_doorsign"));
-    schoolBuilder.SetRoofSign(Cache.get("sintlucas_roofsign"));
-
-    for (let i = 0; i < school.length; i++) {
-      // Build a floor for a school
-      const floorBuilder = new FloorBuilder(i, undefined, school[i].floor);
-      floorBuilder.SetContainer(schoolBuilder.GetContainer());
-      floorBuilder.SetDoor(Cache.get("door"));
-      floorBuilder.AddRoom(...school[i].rooms);
-      floorBuilder.SetHallway();
-
-      // Apply a floor to school
-      schoolBuilder.SetFloor(school[i].floor, floorBuilder.GetFloor());
-    }
-
-    const s = schoolBuilder.GetProduct();
-
-    s.x = 200;
-    s.y = 800;
-    this.addChild(s);
+    const school = schoolBuilder.GetProduct();
+    school.x = 200;
+    school.y = 800;
+    this.addChild(school);
   }
 
   //This should be replaced with schedule API

@@ -51,7 +51,7 @@ export class SchoolBuilder {
 
   /** Get a selected floor of a building. */
   public GetFloor(floorLevel: number) {
-    this.school.floors.get(floorLevel);
+    return this.school.floors.get(floorLevel);
   }
 
   /** Set floor(s) on the building. */
