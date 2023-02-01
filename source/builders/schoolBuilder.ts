@@ -1,47 +1,22 @@
-import { Cache, Resource, Sprite, Texture, TilingSprite } from "pixi.js";
-import { IRoom } from "../interfaces/roomInterface";
-import { IRoomType } from "../interfaces/roomTypeInterface";
+import { Container, Resource, Sprite, Texture, TilingSprite } from "pixi.js";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 import { School } from "../objects/school";
 import { Floor } from "../objects/floor";
-import { Room } from "../objects/room";
 
 export class SchoolBuilder {
   // Builder output
   private school: School = new School();
-
-  // Base building texture pack
-  private wallTexture?: Texture<Resource>;
-  private doorTexture?: Texture<Resource>;
-  private frontDoorTexture?: Texture<Resource>;
+  private isEntityChange = false;
 
   public Reset() {
     this.school = new School();
+    this.isEntityChange = false;
   }
 
   public GetProduct(): School {
-    // Add wall to finish the building
-    if (this.wallTexture) {
-      const wall = new TilingSprite(
-        this.wallTexture,
-        this.school.GetSchoolWidth,
-        this.school.GetSchoolHeight
-      );
-      wall.zIndex = SortingLayer.Background;
-      wall.anchor.set(0, 1);
-      this.school.addChild(wall);
-    }
-
-    // Apply the front door to the building
-    if (this.frontDoorTexture) {
-      const frontDoor = new Sprite(this.frontDoorTexture);
-      frontDoor.anchor.set(0, 1);
-      this.school.addChild(frontDoor);
-    }
-
-    // Apply the roof sign to the roof
-    if (this.school.roofSign) {
-      this.school.roofSign.y = -this.school.GetSchoolHeight;
+    if (this.isEntityChange) {
+      this.OnSchoolFormatChange();
+      this.isEntityChange = false;
     }
 
     const result = this.school;
@@ -49,70 +24,77 @@ export class SchoolBuilder {
     return result;
   }
 
-  /** Set floor for a building. */
-  public SetFloor(floorList: number[]) {
+  /** Call this function when the school size changes. */
+  public OnSchoolFormatChange() {
+    // Apply the wall position to the building
+    if (this.school.wall) {
+      this.school.wall.width = this.school.GetSchoolWidth;
+      this.school.wall.height = this.school.GetSchoolHeight;
+    }
+
+    // Apply the roof sign to the roof
+    if (this.school.roofSign) {
+      this.school.roofSign.y = -this.school.GetSchoolHeight;
+    }
+  }
+
+  /**
+   * Create a new empty floor.
+   * @param floorLevels Level part of a building
+   */
+  public CreateFloor(...floorLevels: number[]) {
+    for (let level of floorLevels) {
+      this.school.floors.set(level, new Floor());
+    }
+    this.isEntityChange = true;
+  }
+
+  /** Get a selected floor of a building. */
+  public GetFloor(floorLevel: number) {
+    this.school.floors.get(floorLevel);
+  }
+
+  /** Set floor(s) on the building. */
+  public SetFloor(floorLevel: number, floor: Floor) {
+    this.school.floors.set(floorLevel, floor);
+    this.isEntityChange = true;
+  }
+
+  /** Remove floor from a building. */
+  public DeleteFloor(floorLevel: number) {
+    this.school.floors.delete(floorLevel);
+    this.isEntityChange = true;
+  }
+
+  /** Clear all floors from a building. */
+  public ClearFloor(floorLevel: number) {
     this.school.floors.clear();
-    this.AddFloor(...floorList);
+    this.isEntityChange = true;
   }
 
-  /** Add floor(s) to the building. */
-  public AddFloor(...numbers: number[]) {
-    for (let floor of numbers) {
-      this.school.floors.set(floor, new Floor());
-    }
-  }
-
-  /**
-   * Build a room on the selected floor.
-   * This function automatically creates a new floor if it does not exist.
-   * @param floorNumber
-   * @param rooms
-   */
-  public AddRoom(floorNumber: number, ...rooms: IRoom[]) {
+  /**  This function creates a new floor if it does not exist. */
+  public CreateFloorIfNotExists(floorNumber: number) {
     // Check if floor exists. If not, add new floor.
     if (!this.school.floors.has(floorNumber)) {
-      this.AddFloor(floorNumber);
+      this.CreateFloor(floorNumber);
     }
-
-    const floor = this.school.floors.get(floorNumber)!;
-    for (let data of rooms) {
-      floor.rooms.push(new Room(data));
-    }
-    this.school.floors.set(floorNumber, floor);
-  }
-
-  /**
-   * Set room(s) on the selected floor.
-   * This function automatically creates a new floor if it does not exist.
-   * @param floorNumber
-   */
-  public SetRoom(floorNumber: number, rooms: IRoom[]) {
-    // Check if floor exists. If not, add new floor.
-    if (!this.school.floors.has(floorNumber)) {
-      this.AddFloor(floorNumber);
-    }
-
-    const floor = this.school.floors.get(floorNumber)!;
-    floor.rooms = [];
-    for (let data of rooms) {
-      floor.rooms.push(new Room(data));
-    }
-    this.school.floors.set(floorNumber, floor);
   }
 
   /** Set the texture on the background of the building */
   public SetWall(texture: Texture<Resource>) {
-    this.wallTexture = texture;
+    this.school.wall = new TilingSprite(texture);
+    this.school.wall.zIndex = SortingLayer.Background;
+    this.school.wall.anchor.set(0, 1);
+    this.school.addChild(this.school.wall);
+    this.isEntityChange = true;
   }
 
-  /** Set the door texture for the building */
-  public SetDoor(texture: Texture<Resource>) {
-    this.doorTexture = texture;
-  }
-
-  /** Set the front door texture for the building */
+  /** Set the front door to the building */
   public SetFrontDoor(texture: Texture<Resource>) {
-    this.frontDoorTexture = texture;
+    this.school.frontDoor = new Sprite(texture);
+    this.school.frontDoor.anchor.set(0, 1);
+    this.school.addChild(this.school.frontDoor);
+    this.isEntityChange = true;
   }
 
   /** Set the signboard at the entrance to the building */
@@ -122,6 +104,7 @@ export class SchoolBuilder {
     this.school.doorSign.anchor.set(1, 1);
     this.school.doorSign.zIndex = SortingLayer.Midground;
     this.school.addChild(this.school.doorSign);
+    this.isEntityChange = true;
   }
 
   /** Set the roof sign on the building */
@@ -131,9 +114,16 @@ export class SchoolBuilder {
     this.school.roofSign.anchor.set(0, 1);
     this.school.roofSign.zIndex = SortingLayer.Midground;
     this.school.addChild(this.school.roofSign);
+    this.isEntityChange = true;
   }
 
-  public AddEntity(link: Sprite, texture: Texture<Resource>) {
-    this.school.addChild(link);
+  /** Add child(s) to the container. */
+  public AddEntity(...children: Sprite[] | TilingSprite[]) {
+    this.school.addChild(...children);
+  }
+
+  /** Get the container of the school. */
+  public GetContainer(): Container {
+    return this.school;
   }
 }

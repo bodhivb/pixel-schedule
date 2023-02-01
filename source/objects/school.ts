@@ -1,14 +1,18 @@
-import { Container, IPointData, Sprite } from "pixi.js";
+import { Container, Sprite, TilingSprite } from "pixi.js";
 import { GET_BUILDING_PIXEL } from "../interfaces/constants";
-import { IFloor } from "../interfaces/floorInterface";
 import { Floor } from "./floor";
 
 export class School extends Container {
-  //name: string;
-  //location: string;
+  //name: string;       // Example: SintLucas
+  //location: string;   // Example: Eindhoven
 
+  // School entity
   public doorSign?: Sprite;
+  public frontDoor?: Sprite;
   public roofSign?: Sprite;
+  public wall?: TilingSprite;
+
+  // School floors with rooms
   public floors: Map<number, Floor> = new Map<number, Floor>();
 
   constructor() {

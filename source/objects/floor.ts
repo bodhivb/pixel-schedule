@@ -1,5 +1,5 @@
 import { Cache, Resource, Sprite, Texture } from "pixi.js";
-import { FloorBuilder } from "../builders/floorBuilder";
+import { GET_BUILDING_PIXEL } from "../interfaces/constants";
 import { Room } from "./room";
 
 export class Floor {
@@ -8,6 +8,7 @@ export class Floor {
 
   //Hallway door
   public doors: Sprite[];
+  //Rooms on this floor
   public rooms: Room[];
 
   constructor() {
@@ -19,22 +20,20 @@ export class Floor {
 
   public GetFloorWidth() {
     let size: number = 0;
-    let isFirstRoom: boolean = true;
 
-    // Does the floor have an elevator? Add this length.
+    // Jump into the start position of the build
+    size += GET_BUILDING_PIXEL.WALL_WIDTH;
+
+    // Does the floor have an elevator? Add this length
     if (this.elevator) {
       size += this.elevator.width;
       size += this.doorTexture?.width ?? 0;
     }
 
     for (const room of this.rooms) {
+      // Add room and door length
       size += room.width;
-      // Does the room have a previous room? Add door length.
-      if (isFirstRoom) {
-        isFirstRoom = false;
-      } else {
-        size += this.doorTexture?.width ?? 0;
-      }
+      size += this.doorTexture?.width ?? 0;
     }
 
     return size;
