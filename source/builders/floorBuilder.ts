@@ -1,14 +1,6 @@
-import {
-  Cache,
-  Container,
-  Resource,
-  Sprite,
-  Texture,
-  TilingSprite,
-} from "pixi.js";
+import { Container, Resource, Sprite, Texture, TilingSprite } from "pixi.js";
 import { GET_BUILDING_PIXEL } from "../interfaces/constants";
 import { IRoom } from "../interfaces/roomInterface";
-import { IRoomType } from "../interfaces/roomTypeInterface";
 import { Floor } from "../objects/floor";
 import { Room } from "../objects/room";
 
@@ -99,6 +91,16 @@ export class FloorBuilder {
   public SetRoom(rooms: IRoom[]) {
     this.floor.rooms = [];
     this.AddRoom(...rooms);
+  }
+
+  /** Place the elevator at the beginning of the floor. */
+  public SetElevator(texture: Texture<Resource>) {
+    this.floor.elevator = new Sprite(texture);
+    this.floor.elevator.anchor.set(0, 1);
+    this.floor.elevator.x = GET_BUILDING_PIXEL.WALL_WIDTH;
+    this.floor.elevator.y = -this.GetPixelHeight();
+    this.AddDoor(this.floor.elevator.x + this.floor.elevator.width);
+    this.AddEntity(this.floor.elevator);
   }
 
   /** Set the door texture for the hallway. */

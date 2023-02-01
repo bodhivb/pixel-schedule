@@ -26,6 +26,7 @@ export class Director {
       // Build a floor for a school
       const floorBuilder = new FloorBuilder(i, undefined, config[i].floor);
       floorBuilder.SetContainer(this.schoolBuilder.GetContainer());
+      floorBuilder.SetElevator(Cache.get("elevator_" + config[i].floor));
       floorBuilder.SetDoor(Cache.get("door"));
       floorBuilder.AddRoom(...config[i].rooms);
       floorBuilder.SetHallway();
