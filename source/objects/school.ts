@@ -32,7 +32,17 @@ export class School extends Container {
 
   /** Get width of the school in pixels. */
   get GetSchoolWidth() {
-    return 5 * (this.GetRoomWidth + this.GetWallSize) + this.GetWallSize;
+    let schoolWidth: number = 0;
+
+    // Find which floor is the largest
+    for (let floor of this.floors.values()) {
+      const width = floor.GetFloorWidth();
+      if (width > schoolWidth) {
+        schoolWidth = width;
+      }
+    }
+
+    return schoolWidth;
   }
 
   /** Get height of the storey in pixels. */
