@@ -32,6 +32,7 @@ export class BackgroundView extends View {
 
       const s: DisplayObject = this.children[0];
 
+      // BUG FOUND
       if (s instanceof Sprite) {
         (s as Sprite).x = 10;
       }
