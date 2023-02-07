@@ -1,5 +1,6 @@
 import { Cache, DisplayObject, Sprite } from "pixi.js";
 import { GameManager } from "../managers/gameManager";
+import { BackgroundColor } from "../objects/backgroundColor";
 import { Cloud } from "../objects/cloud";
 import { Grass } from "../objects/grass";
 import { getRandomInteger } from "../utils/random";
@@ -12,10 +13,16 @@ export class BackgroundView extends View {
     super({ name: "Background" });
 
     this.gameManager = gm;
-    this.LoadBackground();
+
+    // Add background color
+    const backgroundColor = new BackgroundColor();
+    this.addChild(backgroundColor);
+
+    // Add background assets
+    this.LoadBackgroundAssets();
   }
 
-  public LoadBackground() {
+  public LoadBackgroundAssets() {
     // Load clouds
     const cloudCount = 10;
     const view = this.gameManager.application.view;
