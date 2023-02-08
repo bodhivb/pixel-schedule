@@ -30,13 +30,6 @@ export class BackgroundView extends View {
     for (let i = 0; i < cloudCount; i++) {
       let cloud = new Cloud(this.gameManager);
 
-      const s: DisplayObject = this.children[0];
-
-      // BUG FOUND
-      if (s instanceof Sprite) {
-        (s as Sprite).x = 10;
-      }
-
       cloud.x = (view.width / cloudCount) * i;
       cloud.y = getRandomInteger(0, view.height / 3);
 

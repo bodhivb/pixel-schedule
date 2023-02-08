@@ -11,11 +11,9 @@ export class BackgroundColor extends Sprite {
     const gradTexture = BackgroundColor.createGradientTexture(c_height);
     super(gradTexture);
 
+    this.position.set(0, 0);
     this.width = c_width;
     this.height = c_height;
-
-    //BUG X-axis doesn't work?
-    this.position.set(0, 0);
   }
 
   /**
