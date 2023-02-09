@@ -1,6 +1,7 @@
 import { Resource, Sprite, Texture } from "pixi.js";
 import { IEntityEvent } from "../interfaces/entityEvent";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
+import "@pixi/math-extras";
 
 export class Teacher extends Sprite implements IEntityEvent {
   constructor(texture?: Texture<Resource> | undefined) {
