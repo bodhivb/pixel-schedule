@@ -4,10 +4,13 @@ import { SchoolBuilder } from "../builders/schoolBuilder";
 import { IFloor } from "../interfaces/floorInterface";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
+import { School } from "../objects/school";
 import { Teacher } from "../objects/teacher";
 import { View } from "./view";
 
 export class SchoolView extends View {
+  private school: School;
+
   test_classroom: IRoom = {
     number: "72a",
     type: RoomType.classroom,
@@ -16,7 +19,8 @@ export class SchoolView extends View {
   constructor() {
     super({ name: "School" });
 
-    this.LoadSchool();
+    this.school = this.LoadSchool();
+    this.addChild(this.school);
 
     let bodhi = new Teacher(Cache.get("bodhi"));
     this.addChild(bodhi);
@@ -43,7 +47,8 @@ export class SchoolView extends View {
     const school = schoolBuilder.GetProduct();
     school.x = 200;
     school.y = 800;
-    this.addChild(school);
+
+    return school;
   }
 
   //This should be replaced with schedule API
@@ -75,5 +80,12 @@ export class SchoolView extends View {
         ],
       },
     ];
+  }
+
+  /**
+   * Put the teacher in the room.
+   */
+  public SetTeacherIntoRoom() {
+    //TODO
   }
 }
