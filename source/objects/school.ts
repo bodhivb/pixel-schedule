@@ -20,6 +20,18 @@ export class School extends Container {
     this.sortableChildren = true;
   }
 
+  /** Find a room by name. */
+  GetRoomByName(name: string) {
+    for (let floor of this.floors.values()) {
+      for (let room of floor.rooms) {
+        if (room.name == name) {
+          return room;
+        }
+      }
+    }
+    return null;
+  }
+
   /** Get the number of floors of a school. */
   get GetAmountOfFloor() {
     return this.floors.size;
