@@ -1,4 +1,4 @@
-import { Point, Resource, Sprite, Texture } from "pixi.js";
+import { Point, Resource, Sprite, Texture, Ticker } from "pixi.js";
 import { IEntityEvent } from "../interfaces/entityEvent";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 import "@pixi/math-extras";
@@ -6,8 +6,8 @@ import "@pixi/math-extras";
 export class Teacher extends Sprite implements IEntityEvent {
   // Input variable
   private target: Point;
-  private idleDistance = 5;
-  private idleWait = 5;
+  private idleDistance = 140;
+  private idleWait = 6;
 
   // Output variable
   private targetIdle?: Point;
@@ -22,14 +22,16 @@ export class Teacher extends Sprite implements IEntityEvent {
 
     this.zIndex = SortingLayer.Character;
     this.scale.set(2);
-
-    this.targetIdle = new Point(500, 300);
+    this.SetNewIdlePosition();
   }
 
+  private waitTimer = 0;
   public Update(dt: number): void {
-    if (this.targetIdle) {
+    if (this.waitTimer > 0) {
+      this.waitTimer -= dt;
+    } else if (this.targetIdle) {
       const distance = this.targetIdle.subtract(this.position);
-      const direction = this.Clamp1(distance);
+      const direction = this.SquareDirection(distance);
 
       const speed = 0.3;
 
@@ -39,11 +41,28 @@ export class Teacher extends Sprite implements IEntityEvent {
       if (Math.abs(distance.x) - Math.abs(xMove) <= 0) {
         this.x += distance.x;
         this.targetIdle = undefined;
+
+        // Set the next idle motion
+        this.SetNewIdlePosition();
+        this.SetWaitTime(this.idleWait);
       } else {
         // Keep walking
         this.x += xMove;
       }
     }
+  }
+
+  public SetNewIdlePosition() {
+    const newIdleXPos = Math.random() * this.idleDistance;
+
+    this.targetIdle = new Point(
+      this.target.x - newIdleXPos / 2 + newIdleXPos,
+      this.target.y
+    );
+  }
+
+  public SetWaitTime(second: number) {
+    this.waitTimer = second * (Ticker.targetFPMS * 1000);
   }
 
   /**
@@ -55,6 +74,19 @@ export class Teacher extends Sprite implements IEntityEvent {
     return new Point(
       Math.min(Math.max(value.x, -1), 1),
       Math.min(Math.max(value.y, -1), 1)
+    );
+    7;
+  }
+
+  /**
+   * Adjusts the direction with length of each axis
+   * @param value
+   * @returns
+   */
+  public SquareDirection(value: Point) {
+    return new Point(
+      value.x == 0 ? 0 : value.x > 0 ? 1 : -1,
+      value.y == 0 ? 0 : value.y > 0 ? 1 : -1
     );
   }
 }
