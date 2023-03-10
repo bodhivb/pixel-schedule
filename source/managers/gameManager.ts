@@ -7,6 +7,7 @@ import { LoginView } from "../views/loginView";
 import { SchoolView } from "../views/schoolView";
 import { ScreenManager } from "./screenManager";
 
+//TODO Convert this class to singleton or static class
 export class GameManager {
   readonly application: App;
 
@@ -22,22 +23,28 @@ export class GameManager {
 
     this.screen = new ScreenManager(this);
 
-    //Load all assets
+    // Load all assets
     this.LoadAssets().then(() => {
       this.OpenActiveScreen();
     });
   }
 
+  /** Load all manifest assets. */
   async LoadAssets() {
-    //Loading screen
+    // Low priority: here you can create a loading screen
+
+    // Link the manifest to the assets class
     await Assets.init({ manifest: assetsManifest });
 
-    const assets = await Assets.loadBundle(
-      ["buildings", "outdoors", "rooms", "teachers"],
-      (value) => console.log(value)
+    // Get names from manifest
+    const bundleIds = assetsManifest.bundles.map((bundle) => bundle.name);
+
+    // Download all assets
+    const assets = await Assets.loadBundle(bundleIds, (value) =>
+      console.log(value)
     );
 
-    //Loading complete
+    // Loading assets is complete
 
     return assets;
   }
