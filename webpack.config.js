@@ -47,6 +47,8 @@ const config = {
       tags: ["assets/css/base.css", "assets/css/elements.css"],
     }),
   ],
+  // Web games are bigger than pages, disable the warnings that our game is too big.
+  performance: { hints: false },
   output: { filename: "main.js", path: path.resolve(__dirname, "dist") },
 };
 
@@ -60,7 +62,7 @@ module.exports = (env, argv) => {
 
   if (argv.mode === "development") {
     // Development config
-    config.devtool = "inline-source-map";
+    config.devtool = "eval-source-map";
   } else if (argv.mode === "production") {
     // Production config
   }
