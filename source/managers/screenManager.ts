@@ -2,6 +2,7 @@ import { View } from "views/view";
 import { GameManager } from "./gameManager";
 import { IEntityEvent } from "../interfaces/entityEvent";
 import { Sprite } from "pixi.js";
+import { World } from "../worlds/world";
 
 //SceneManager
 export class ScreenManager {
@@ -17,12 +18,12 @@ export class ScreenManager {
   }
 
   //Get all views in the screen
-  private get activeViews(): View[] {
-    return this.screen.children as View[];
+  private get activeViews(): (View | World)[] {
+    return this.screen.children as (View | World)[];
   }
 
   //Add a view to the screen
-  Add(view: View) {
+  Add(view: View | World) {
     this.screen.addChild(view);
   }
 

@@ -6,6 +6,7 @@ import { BackgroundView } from "../views/backgroundView";
 import { LoginView } from "../views/loginView";
 import { SchoolView } from "../views/schoolView";
 import { ScreenManager } from "./screenManager";
+import { MainWorld } from "../worlds/mainWorld";
 
 //TODO Convert this class to singleton or static class
 export class GameManager {
@@ -50,12 +51,7 @@ export class GameManager {
   }
 
   OpenActiveScreen() {
-    const background = new BackgroundView(this);
-    this.screen.Add(background);
-
-    const sintLucas = new SchoolView();
-    this.screen.Add(sintLucas);
-
+    this.screen.Add(new MainWorld(this));
     // Page -> View -> Component -> Element
     //const loginView = new LoginView();
     //this.HTMLoverlay?.Add(loginView);
