@@ -28,6 +28,9 @@ export abstract class Scene extends Container<View> {
 
     //this.updateTransform();
     //InteractionData.prototype.getLocalPosition.call;
+
+    this.interactive = true;
+    this.on("pointerdown", (e: FederatedPointerEvent) => this.OnPointerDown(e));
   }
 
   Zoom(isZoomIn: boolean, mouseX: number, mouseY: number) {
@@ -45,6 +48,9 @@ export abstract class Scene extends Container<View> {
     //this.updateTransform();
   }
 
+  OnPointerDown(e: FederatedPointerEvent) {
+    console.log("pressed");
+  }
 
   Move() {}
 
