@@ -5,8 +5,8 @@ import Overlay from "../overlay";
 import { BackgroundView } from "../views/backgroundView";
 import { LoginView } from "../views/loginView";
 import { SchoolView } from "../views/schoolView";
-import { ScreenManager } from "./screenManager";
-import { MainWorld } from "../worlds/mainWorld";
+import { SceneManager } from "./sceneManager";
+import { MainScene } from "../scenes/mainScene";
 
 //TODO Convert this class to singleton or static class
 export class GameManager {
@@ -16,13 +16,13 @@ export class GameManager {
   readonly HTMLoverlay?: Overlay;
 
   // The canvas screen
-  readonly screen: ScreenManager;
+  readonly screen: SceneManager;
 
   constructor(app: App, overlay?: Overlay) {
     this.application = app;
     this.HTMLoverlay = overlay;
 
-    this.screen = new ScreenManager(this);
+    this.screen = new SceneManager(this);
 
     // Load all assets
     this.LoadAssets().then(() => {
@@ -51,13 +51,13 @@ export class GameManager {
   }
 
   OpenActiveScreen() {
-    this.screen.Add(new MainWorld(this));
+    this.screen.Add(new MainScene(this));
     // Page -> View -> Component -> Element
     //const loginView = new LoginView();
     //this.HTMLoverlay?.Add(loginView);
   }
 
   Update(dt: number) {
-    this.screen.UpdateEntity(dt);
+    this.screen.UpdateScenes(dt);
   }
 }

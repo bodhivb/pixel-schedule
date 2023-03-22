@@ -1,11 +1,11 @@
 import { GameManager } from "../managers/gameManager";
 import { BackgroundView } from "../views/backgroundView";
 import { SchoolView } from "../views/schoolView";
-import { World } from "./world";
+import { Scene } from "./scene";
 
-export class MainWorld extends World {
+export class MainScene extends Scene {
   constructor(gm: GameManager) {
-    super();
+    super(gm);
 
     const background = new BackgroundView(gm);
     this.addChild(background);
