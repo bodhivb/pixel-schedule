@@ -30,10 +30,35 @@ export abstract class Scene extends Container<View> {
     //InteractionData.prototype.getLocalPosition.call;
   }
 
+  Zoom(isZoomIn: boolean, mouseX: number, mouseY: number) {
+    let previousCoordinates = this.toLocal({ x: mouseX, y: mouseY });
+
+    // Adjust the camera zoom
+    this.cameraScale += isZoomIn ? 0.01 : -0.01;
+    this.scale.set(this.cameraScale);
+
+    let newCoordinates = this.toLocal({ x: mouseX, y: mouseY });
+
+    // Zoom to the mouse cursor instead of screen center.
+    this.pivot.x -= newCoordinates.x - previousCoordinates.x;
+    this.pivot.y -= newCoordinates.y - previousCoordinates.y;
+    //this.updateTransform();
+  }
+
 
   Move() {}
 
   Update(dt: number) {
+    //Test code
+    if (this.cameraScale > 2) {
+    } else {
+      this.Zoom(
+        true,
+        this.gm.application.renderer.screen.width / 2,
+        this.gm.application.renderer.screen.height / 2
+      );
+    }
+
     //List of all views
     for (let v = 0; v < this.children.length; v++) {
       //TODO Check before if function exists. If yes > add it to event listeren
