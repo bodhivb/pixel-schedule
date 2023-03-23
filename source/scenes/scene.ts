@@ -1,4 +1,4 @@
-import { Container, FederatedPointerEvent, IPointData } from "pixi.js";
+import { Container, FederatedPointerEvent, IPointData, Point } from "pixi.js";
 import { IEntityEvent } from "../interfaces/entityEvent";
 import { GameManager } from "../managers/gameManager";
 import { View } from "../views/view";
@@ -8,7 +8,10 @@ export abstract class Scene extends Container<View> {
   /** The camera position. */
   public cameraPosition: IPointData = { x: 0, y: 0 };
   /** The camera zoom level. */
-  public cameraScale: number = 1;
+  public cameraScale: number = 2;
+
+  //** Indicates position when the mouse is pressed. */
+  private mousePosition?: IPointData = undefined;
 
   private gm: GameManager;
 
@@ -31,6 +34,8 @@ export abstract class Scene extends Container<View> {
 
     this.interactive = true;
     this.on("pointerdown", (e: FederatedPointerEvent) => this.OnPointerDown(e));
+    this.on("pointerup", (e: FederatedPointerEvent) => this.OnPointerUp(e));
+    this.on("pointerleave", (e: FederatedPointerEvent) => this.OnPointerUp(e));
   }
 
   Zoom(isZoomIn: boolean, mouseX: number, mouseY: number) {
@@ -48,11 +53,28 @@ export abstract class Scene extends Container<View> {
     //this.updateTransform();
   }
 
-  OnPointerDown(e: FederatedPointerEvent) {
-    console.log("pressed");
+  private OnPointerDown(e: FederatedPointerEvent) {
+    this.mousePosition = { x: e.global.x, y: e.global.y };
+    this.on("pointermove", this.OnPointerMove);
   }
 
-  Move() {}
+  private OnPointerMove(e: FederatedPointerEvent) {
+    if (this.mousePosition) {
+      // Calculate new camera coordinates by mouse movements.
+      const previousMove = this.toLocal(this.mousePosition);
+      const newMove = this.toLocal({ x: e.global.x, y: e.global.y });
+
+      this.pivot.x -= newMove.x - previousMove.x;
+      this.pivot.y -= newMove.y - previousMove.y;
+    }
+
+    this.mousePosition = { x: e.global.x, y: e.global.y };
+  }
+
+  private OnPointerUp(e: FederatedPointerEvent) {
+    this.mousePosition = undefined;
+    this.off("pointermove", this.OnPointerMove);
+  }
 
   Update(dt: number) {
     //Test code
