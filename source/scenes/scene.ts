@@ -1,4 +1,9 @@
-import { Container, FederatedPointerEvent, IPointData, Point } from "pixi.js";
+import {
+  Container,
+  FederatedPointerEvent,
+  FederatedWheelEvent,
+  IPointData,
+} from "pixi.js";
 import { IEntityEvent } from "../interfaces/entityEvent";
 import { GameManager } from "../managers/gameManager";
 import { View } from "../views/view";
@@ -29,28 +34,25 @@ export abstract class Scene extends Container<View> {
     //this.pivot.set(gm.application.renderer.screen.width / 2, gm.application.renderer.screen.height / 2);
     this.scale.set(this.cameraScale);
 
-    //this.updateTransform();
-    //InteractionData.prototype.getLocalPosition.call;
-
     this.interactive = true;
     this.on("pointerdown", (e: FederatedPointerEvent) => this.OnPointerDown(e));
     this.on("pointerup", (e: FederatedPointerEvent) => this.OnPointerUp(e));
     this.on("pointerleave", (e: FederatedPointerEvent) => this.OnPointerUp(e));
+    this.on("wheel", (e: FederatedWheelEvent) => this.Zoom(e));
   }
 
-  Zoom(isZoomIn: boolean, mouseX: number, mouseY: number) {
-    let previousCoordinates = this.toLocal({ x: mouseX, y: mouseY });
+  Zoom(e: FederatedWheelEvent) {
+    let previousCoordinates = this.toLocal({ x: e.global.x, y: e.global.y });
 
     // Adjust the camera zoom
-    this.cameraScale += isZoomIn ? 0.01 : -0.01;
+    this.cameraScale -= (e.deltaY / 1000) * this.cameraScale;
     this.scale.set(this.cameraScale);
 
-    let newCoordinates = this.toLocal({ x: mouseX, y: mouseY });
+    let newCoordinates = this.toLocal({ x: e.global.x, y: e.global.y });
 
     // Zoom to the mouse cursor instead of screen center.
     this.pivot.x -= newCoordinates.x - previousCoordinates.x;
     this.pivot.y -= newCoordinates.y - previousCoordinates.y;
-    //this.updateTransform();
   }
 
   private OnPointerDown(e: FederatedPointerEvent) {
@@ -77,16 +79,6 @@ export abstract class Scene extends Container<View> {
   }
 
   Update(dt: number) {
-    //Test code
-    if (this.cameraScale > 2) {
-    } else {
-      this.Zoom(
-        true,
-        this.gm.application.renderer.screen.width / 2,
-        this.gm.application.renderer.screen.height / 2
-      );
-    }
-
     //List of all views
     for (let v = 0; v < this.children.length; v++) {
       //TODO Check before if function exists. If yes > add it to event listeren
