@@ -64,7 +64,7 @@ export abstract class Scene extends Container<View> {
     if (this.mousePosition) {
       // Calculate new camera coordinates by mouse movements.
       const previousMove = this.toLocal(this.mousePosition);
-      const newMove = this.toLocal({ x: e.global.x, y: e.global.y });
+      const newMove = this.toLocal(e.global);
 
       this.pivot.x -= newMove.x - previousMove.x;
       this.pivot.y -= newMove.y - previousMove.y;
