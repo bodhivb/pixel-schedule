@@ -2,16 +2,23 @@ import {
   FederatedPointerEvent,
   FederatedWheelEvent,
   IPointData,
+  ObservablePoint,
 } from "pixi.js";
 import { GameManager } from "../managers/gameManager";
 import { Scene } from "./scene";
 
 /** The camera control system for scene. */
 export class Camera {
-  /** The camera position. */
-  public cameraPosition: IPointData = { x: 0, y: 0 };
+  /** The camera position. This uses scene pivot point to control position. */
+  public get position(): ObservablePoint {
+    return this.scene.pivot;
+  }
+  public set position(value: IPointData) {
+    this.scene.pivot = value;
+  }
+
   /** The camera zoom level. */
-  public cameraScale: number = 2;
+  public scale: number = 1;
 
   /** Indicates position when the mouse is pressed. */
   private mousePosition?: IPointData = undefined;
@@ -31,9 +38,6 @@ export class Camera {
     // Put the world into the center of camera screen.
     this.scene.x = this.gm.application.renderer.screen.width / 2;
     this.scene.y = this.gm.application.renderer.screen.height / 2;
-
-    // Use pivot point to control camera.
-    this.scene.pivot.set(this.cameraPosition.x, this.cameraPosition.y);
 
     this.scene.interactive = true;
 
@@ -74,8 +78,8 @@ export class Camera {
     });
 
     // Adjust the camera zoom.
-    this.cameraScale -= (e.deltaY / 1000) * this.cameraScale;
-    this.scene.scale.set(this.cameraScale);
+    this.scale -= (e.deltaY / 1000) * this.scale;
+    this.scene.scale.set(this.scale);
 
     let newCoordinates = this.scene.toLocal({ x: e.global.x, y: e.global.y });
 

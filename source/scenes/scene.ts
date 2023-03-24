@@ -11,6 +11,7 @@ export abstract class Scene extends Container<View> {
   constructor(gm: GameManager) {
     super();
     this.camera = new Camera(this, gm);
+    this.camera.position = { x: 800, y: 400 };
   }
 
   Update(dt: number) {
