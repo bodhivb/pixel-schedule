@@ -23,6 +23,9 @@ export class Camera {
   /** Indicates position when the mouse is pressed. */
   private mousePosition?: IPointData = undefined;
 
+  private maxZoom = 5;
+  private minZoom = 1;
+
   private moveEvent = (e: FederatedPointerEvent) => this.OnPointerMove(e);
 
   /** The scene container where we need to control it. */
@@ -72,13 +75,21 @@ export class Camera {
   }
 
   private OnZoom(e: FederatedWheelEvent) {
+    let newScale = this.scale - (e.deltaY / 1000) * this.scale;
+
+    if (newScale > this.maxZoom) newScale = this.maxZoom;
+    if (newScale < this.minZoom) newScale = this.minZoom;
+
+    // Stop calculate if new zoom level is same as current - optional.
+    if (newScale === this.scale) return;
+
     let previousCoordinates = this.scene.toLocal({
       x: e.global.x,
       y: e.global.y,
     });
 
     // Adjust the camera zoom.
-    this.scale -= (e.deltaY / 1000) * this.scale;
+    this.scale = newScale;
     this.scene.scale.set(this.scale);
 
     let newCoordinates = this.scene.toLocal({ x: e.global.x, y: e.global.y });
