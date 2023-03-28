@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { Container, Rectangle } from "pixi.js";
 import { IEntityEvent } from "../interfaces/entityEvent";
 import { GameManager } from "../managers/gameManager";
 import { View } from "../views/view";
@@ -11,7 +11,7 @@ export abstract class Scene extends Container<View> {
   constructor(gm: GameManager) {
     super();
     this.camera = new Camera(this, gm);
-    //this.camera.position = { x: 800, y: 400 };
+    this.camera.SetBounds(new Rectangle(0, 0, 1920, 900));
   }
 
   Update(dt: number) {

@@ -19,7 +19,8 @@ export class Camera {
   }
 
   /** The camera bounds. */
-  public bounds?: Rectangle;
+  private bounds?: Rectangle;
+  private minZoomBounds?: number;
 
   /** The camera zoom level. */
   public scale: number = 1;
@@ -38,16 +39,20 @@ export class Camera {
   /** Warning: this variable is deprecated and will be removed in a future version. */
   private gm: GameManager;
 
+  /** Setup the camera bounds. */
+  public SetBounds(value?: Rectangle) {
+    this.bounds = value;
+    this.SetBoundZoom();
+    this.CheckBounds();
+  }
+
   constructor(currentScene: Scene, gm: GameManager) {
     this.scene = currentScene;
     this.gm = gm;
 
-    // Put the world into the center of camera screen.
+    // Put the world into the center of camera screen
     this.scene.x = this.gm.application.renderer.screen.width / 2;
     this.scene.y = this.gm.application.renderer.screen.height / 2;
-
-    // Test bounds
-    this.bounds = new Rectangle(0, 0, 1220, 1800);
 
     this.scene.interactive = true;
 
@@ -70,7 +75,7 @@ export class Camera {
 
   private OnPointerMove(e: FederatedPointerEvent) {
     if (this.mousePosition) {
-      // Calculate new camera coordinates by mouse movements.
+      // Calculate new camera coordinates by mouse movements
       const previousMove = this.scene.toLocal(this.mousePosition);
       const newMove = this.scene.toLocal(e.global);
 
@@ -87,9 +92,11 @@ export class Camera {
     let newScale = this.scale - (e.deltaY / 1000) * this.scale;
 
     if (newScale > this.maxZoom) newScale = this.maxZoom;
-    if (newScale < this.minZoom) newScale = this.minZoom;
 
-    // Stop calculate if new zoom level is same as current - optional.
+    if (newScale < (this.minZoomBounds ?? this.minZoom))
+      newScale = this.minZoomBounds ?? this.minZoom;
+
+    // Stop calculate if new zoom level is same as current - optional
     if (newScale === this.scale) return;
 
     let previousCoordinates = this.scene.toLocal({
@@ -97,19 +104,20 @@ export class Camera {
       y: e.global.y,
     });
 
-    // Adjust the camera zoom.
+    // Adjust the camera zoom
     this.scale = newScale;
     this.scene.scale.set(this.scale);
 
     let newCoordinates = this.scene.toLocal({ x: e.global.x, y: e.global.y });
 
-    // Zoom to the mouse cursor instead of screen center.
+    // Zoom to the mouse cursor instead of screen center
     this.scene.pivot.x -= newCoordinates.x - previousCoordinates.x;
     this.scene.pivot.y -= newCoordinates.y - previousCoordinates.y;
 
     this.CheckBounds();
   }
 
+  /** Adjust camera position if it is out of bounds. */
   private CheckBounds() {
     if (this.bounds) {
       const x = this.bounds.x + this.scene.x / this.scale;
@@ -117,36 +125,46 @@ export class Camera {
       const w = this.bounds.x + this.bounds.width - this.scene.x / this.scale;
       const h = this.bounds.y + this.bounds.height - this.scene.y / this.scale;
 
-      // Check x-axis bounds.
+      // Check x-axis bounds
       if (this.scene.pivot.x < x) {
         this.scene.pivot.x = x;
-        // Check if the camera is still out of the x-axis bounds. (zoomed out too much)
-        if (this.scene.pivot.x > w) {
-          console.log("Warning");
-        }
       } else if (this.scene.pivot.x > w) {
         this.scene.pivot.x = w;
-        // Check if the camera is still out of the x-axis bounds.
-        if (this.scene.pivot.x < x) {
-          console.log("Warning");
-        }
       }
 
-      // Check y-axis bounds.
+      // Check y-axis bounds
       if (this.scene.pivot.y < y) {
         this.scene.pivot.y = y;
-        // Check if the camera is still out of the y-axis bounds.
-        if (this.scene.pivot.y > h) {
-          console.log("Warning");
-        }
       } else if (this.scene.pivot.y > h) {
         this.scene.pivot.y = h;
-        // Check if the camera is still out of the y-axis bounds.
-        if (this.scene.pivot.y < y) {
-          console.log("Warning");
-        }
       }
     }
   }
+
+  /**
+   * Calculate the real maximum zoom out with the screen, once the camera is never zoomed out too far.
+   */
+  private SetBoundZoom() {
+    if (this.bounds) {
+      // Calculates scale length
+      const xScale =
+        this.gm.application.renderer.screen.width / this.bounds.width;
+      const yScale =
+        this.gm.application.renderer.screen.height / this.bounds.height;
+
+      // Adjust if these calculates are over the min value
+      if (xScale > this.minZoom || yScale > this.minZoom) {
+        this.minZoomBounds = xScale > yScale ? xScale : yScale;
+
+        if (this.scale < this.minZoomBounds) {
+          this.scale = this.minZoomBounds;
+          this.scene.scale.set(this.scale);
+        }
+      } else {
+        this.minZoomBounds = undefined;
+      }
+    } else {
+      this.minZoomBounds = undefined;
+    }
   }
 }
