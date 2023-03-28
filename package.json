@@ -30,7 +30,7 @@
     "pixi.js": "7.1.0"
   },
   "devDependencies": {
-    "@types/node": "^18.8.1",
+    "@types/node": "^18.15.10",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
     "copy-webpack-plugin": "11.0.0",
