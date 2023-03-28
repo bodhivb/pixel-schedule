@@ -11,10 +11,12 @@ export abstract class Scene extends Container<View> {
   constructor(gm: GameManager) {
     super();
     this.camera = new Camera(this, gm);
-    this.camera.position = { x: 800, y: 400 };
+    //this.camera.position = { x: 800, y: 400 };
   }
 
   Update(dt: number) {
+    //this.rotation += 0.01;
+
     //List of all views
     for (let v = 0; v < this.children.length; v++) {
       //TODO Check before if function exists. If yes > add it to event listeren

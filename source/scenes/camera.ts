@@ -3,6 +3,7 @@ import {
   FederatedWheelEvent,
   IPointData,
   ObservablePoint,
+  Rectangle,
 } from "pixi.js";
 import { GameManager } from "../managers/gameManager";
 import { Scene } from "./scene";
@@ -16,6 +17,9 @@ export class Camera {
   public set position(value: IPointData) {
     this.scene.pivot = value;
   }
+
+  /** The camera bounds. */
+  public bounds?: Rectangle;
 
   /** The camera zoom level. */
   public scale: number = 1;
@@ -41,6 +45,9 @@ export class Camera {
     // Put the world into the center of camera screen.
     this.scene.x = this.gm.application.renderer.screen.width / 2;
     this.scene.y = this.gm.application.renderer.screen.height / 2;
+
+    // Test bounds
+    this.bounds = new Rectangle(0, 0, 1220, 1800);
 
     this.scene.interactive = true;
 
@@ -69,6 +76,8 @@ export class Camera {
 
       this.scene.pivot.x -= newMove.x - previousMove.x;
       this.scene.pivot.y -= newMove.y - previousMove.y;
+
+      this.CheckBounds();
     }
 
     this.mousePosition = { x: e.global.x, y: e.global.y };
@@ -97,5 +106,47 @@ export class Camera {
     // Zoom to the mouse cursor instead of screen center.
     this.scene.pivot.x -= newCoordinates.x - previousCoordinates.x;
     this.scene.pivot.y -= newCoordinates.y - previousCoordinates.y;
+
+    this.CheckBounds();
+  }
+
+  private CheckBounds() {
+    if (this.bounds) {
+      const x = this.bounds.x + this.scene.x / this.scale;
+      const y = this.bounds.y + this.scene.y / this.scale;
+      const w = this.bounds.x + this.bounds.width - this.scene.x / this.scale;
+      const h = this.bounds.y + this.bounds.height - this.scene.y / this.scale;
+
+      // Check x-axis bounds.
+      if (this.scene.pivot.x < x) {
+        this.scene.pivot.x = x;
+        // Check if the camera is still out of the x-axis bounds. (zoomed out too much)
+        if (this.scene.pivot.x > w) {
+          console.log("Warning");
+        }
+      } else if (this.scene.pivot.x > w) {
+        this.scene.pivot.x = w;
+        // Check if the camera is still out of the x-axis bounds.
+        if (this.scene.pivot.x < x) {
+          console.log("Warning");
+        }
+      }
+
+      // Check y-axis bounds.
+      if (this.scene.pivot.y < y) {
+        this.scene.pivot.y = y;
+        // Check if the camera is still out of the y-axis bounds.
+        if (this.scene.pivot.y > h) {
+          console.log("Warning");
+        }
+      } else if (this.scene.pivot.y > h) {
+        this.scene.pivot.y = h;
+        // Check if the camera is still out of the y-axis bounds.
+        if (this.scene.pivot.y < y) {
+          console.log("Warning");
+        }
+      }
+    }
+  }
   }
 }
