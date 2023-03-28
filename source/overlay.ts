@@ -1,4 +1,3 @@
-import { createTextField } from "./elements/textField";
 import { HTMLView } from "./views/htmlView";
 
 /** The full-screen HTML overlay. */

@@ -1,10 +1,10 @@
 # Deploy GitHub Pages Site from development environment.
-name: Deployment development environment
+name: Deployment development
 
 on:
   # Triggers the workflow on push event but only for the "development" branch.
   push:
-    branches: [ "development" ]
+    branches: ["development"]
 
 jobs:
   pre-release:
@@ -15,15 +15,15 @@ jobs:
     steps:
       - name: Checkout dev repository 🛎️
         uses: actions/checkout@v3
-        
+
       - name: Install and Build 🔧
         run: |
           npm install
           npm run build:dev
-          
+
       - name: Deploy dev environment 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           branch: gh-pages
           folder: dist # The folder the action should deploy.
-          target_folder: development
+          target-folder: development

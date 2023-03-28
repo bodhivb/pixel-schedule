@@ -1,71 +1,66 @@
-import { Texture } from "pixi.js";
+import { Cache, Graphics } from "pixi.js";
+import { Director } from "../builders/director";
 import { SchoolBuilder } from "../builders/schoolBuilder";
+import { IFloor } from "../interfaces/floorInterface";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
-import { Room } from "../objects/room";
+import { School } from "../objects/school";
 import { Teacher } from "../objects/teacher";
 import { View } from "./view";
 
 export class SchoolView extends View {
+  private school: School;
+
   test_classroom: IRoom = {
     number: "72a",
     type: RoomType.classroom,
   };
 
   constructor() {
-    super("School");
-    this.LoadSchool();
+    super({ name: "School" });
 
-    let bodhi = new Teacher(Texture.from("assets/teachers/bodhi.png"));
+    this.school = this.LoadSchool();
+    this.addChild(this.school);
 
-    this.entities.push(bodhi);
+    let bodhi = new Teacher(Cache.get("bodhi"));
     this.addChild(bodhi);
+
+    //Add ground floor
+    const graphics = new Graphics();
+    graphics.beginFill(0x292929);
+    graphics.drawRect(190, 800, 1000, 3);
+    graphics.endFill();
+
+    this.addChild(graphics);
   }
 
   public LoadSchool() {
-    //Sample data - for testing
-    let school = this.GetData();
+    // Sample data - for testing
+    const data = this.GetData();
 
-    let schoolBuilder = new SchoolBuilder();
-    //schoolBuilder.SetFloor([0, 2, 3]);
+    const schoolBuilder = new SchoolBuilder();
+    const director = new Director(schoolBuilder);
 
-    // Default texture
-    schoolBuilder.SetWall(Texture.from("assets/buildings/wall.png"));
-    schoolBuilder.SetDoor(Texture.from("assets/buildings/door.png"));
-    schoolBuilder.SetFrontDoor(Texture.from("assets/buildings/front_door.png"));
+    // The director will only give correct orders to builders
+    director.buildSintLucas(data);
 
-    // SintLucas texture
-    schoolBuilder.SetFrontDoorSign(
-      Texture.from("assets/buildings/sintlucas_doorsign.png")
-    );
-    schoolBuilder.SetRoofSign(
-      Texture.from("assets/buildings/sintlucas_roofsign.png")
-    );
+    const school = schoolBuilder.GetProduct();
+    school.x = 200;
+    school.y = 800;
 
-    for (let i = 0; i < school.length; i++) {
-      let rooms = school[i].rooms;
-      for (let r = 0; r < rooms.length; r++) {
-        schoolBuilder.AddRoom(school[i].floor, rooms[r]);
-      }
-    }
-
-    const s = schoolBuilder.GetProduct();
-
-    s.x = 200;
-    s.y = 800;
-    this.addChild(s);
-    console.log("school added");
+    return school;
   }
 
   //This should be replaced with schedule API
-  public GetData() {
+  public GetData(): IFloor[] {
     return [
       {
         floor: 0,
         rooms: [
           this.test_classroom,
           { number: "74", type: RoomType.classroom_window },
-          { number: "75", type: RoomType.classroom },
+          { number: "75", type: RoomType.classroom_window },
+          { number: "76", type: RoomType.classroom },
         ],
       },
       {
@@ -81,8 +76,16 @@ export class SchoolView extends View {
         rooms: [
           { number: "32", type: RoomType.classroom_window },
           { number: "33", type: RoomType.classroom },
+          { number: "37", type: RoomType.networking_plaza },
         ],
       },
     ];
+  }
+
+  /**
+   * Put the teacher in the room.
+   */
+  public SetTeacherIntoRoom() {
+    //TODO
   }
 }
