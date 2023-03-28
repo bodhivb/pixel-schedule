@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/Bodhivb/pixel-schedule#readme",
   "dependencies": {
-    "@pixi/math-extras": "^7.1.2",
+    "@pixi/math-extras": "^7.2.3",
     "pixi.js": "7.1.0"
   },
   "devDependencies": {
