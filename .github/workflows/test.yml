@@ -10,6 +10,7 @@ on:
 
 jobs:
   eslint:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     name: ESLint linter
     runs-on: ubuntu-latest
 
@@ -24,8 +25,9 @@ jobs:
       - name: Run ESLint 🕵️
         run: npm run lint
 
-  security:
-    name: Check dependencies security
+  dependency-review:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
+    name: Check dependencies
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job.
@@ -41,19 +43,8 @@ jobs:
         env:
           CI: true
 
-  # Same as security job, I want to know which one work better.
-  dependency-review:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository 🛎️
-        uses: actions/checkout@v3
-      - name: Dependency Review 🕵️
-        uses: actions/dependency-review-action@v3
-        with:
-          base-ref: ${{ github.event.before }}
-          head-ref: ${{ github.sha }}
-
   analyze:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
