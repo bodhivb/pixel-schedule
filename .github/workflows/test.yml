@@ -1,12 +1,13 @@
-# Check code quality with eslint.
+# Test the repository code.
 name: Testing
 
 on:
-  # Triggers the workflow on push or pull request events.
-  push:
-    branches-ignore: ["gh-pages"]
+  # Triggers the workflow on pull request events.
   pull_request:
     branches: ["production", "development"]
+
+  # Allow to run this workflow manually from the Actions tab.
+  workflow_dispatch:
 
 jobs:
   eslint:
@@ -18,8 +19,47 @@ jobs:
       - name: Checkout repository 🛎️
         uses: actions/checkout@v3
 
-      - name: Install 🗃️
+      - name: Install dependencies 🗃️
         run: npm install
 
       - name: Run ESLint 🕵️
         run: npm run lint
+
+  dependency-review:
+    name: Check dependencies
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job.
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install dependencies 🗃️
+        run: npm install
+
+      - name: Run security check 🕵️
+        run: npm audit --audit-level moderate
+        env:
+          CI: true
+
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    # Steps represent a sequence of tasks that will be executed as part of the job.
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+
+      - name: Initialize CodeQL 🔧
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+          source-root: source
+
+      - name: Perform CodeQL Analysis 🕵️
+        uses: github/codeql-action/analyze@v2
