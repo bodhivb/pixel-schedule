@@ -1,4 +1,4 @@
-# Check code quality with eslint.
+# Check code
 name: Testing
 
 on:
@@ -18,8 +18,56 @@ jobs:
       - name: Checkout repository 🛎️
         uses: actions/checkout@v3
 
-      - name: Install 🗃️
+      - name: Install dependencies 🗃️
         run: npm install
 
       - name: Run ESLint 🕵️
         run: npm run lint
+
+  security:
+    name: Check dependencies security
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job.
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+
+      - name: Install dependencies 🗃️
+        run: npm install
+
+      - name: Run security check 🕵️
+        run: npm audit --audit-level moderate
+        env:
+          CI: true
+
+  # Same as security job, I want to know which one work better.
+  dependency-review:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+      - name: Dependency Review 🕵️
+        uses: actions/dependency-review-action@v3
+
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    # Steps represent a sequence of tasks that will be executed as part of the job.
+    steps:
+      - name: Checkout repository 🛎️
+        uses: actions/checkout@v3
+
+      - name: Initialize CodeQL 🔧
+        uses: github/codeql-action/init@v2
+        with:
+          languages: javascript
+          source-root: source
+
+      - name: Perform CodeQL Analysis 🕵️
+        uses: github/codeql-action/analyze@v2
