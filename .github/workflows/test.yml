@@ -1,16 +1,16 @@
-# Check code
+# Test the repository code.
 name: Testing
 
 on:
-  # Triggers the workflow on push or pull request events.
-  push:
-    branches-ignore: ["gh-pages"]
+  # Triggers the workflow on pull request events.
   pull_request:
     branches: ["production", "development"]
 
+  # Allow to run this workflow manually from the Actions tab.
+  workflow_dispatch:
+
 jobs:
   eslint:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     name: ESLint linter
     runs-on: ubuntu-latest
 
@@ -26,7 +26,6 @@ jobs:
         run: npm run lint
 
   dependency-review:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     name: Check dependencies
     runs-on: ubuntu-latest
 
@@ -44,7 +43,6 @@ jobs:
           CI: true
 
   analyze:
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.event.pull_request.base.repo.full_name
     name: Analyze
     runs-on: ubuntu-latest
     permissions:
