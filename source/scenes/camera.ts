@@ -19,17 +19,68 @@ export class Camera {
   }
 
   /** The camera bounds. */
-  private bounds?: Rectangle;
+  private _bounds?: Rectangle;
+
+  /**
+   * the camera bounds to keep the camera inside the bounds.
+   *
+   * The default value is undefined so you need to add the Rectangle value first to activate this.
+   * @example
+   * this.camera.bounds = new Rectangle(0, 0, 2000, 2000);
+   */
+  public get bounds(): Readonly<Rectangle> | undefined {
+    return this._bounds;
+  }
+  public set bounds(value: Rectangle | undefined) {
+    this._bounds = value;
+    this.SetBoundsZoom();
+    this.CheckBounds();
+  }
+
+  private _maxZoom?: number;
+
+  public get maxZoom(): number | undefined {
+    return this._maxZoom;
+  }
+  public set maxZoom(value: number | undefined) {
+    this._maxZoom = value;
+
+    if (this._maxZoom && this.scale > this._maxZoom) {
+      // Adjust the camera zoom
+      this.scale = this._maxZoom;
+      this.CheckBounds();
+    }
+  }
+
+  private _minZoom?: number;
   private minZoomBounds?: number;
 
+  public get minZoom(): number | undefined {
+    return this._minZoom;
+  }
+  public set minZoom(value: number | undefined) {
+    this._minZoom = value;
+
+    // Adjust the min zoom bounds
+    this.SetBoundsZoom();
+
+    if (this._minZoom && this.scale < this._minZoom) {
+      // Adjust the camera zoom
+      this.scale = this._minZoom;
+      this.CheckBounds();
+    }
+  }
+
   /** The camera zoom level. */
-  public scale: number = 1;
+  public get scale(): number {
+    return this.scene.scale.x;
+  }
+  public set scale(value: number) {
+    this.scene.scale.set(value);
+  }
 
   /** Indicates position when the mouse is pressed. */
   private mousePosition?: IPointData = undefined;
-
-  private maxZoom = 5;
-  private minZoom = 1;
 
   private moveEvent = (e: FederatedPointerEvent) => this.OnPointerMove(e);
 
@@ -38,13 +89,6 @@ export class Camera {
 
   /** Warning: this variable is deprecated and will be removed in a future version. */
   private gm: GameManager;
-
-  /** Setup the camera bounds. */
-  public SetBounds(value?: Rectangle) {
-    this.bounds = value;
-    this.SetBoundZoom();
-    this.CheckBounds();
-  }
 
   constructor(currentScene: Scene, gm: GameManager) {
     this.scene = currentScene;
@@ -91,10 +135,12 @@ export class Camera {
   private OnZoom(e: FederatedWheelEvent) {
     let newScale = this.scale - (e.deltaY / 1000) * this.scale;
 
-    if (newScale > this.maxZoom) newScale = this.maxZoom;
+    if (this.maxZoom && newScale > this.maxZoom) newScale = this.maxZoom;
 
-    if (newScale < (this.minZoomBounds ?? this.minZoom))
-      newScale = this.minZoomBounds ?? this.minZoom;
+    if (this.minZoomBounds || this.minZoom) {
+      if (newScale < (this.minZoomBounds ?? this.minZoom!))
+        newScale = this.minZoomBounds ?? this.minZoom!;
+    }
 
     // Stop calculate if new zoom level is same as current - optional
     if (newScale === this.scale) return;
@@ -106,7 +152,6 @@ export class Camera {
 
     // Adjust the camera zoom
     this.scale = newScale;
-    this.scene.scale.set(this.scale);
 
     let newCoordinates = this.scene.toLocal({ x: e.global.x, y: e.global.y });
 
@@ -144,7 +189,7 @@ export class Camera {
   /**
    * Calculate the real maximum zoom out with the screen, once the camera is never zoomed out too far.
    */
-  private SetBoundZoom() {
+  private SetBoundsZoom() {
     if (this.bounds) {
       // Calculates scale length
       const xScale =
@@ -153,12 +198,11 @@ export class Camera {
         this.gm.application.renderer.screen.height / this.bounds.height;
 
       // Adjust if these calculates are over the min value
-      if (xScale > this.minZoom || yScale > this.minZoom) {
+      if (!this.minZoom || xScale > this.minZoom || yScale > this.minZoom) {
         this.minZoomBounds = xScale > yScale ? xScale : yScale;
 
         if (this.scale < this.minZoomBounds) {
           this.scale = this.minZoomBounds;
-          this.scene.scale.set(this.scale);
         }
       } else {
         this.minZoomBounds = undefined;
