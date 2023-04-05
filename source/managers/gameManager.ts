@@ -2,14 +2,38 @@ import { Assets } from "pixi.js";
 import { assetsManifest } from "../assetsManifest";
 import App from "../app";
 import Overlay from "../overlay";
-import { BackgroundView } from "../views/backgroundView";
-import { LoginView } from "../views/loginView";
-import { SchoolView } from "../views/schoolView";
 import { SceneManager } from "./sceneManager";
 import { MainScene } from "../scenes/mainScene";
 
-//TODO Convert this class to singleton or static class
 export class GameManager {
+  // #region singleton
+
+  /** The singleton instance. */
+  private static _instance: GameManager;
+
+  /** The gateway to the GameManager instance. Please make sure to call GameManager.init() first.*/
+  public static get instance() {
+    if (!GameManager._instance) {
+      throw new Error(
+        "GameManager class is not registered as a singleton. Please make sure to call GameManager.init() first."
+      );
+    }
+    return GameManager._instance;
+  }
+
+  /**
+   * Initialize this class.
+   * @param app PIXI.Application
+   * @param overlay Custom html overlay
+   */
+  public static init(app: App, overlay?: Overlay) {
+    GameManager._instance = new GameManager(app, overlay);
+  }
+
+  // #endregion
+  // #region properties
+
+  // PIXI Application
   readonly application: App;
 
   // The html overlay screen
@@ -18,7 +42,9 @@ export class GameManager {
   // The canvas screen
   readonly screen: SceneManager;
 
-  constructor(app: App, overlay?: Overlay) {
+  // #endregion
+
+  private constructor(app: App, overlay?: Overlay) {
     this.application = app;
     this.HTMLoverlay = overlay;
 
@@ -31,7 +57,7 @@ export class GameManager {
   }
 
   /** Load all manifest assets. */
-  async LoadAssets() {
+  private async LoadAssets() {
     // Low priority: here you can create a loading screen
 
     // Link the manifest to the assets class
@@ -50,14 +76,14 @@ export class GameManager {
     return assets;
   }
 
-  OpenActiveScreen() {
+  private OpenActiveScreen() {
     this.screen.Add(new MainScene(this));
     // Page -> View -> Component -> Element
     //const loginView = new LoginView();
     //this.HTMLoverlay?.Add(loginView);
   }
 
-  Update(dt: number) {
+  public Update(dt: number) {
     this.screen.UpdateScenes(dt);
   }
 }
