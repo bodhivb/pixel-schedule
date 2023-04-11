@@ -101,6 +101,20 @@ export class Camera {
     this.scene.on("pointerup", (e) => this.OnPointerUp(e));
     this.scene.on("pointerleave", (e) => this.OnPointerUp(e));
     this.scene.on("wheel", (e) => this.OnZoom(e));
+
+    // Listen for window resize events
+    window.addEventListener("resize", () => this.OnResize());
+  }
+
+  // Trigger function if the browser window is resized.
+  private OnResize() {
+    // Put the world into the center of camera screen
+    this.scene.x = GameManager.instance.application.screen.width / 2;
+    this.scene.y = GameManager.instance.application.screen.height / 2;
+
+    // Adjust the camera zoom
+    this.SetBoundsZoom();
+    this.CheckBounds();
   }
 
   private OnPointerDown(e: FederatedPointerEvent) {

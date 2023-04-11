@@ -6,7 +6,7 @@ import { Camera } from "./camera";
 
 /** A viewpoint container class with a camera system. */
 export abstract class Scene extends Container<View> {
-  protected camera: Camera;
+  public camera: Camera;
 
   constructor() {
     super();

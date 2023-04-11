@@ -14,7 +14,7 @@ export default class App extends Application<HTMLCanvasElement> {
     BaseTexture.defaultOptions.scaleMode = SCALE_MODES.NEAREST;
 
     // Listen for window resize events
-    window.addEventListener("resize", () => this.Resize());
+    window.addEventListener("resize", () => this.OnResize());
 
     // Initialize GameManager
     GameManager.init(this, overlay);
@@ -23,7 +23,8 @@ export default class App extends Application<HTMLCanvasElement> {
     this.ticker.add((dt) => this.Update(dt));
   }
 
-  private Resize() {
+  // Trigger when the browser window is resized.
+  private OnResize() {
     // Resize the renderer
     this.renderer.resize(window.innerWidth, window.innerHeight);
   }

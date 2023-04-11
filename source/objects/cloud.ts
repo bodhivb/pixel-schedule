@@ -11,7 +11,8 @@ enum ICloudSize {
 }
 
 export class Cloud extends Sprite implements IEntityEvent {
-  constructor() {
+  private worldWidth: number;
+  constructor(worldWidth: number) {
     const size: ICloudSize = getRandomInteger(
       ICloudSize.Small,
       ICloudSize.Large
@@ -19,13 +20,15 @@ export class Cloud extends Sprite implements IEntityEvent {
 
     super(Cloud.GetTexture(size));
 
+    this.worldWidth = worldWidth;
+
     this.anchor.set(0);
     this.zIndex = SortingLayer.Background;
     this.scale.set(1);
   }
 
   public Update(dt: number): void {
-    if (this.x > GameManager.instance.application.view.width) {
+    if (this.x > this.worldWidth) {
       this.x = -this.width;
     }
 

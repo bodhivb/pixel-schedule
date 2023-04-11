@@ -9,7 +9,7 @@ export class MainScene extends Scene {
     this.camera.bounds = new Rectangle(0, 0, 1920, 900);
     this.camera.maxZoom = 5;
 
-    const background = new BackgroundView();
+    const background = new BackgroundView(this);
     this.addChild(background);
 
     const sintLucas = new SchoolView();
