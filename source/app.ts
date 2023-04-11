@@ -16,6 +16,7 @@ export default class App extends Application<HTMLCanvasElement> {
     // Listen for window resize events
     window.addEventListener("resize", () => this.Resize());
 
+    // Initialize GameManager
     GameManager.init(this, overlay);
 
     this.ticker.maxFPS = 90;

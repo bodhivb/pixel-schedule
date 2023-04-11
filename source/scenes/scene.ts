@@ -14,12 +14,12 @@ export abstract class Scene extends Container<View> {
   }
 
   Update(dt: number) {
-    //List of all views
+    // List of all views
     for (let v = 0; v < this.children.length; v++) {
-      //TODO Check before if function exists. If yes > add it to event listeren
+      // TODO Check before if function exists. If yes > add it to event listeren
       (this.children[v] as IEntityEvent).Update?.(dt);
 
-      //List of all entities from view
+      // List of all entities from view
       for (let e = 0; e < this.children[v].children.length; e++) {
         (this.children[v].children[e] as IEntityEvent).Update?.(dt);
       }

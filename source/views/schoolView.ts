@@ -25,7 +25,7 @@ export class SchoolView extends View {
     let bodhi = new Teacher(Cache.get("bodhi"));
     this.addChild(bodhi);
 
-    //Add ground floor
+    // Add ground floor
     const graphics = new Graphics();
     graphics.beginFill(0x292929);
     graphics.drawRect(190, 800, 1000, 3);
@@ -51,7 +51,7 @@ export class SchoolView extends View {
     return school;
   }
 
-  //This should be replaced with schedule API
+  // This should be replaced with schedule API
   public GetData(): IFloor[] {
     return [
       {
