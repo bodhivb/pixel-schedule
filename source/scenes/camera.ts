@@ -87,16 +87,12 @@ export class Camera {
   /** The scene container where we need to control it. */
   private scene: Scene;
 
-  /** Warning: this variable is deprecated and will be removed in a future version. */
-  private gm: GameManager;
-
-  constructor(currentScene: Scene, gm: GameManager) {
+  constructor(currentScene: Scene) {
     this.scene = currentScene;
-    this.gm = gm;
 
     // Put the world into the center of camera screen
-    this.scene.x = this.gm.application.renderer.screen.width / 2;
-    this.scene.y = this.gm.application.renderer.screen.height / 2;
+    this.scene.x = GameManager.instance.application.screen.width / 2;
+    this.scene.y = GameManager.instance.application.screen.height / 2;
 
     this.scene.interactive = true;
 
@@ -193,9 +189,9 @@ export class Camera {
     if (this.bounds) {
       // Calculates scale length
       const xScale =
-        this.gm.application.renderer.screen.width / this.bounds.width;
+        GameManager.instance.application.screen.width / this.bounds.width;
       const yScale =
-        this.gm.application.renderer.screen.height / this.bounds.height;
+        GameManager.instance.application.screen.height / this.bounds.height;
 
       // Adjust if these calculates are over the min value
       if (!this.minZoom || xScale > this.minZoom || yScale > this.minZoom) {

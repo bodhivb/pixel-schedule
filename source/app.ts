@@ -22,12 +22,12 @@ export default class App extends Application<HTMLCanvasElement> {
     this.ticker.add((dt) => this.Update(dt));
   }
 
-  Resize() {
+  private Resize() {
     // Resize the renderer
     this.renderer.resize(window.innerWidth, window.innerHeight);
   }
 
-  Update(dt: number) {
+  private Update(dt: number) {
     GameManager.instance.Update(dt);
   }
 }

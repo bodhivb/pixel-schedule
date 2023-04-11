@@ -8,9 +8,9 @@ import { Camera } from "./camera";
 export abstract class Scene extends Container<View> {
   protected camera: Camera;
 
-  constructor(gm: GameManager) {
+  constructor() {
     super();
-    this.camera = new Camera(this, gm);
+    this.camera = new Camera(this);
   }
 
   Update(dt: number) {

@@ -34,21 +34,16 @@ export class GameManager {
   // #region properties
 
   // PIXI Application
-  readonly application: App;
+  public readonly application: App;
 
   // The html overlay screen
-  readonly HTMLoverlay?: Overlay;
-
-  // The canvas screen
-  readonly screen: SceneManager;
+  public readonly HTMLoverlay?: Overlay;
 
   // #endregion
 
   private constructor(app: App, overlay?: Overlay) {
     this.application = app;
     this.HTMLoverlay = overlay;
-
-    this.screen = new SceneManager(this);
 
     // Load all assets
     this.LoadAssets().then(() => {
@@ -77,13 +72,13 @@ export class GameManager {
   }
 
   private OpenActiveScreen() {
-    this.screen.Add(new MainScene(this));
+    SceneManager.Add(new MainScene());
     // Page -> View -> Component -> Element
     //const loginView = new LoginView();
     //this.HTMLoverlay?.Add(loginView);
   }
 
   public Update(dt: number) {
-    this.screen.UpdateScenes(dt);
+    SceneManager.UpdateScenes(dt);
   }
 }

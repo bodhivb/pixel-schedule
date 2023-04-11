@@ -7,12 +7,8 @@ import { getRandomInteger } from "../utils/random";
 import { View } from "./view";
 
 export class BackgroundView extends View {
-  readonly gameManager: GameManager;
-
-  constructor(gm: GameManager) {
+  constructor() {
     super({ name: "Background" });
-
-    this.gameManager = gm;
 
     // Add background color
     const backgroundColor = new BackgroundColor();
@@ -25,10 +21,10 @@ export class BackgroundView extends View {
   public LoadBackgroundAssets() {
     // Load clouds
     const cloudCount = 10;
-    const view = this.gameManager.application.view;
+    const view = GameManager.instance.application.view;
 
     for (let i = 0; i < cloudCount; i++) {
-      let cloud = new Cloud(this.gameManager);
+      let cloud = new Cloud();
 
       cloud.x = (view.width / cloudCount) * i;
       cloud.y = getRandomInteger(0, view.height / 3);
