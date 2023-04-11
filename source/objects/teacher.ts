@@ -7,7 +7,7 @@ export class Teacher extends Sprite implements IEntityEvent {
   // Input variable
   private target: Point;
   private idleDistance = 140;
-  private idleWait = 6;
+  private idleWait = 4;
 
   // Output variable
   private targetIdle?: Point;
@@ -16,12 +16,12 @@ export class Teacher extends Sprite implements IEntityEvent {
     super(texture);
 
     this.anchor.set(0.5, 0.9);
-    this.target = new Point(400, 400);
+    this.target = new Point(400, 799);
 
     this.position = this.target;
 
     this.zIndex = SortingLayer.Character;
-    this.scale.set(2);
+    this.scale.set(1.3);
     this.SetNewIdlePosition();
   }
 
@@ -56,7 +56,7 @@ export class Teacher extends Sprite implements IEntityEvent {
     const newIdleXPos = Math.random() * this.idleDistance;
 
     this.targetIdle = new Point(
-      this.target.x - newIdleXPos / 2 + newIdleXPos,
+      this.target.x - this.idleDistance / 2 + newIdleXPos,
       this.target.y
     );
   }
