@@ -6,6 +6,8 @@ export class HTMLView {
   }
 
   Add(component: HTMLElement) {
+    // Add clickadble
+    component.classList.add("clickable");
     this.stage.appendChild(component);
   }
 

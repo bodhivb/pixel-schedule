@@ -4,6 +4,7 @@ import App from "../app";
 import Overlay from "../overlay";
 import { SceneManager } from "./sceneManager";
 import { MainScene } from "../scenes/mainScene";
+import { LoginView } from "../views/loginView";
 
 export class GameManager {
   // #region singleton
@@ -74,8 +75,8 @@ export class GameManager {
   private OpenActiveScreen() {
     SceneManager.Add(new MainScene());
     // Page -> View -> Component -> Element
-    //const loginView = new LoginView();
-    //this.HTMLoverlay?.Add(loginView);
+    const loginView = new LoginView();
+    this.HTMLoverlay?.Add(loginView);
   }
 
   public Update(dt: number) {
