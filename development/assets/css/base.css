@@ -15,3 +15,7 @@ body {
   border: none;
   pointer-events: none;
 }
+
+.clickable {
+  pointer-events: auto;
+}
