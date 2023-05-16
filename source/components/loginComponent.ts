@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createInput } from "../elements/input";
+import { createLabel } from "../elements/label";
 
 // Login component
 export class LoginComponent {
@@ -14,6 +15,7 @@ export class LoginComponent {
     // Create the login form
     this.form = document.createElement("form");
     this.form.id = "loginForm";
+    this.form.appendChild(createLabel("Log in to retrieve the data"));
 
     // Add the submit event
     this.form.addEventListener("submit", (event) => this.Submit(event));

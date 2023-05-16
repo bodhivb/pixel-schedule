@@ -3,9 +3,11 @@ import { LoginComponent } from "../components/loginComponent";
 import { createButton } from "../elements/button";
 import { createPopup } from "../elements/popup";
 import { createLabel } from "../elements/label";
+import { UploadDataComponent } from "../components/uploadDataComponent";
 
 export class SetupView extends HTMLView {
   private loginComponent: LoginComponent;
+  private uploadDataComponent: UploadDataComponent;
 
   private popup: HTMLElement;
 
@@ -19,6 +21,13 @@ export class SetupView extends HTMLView {
     this.loginComponent = new LoginComponent();
     this.loginComponent.view.classList.add("clickable");
 
+    const spaceLine = document.createElement("div");
+    spaceLine.id = "spaceLine";
+    spaceLine.appendChild(createLabel("or"));
+
+    this.uploadDataComponent = new UploadDataComponent();
+    this.uploadDataComponent.view.classList.add("clickable");
+
     // Create the setup button
     this.setupButton = createButton("Setup data");
     this.setupButton.id = "setupButton";
@@ -31,7 +40,15 @@ export class SetupView extends HTMLView {
     this.popup = createPopup();
 
     this.popup.appendChild(createLabel("Setup data"));
-    this.popup.appendChild(this.loginComponent.view);
+
+    const setupData = document.createElement("div");
+    setupData.style.display = "flex";
+
+    setupData.appendChild(this.loginComponent.view);
+    setupData.appendChild(spaceLine);
+    setupData.appendChild(this.uploadDataComponent.view);
+
+    this.popup.appendChild(setupData);
 
     this.Add(this.setupButton);
   }
