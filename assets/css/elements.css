@@ -1,13 +1,5 @@
 /*   ELEMENTS CSS   */
 
-#loginForm {
-  background-color: #f2f2f2;
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px;
-}
-
 input {
   width: 100%;
   padding: 12px 20px;
@@ -20,4 +12,53 @@ input {
 input[type="submit"] {
   background-color: #ff7e00;
   color: white;
+}
+
+.popup {
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #f2f2f2;
+  padding: 20px;
+  margin-top: 50vh;
+  transform: translate(0, -50%);
+}
+
+.blueBox,
+.greenBox {
+  margin: 4px;
+  border: none;
+  color: white;
+}
+
+.blueBox {
+  background-color: #208bee;
+  box-shadow: 4px 0px #0c579c, 0px 4px #0c579c, -4px 0px #0c579c,
+    0px -4px #0c579c;
+}
+.blueBox:hover {
+  background-color: #117fe3;
+}
+
+.greenBox {
+  background-color: #86cc41;
+  box-shadow: 4px 0px #538423, 0px 4px #538423, -4px 0px #538423,
+    0px -4px #538423;
+}
+.greenBox:hover {
+  background-color: #79c034;
+}
+
+#errorLabel {
+  padding: 0px 20px;
+  line-height: 24px;
+  background-color: red;
+  color: white;
+}
+
+#setupButton {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  width: 50px;
+  height: 50px;
 }
