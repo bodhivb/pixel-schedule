@@ -1,5 +1,5 @@
 import axios from "axios";
-import { createTextField } from "../elements/textField";
+import { createInput } from "../elements/input";
 
 // Login component
 export class LoginComponent {
@@ -25,10 +25,10 @@ export class LoginComponent {
 
     // Create the input fields
     this.form.appendChild(
-      createTextField("email", "iemand@example.com", "username")
+      createInput("email", "iemand@example.com", "username")
     );
     this.form.appendChild(
-      createTextField("password", "Wachtwoord", "current-password")
+      createInput("password", "Wachtwoord", "current-password")
     );
 
     // Create the submit button
