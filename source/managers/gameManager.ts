@@ -5,6 +5,7 @@ import Overlay from "../overlay";
 import { SceneManager } from "./sceneManager";
 import { MainScene } from "../scenes/mainScene";
 import { SetupView } from "../views/setupView";
+import { SearchView } from "../views/searchView";
 
 export class GameManager {
   // #region singleton
@@ -77,6 +78,9 @@ export class GameManager {
     // Page -> View -> Component -> Element
     const setupView = new SetupView();
     this.HTMLoverlay?.Add(setupView);
+
+    const searchView = new SearchView();
+    this.HTMLoverlay?.Add(searchView);
   }
 
   public Update(dt: number) {
