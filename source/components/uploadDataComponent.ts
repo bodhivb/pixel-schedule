@@ -1,7 +1,6 @@
 import { createInputFile } from "../elements/inputFile";
 import { createLabel } from "../elements/label";
 import { isTeacher } from "../interfaces/teacher/teacherInterface";
-import { GameManager } from "../managers/gameManager";
 import { TeacherManager } from "../managers/teacherManager";
 
 // UploadData component
