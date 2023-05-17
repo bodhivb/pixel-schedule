@@ -1,5 +1,8 @@
 import { createInputFile } from "../elements/inputFile";
 import { createLabel } from "../elements/label";
+import { isTeacher } from "../interfaces/teacher/teacherInterface";
+import { GameManager } from "../managers/gameManager";
+import { TeacherManager } from "../managers/teacherManager";
 
 // UploadData component
 export class UploadDataComponent {
@@ -23,15 +26,43 @@ export class UploadDataComponent {
 
     // Create the rooster data input field
     this.form.appendChild(createLabel("Rooster data"));
-    const roosterInput = createInputFile((value) => {
-      console.log(value);
-      console.log(typeof value == "string");
-    });
+    const roosterInput = createInputFile((value) =>
+      this.handleRoosterData(value)
+    );
     this.form.appendChild(roosterInput);
 
     // Create the teacher data input field
     this.form.appendChild(createLabel("Teacher data"));
-    const teacherInput = createInputFile((value) => console.log(value));
+    const teacherInput = createInputFile((value) =>
+      this.handleTeacherData(value)
+    );
     this.form.appendChild(teacherInput);
+  }
+
+  /**
+   * Handle the rooster data.
+   * @param data rooster data interface
+   * @returns
+   */
+  private handleRoosterData(data: any) {
+    if (typeof data == "string") return;
+
+    // Check if the data is correct
+    if (Array.isArray(data) && data.length > 0) {
+    }
+  }
+
+  /**
+   * Handle the teacher data.
+   * @param data teacher data interface
+   * @returns
+   */
+  private handleTeacherData(data: any) {
+    if (typeof data == "string") return;
+
+    // Check if the data is correct
+    if (Array.isArray(data) && data.length > 0 && isTeacher(data[0])) {
+      TeacherManager.SetTeachers(data);
+    }
   }
 }

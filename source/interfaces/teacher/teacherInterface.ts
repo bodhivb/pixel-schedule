@@ -14,3 +14,7 @@ export interface ITeacher {
   team?: TeacherTeam;
   skills?: ITeacherSkill[];
 }
+
+export function isTeacher(data: any): data is ITeacher {
+  return data && data.firstName && data.imageKey && data.imagePath;
+}

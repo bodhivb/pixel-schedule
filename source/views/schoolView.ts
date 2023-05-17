@@ -7,9 +7,11 @@ import { RoomType } from "../interfaces/roomType";
 import { School } from "../objects/school";
 import { Teacher } from "../objects/teacher";
 import { View } from "./view";
+import { TeacherManager } from "../managers/teacherManager";
 
 export class SchoolView extends View {
   private school: School;
+  private teacherGroup: Teacher[] = [];
 
   test_classroom: IRoom = {
     number: "72a",
@@ -19,11 +21,13 @@ export class SchoolView extends View {
   constructor() {
     super({ name: "School" });
 
+    // Add school
     this.school = this.LoadSchool();
     this.addChild(this.school);
 
-    let bodhi = new Teacher(Cache.get("bodhi"));
-    this.addChild(bodhi);
+    // Add teachers
+    this.loadTeacher();
+    TeacherManager.updateTeacher = () => this.loadTeacher();
 
     // Add ground floor
     const graphics = new Graphics();
@@ -80,6 +84,23 @@ export class SchoolView extends View {
         ],
       },
     ];
+  }
+
+  public loadTeacher() {
+    // Remove old teachers
+    for (let i = this.teacherGroup.length - 1; i >= 0; i--) {
+      this.teacherGroup[i].destroy();
+      this.removeChild(this.teacherGroup[i]);
+    }
+    this.teacherGroup = [];
+
+    // Load new teachers
+    const teachers = TeacherManager.teachers;
+    for (let teacher of teachers) {
+      let sprite = new Teacher(Cache.get(teacher.imageKey));
+      this.addChild(sprite);
+      this.teacherGroup.push(sprite);
+    }
   }
 
   /**
