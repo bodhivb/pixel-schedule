@@ -1,5 +1,10 @@
 /*   ELEMENTS CSS   */
 
+img {
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+
 input {
   width: 100%;
   padding: 12px 20px;
@@ -48,6 +53,20 @@ input[type="submit"] {
   background-color: #79c034;
 }
 
+.teacherBox {
+  background-color: #f2f2f2;
+  border: none;
+  color: black;
+}
+
+#searchList {
+  position: absolute;
+  top: 128px;
+  bottom: 100px;
+  right: 0px;
+  background-color: #f2f2f2;
+}
+
 #errorLabel {
   padding: 0px 20px;
   line-height: 24px;
@@ -57,8 +76,16 @@ input[type="submit"] {
 
 #setupButton {
   position: absolute;
-  right: 0px;
-  bottom: 0px;
+  right: 4px;
+  top: 4px;
+  width: 50px;
+  height: 50px;
+}
+
+#searchButton {
+  position: absolute;
+  right: 66px;
+  top: 4px;
   width: 50px;
   height: 50px;
 }

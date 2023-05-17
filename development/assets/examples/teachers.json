@@ -1,0 +1,31 @@
+[
+  {
+    "firstName": "Bodhi",
+    "lastName": "van Baardewijk",
+    "imageKey": "bodhi",
+    "imagePath": "assets/teachers/bodhi.png",
+    "function": 1,
+    "team": 2,
+    "skills": [
+      {
+        "title": "Unity",
+        "description": "5+ year experience programming with it."
+      },
+      {
+        "title": "C#"
+      }
+    ]
+  },
+  {
+    "firstName": "Bunny",
+    "imageKey": "bunny",
+    "imagePath": "assets/examples/bunny.png",
+    "function": 2,
+    "team": 1
+  },
+  {
+    "firstName": "Tree",
+    "imageKey": "tree",
+    "imagePath": "assets/outdoors/tree.png"
+  }
+]
