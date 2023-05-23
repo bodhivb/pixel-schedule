@@ -1,3 +1,4 @@
+import { TeacherFunction } from "../interfaces/teacher/teacherFunctionEnum";
 import { ITeacher } from "../interfaces/teacher/teacherInterface";
 import { createImage } from "./image";
 import { createLabel } from "./label";
@@ -11,9 +12,19 @@ export const createTeacherBox = (teacher: ITeacher) => {
   const box = document.createElement("div");
   box.id = teacher.firstName;
 
-  box.appendChild(createLabel(teacher.firstName));
-  box.appendChild(createImage(teacher.imagePath, 100));
+  const img = createImage(teacher.imagePath, 80);
+  img.classList.add("teacherImg");
+  box.appendChild(img);
 
+  const text = document.createElement("div");
+  text.classList.add("teacherText");
+  const teacherName = teacher.firstName + " " + (teacher.lastName ?? "");
+  text.appendChild(createLabel(teacherName));
+
+  if (teacher.function)
+    text.appendChild(createLabel(TeacherFunction[teacher.function]));
+
+  box.appendChild(text);
   box.classList.add("teacherBox");
   return box;
 };

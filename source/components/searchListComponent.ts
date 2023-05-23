@@ -14,6 +14,7 @@ export class SearchListComponent {
   constructor() {
     // Create the upload data form
     this.box = createBox("searchList");
+    this.box.classList.add("clickable");
     this.box.appendChild(createLabel("Search teacher"));
 
     for (let teacher of TeacherManager.teachers) {
