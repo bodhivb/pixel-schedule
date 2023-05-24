@@ -3,6 +3,7 @@
 img {
   object-fit: contain;
   image-rendering: pixelated;
+  pointer-events: none;
 }
 
 input {
@@ -53,17 +54,31 @@ input[type="submit"] {
   background-color: #79c034;
 }
 
+.orangeCardPrimary {
+  background-color: #ff6600;
+}
+.orangeCardSecondary {
+  background-color: #f5a56e;
+}
+.blueCardPrimary {
+  background-color: #617cbd;
+}
+.blueCardSecondary {
+  background-color: #5879a6;
+}
+.greenCardPrimary {
+  background-color: #46ae4d;
+}
+.greenCardSecondary {
+  background-color: #a3cb78;
+}
+
 .teacherBox {
   margin: 8px;
   background-color: #538423;
   border: 2px solid black;
   color: black;
   display: flex;
-}
-
-.teacherImg {
-  background-color: #86cc41;
-  border: 4px solid #538423;
 }
 
 .teacherText label {
