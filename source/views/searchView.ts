@@ -1,6 +1,7 @@
 import { HTMLView } from "./htmlView";
 import { createButton } from "../elements/button";
 import { SearchListComponent } from "../components/searchListComponent";
+import { createImage } from "../elements/image";
 
 export class SearchView extends HTMLView {
   private searchList: SearchListComponent;
@@ -12,12 +13,14 @@ export class SearchView extends HTMLView {
     super();
 
     // Create the Search button
-    this.searchButton = createButton("Search teacher");
+    this.searchButton = createButton();
     this.searchButton.id = "searchButton";
     this.searchButton.className = "greenBox";
     this.searchButton.onclick = () => {
       this.isOpen ? this.closeSearch() : this.openSearch();
     };
+
+    this.searchButton.appendChild(createImage("assets/icons/search.png"));
     this.Add(this.searchButton);
 
     // Create the Search popup

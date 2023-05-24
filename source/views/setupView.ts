@@ -4,6 +4,7 @@ import { createButton } from "../elements/button";
 import { createPopup } from "../elements/popup";
 import { createLabel } from "../elements/label";
 import { UploadDataComponent } from "../components/uploadDataComponent";
+import { createImage } from "../elements/image";
 
 export class SetupView extends HTMLView {
   private loginComponent: LoginComponent;
@@ -29,9 +30,10 @@ export class SetupView extends HTMLView {
     this.uploadDataComponent.view.classList.add("clickable");
 
     // Create the setup button
-    this.setupButton = createButton("Setup data");
+    this.setupButton = createButton();
     this.setupButton.id = "setupButton";
     this.setupButton.className = "greenBox";
+    this.setupButton.appendChild(createImage("assets/icons/gear.png"));
     this.setupButton.onclick = () => {
       this.isOpen ? this.closeSetup() : this.openSetup();
     };
