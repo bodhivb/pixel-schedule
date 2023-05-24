@@ -29,5 +29,17 @@ export const getTeacherColor = (teacher: ITeacher) => {
   }
 
   // return default color
-  return ["#ccc", "#fff"];
+  return ["#cccccc", "#ffffff"];
+};
+
+/**
+ * Return the primary/secondary color number of the teacher box/card.
+ * @param teacher
+ * @returns [primaryColor, secondaryColor]
+ */
+export const getTeacherColorNumber = (teacher: ITeacher) => {
+  const color = getTeacherColor(teacher);
+  color[0] = color[0].replace("#", "0x");
+  color[1] = color[1].replace("#", "0x");
+  return color.map((c) => parseInt(c));
 };

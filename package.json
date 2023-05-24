@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/Bodhivb/pixel-schedule#readme",
   "dependencies": {
+    "@pixi/filter-outline": "5.2.0",
     "@pixi/math-extras": "7.1.4",
     "axios": "1.4.0",
     "pixi.js": "7.1.4"

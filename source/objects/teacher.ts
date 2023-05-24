@@ -1,7 +1,10 @@
-import { Point, Resource, Sprite, Texture, Ticker } from "pixi.js";
+import { Cache, Point, Sprite, Ticker } from "pixi.js";
+import { OutlineFilter } from "@pixi/filter-outline";
 import { IEntityEvent } from "../interfaces/entityEvent";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 import "@pixi/math-extras";
+import { ITeacher } from "../interfaces/teacher/teacherInterface";
+import { getTeacherColorNumber } from "../utils/teacherColor";
 
 export class Teacher extends Sprite implements IEntityEvent {
   // Input variable
@@ -12,17 +15,29 @@ export class Teacher extends Sprite implements IEntityEvent {
   // Output variable
   private targetIdle?: Point;
 
-  constructor(texture?: Texture<Resource> | undefined) {
-    super(texture);
+  private outlineFilter;
 
+  constructor(teacherData: ITeacher) {
+    super(Cache.get(teacherData.imageKey));
+
+    // Set outline color
+    const color = getTeacherColorNumber(teacherData);
+    this.outlineFilter = new OutlineFilter(2, color[1]);
+
+    // Set teacher position
     this.anchor.set(0.5, 0.9);
     this.target = new Point(400, 799);
-
     this.position = this.target;
 
     this.zIndex = SortingLayer.Character;
     this.scale.set(1.3);
     this.SetNewIdlePosition();
+
+    // Set interactive
+    this.interactive = true;
+    this.cursor = "pointer";
+    this.on("pointerover", this.onPointerOver);
+    this.on("pointerout", this.onPointerOut);
   }
 
   private waitTimer = 0;
@@ -63,6 +78,14 @@ export class Teacher extends Sprite implements IEntityEvent {
 
   public SetWaitTime(second: number) {
     this.waitTimer = second * (Ticker.targetFPMS * 1000);
+  }
+
+  private onPointerOver() {
+    this.filters = [this.outlineFilter];
+  }
+
+  private onPointerOut() {
+    this.filters = [];
   }
 
   /**

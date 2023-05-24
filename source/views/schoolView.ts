@@ -97,7 +97,7 @@ export class SchoolView extends View {
     // Load new teachers
     const teachers = TeacherManager.teachers;
     for (let teacher of teachers) {
-      let sprite = new Teacher(Cache.get(teacher.imageKey));
+      let sprite = new Teacher(teacher);
       this.addChild(sprite);
       this.teacherGroup.push(sprite);
     }
