@@ -23,10 +23,11 @@ input[type="submit"] {
 .popup {
   margin-left: auto;
   margin-right: auto;
-  background-color: #f2f2f2;
+  background-color: #f7f6f3;
   padding: 20px;
   margin-top: 50vh;
   transform: translate(0, -50%);
+  border-radius: 2px;
 }
 
 .blueBox,
@@ -74,7 +75,7 @@ input[type="submit"] {
 }
 
 .teacherBox {
-  margin: 8px;
+  margin: 8px 0px;
   background-color: #538423;
   border: 2px solid black;
   color: black;
@@ -88,10 +89,12 @@ input[type="submit"] {
 
 #searchList {
   position: absolute;
-  top: 128px;
+  top: 116px;
   bottom: 100px;
   right: 0px;
-  background-color: #f2f2f2;
+  padding: 10px;
+  border-radius: 2px;
+  background-color: #f7f6f3;
   overflow-y: auto;
 }
 
@@ -106,16 +109,16 @@ input[type="submit"] {
   position: absolute;
   right: 4px;
   top: 4px;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
 }
 
 #searchButton {
   position: absolute;
-  right: 66px;
+  right: 60px;
   top: 4px;
-  width: 50px;
-  height: 50px;
+  width: 44px;
+  height: 44px;
 }
 
 #spaceLine {
