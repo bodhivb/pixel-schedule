@@ -1,6 +1,5 @@
 import { Cache, Resource, Sprite, Texture } from "pixi.js";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
-import { GameManager } from "../managers/gameManager";
 import { getRandomInteger } from "../utils/random";
 import { IEntityEvent } from "../interfaces/entityEvent";
 

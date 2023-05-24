@@ -1,4 +1,4 @@
-import { Cache, Graphics } from "pixi.js";
+import { Graphics } from "pixi.js";
 import { Director } from "../builders/director";
 import { SchoolBuilder } from "../builders/schoolBuilder";
 import { IFloor } from "../interfaces/floorInterface";
