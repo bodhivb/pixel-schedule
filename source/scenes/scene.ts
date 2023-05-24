@@ -1,6 +1,5 @@
 import { Container } from "pixi.js";
 import { IEntityEvent } from "../interfaces/entityEvent";
-import { GameManager } from "../managers/gameManager";
 import { View } from "../views/view";
 import { Camera } from "./camera";
 

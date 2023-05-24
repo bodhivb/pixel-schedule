@@ -28,7 +28,7 @@ export class SearchView extends HTMLView {
   }
 
   private openSearch() {
-    this.Add(this.searchList.view, false);
+    this.Add(this.searchList.view);
     this.isOpen = true;
   }
 
