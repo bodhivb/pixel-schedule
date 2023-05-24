@@ -1,5 +1,6 @@
 import { TeacherFunction } from "../interfaces/teacher/teacherFunctionEnum";
 import { ITeacher } from "../interfaces/teacher/teacherInterface";
+import { getTeacherColor } from "../utils/teacherColor";
 import { createImage } from "./image";
 import { createLabel } from "./label";
 
@@ -9,13 +10,21 @@ import { createLabel } from "./label";
  * @returns HTML div element
  */
 export const createTeacherBox = (teacher: ITeacher) => {
+  // Create box
   const box = document.createElement("div");
   box.id = teacher.firstName;
+  box.classList.add("teacherBox");
 
+  const color = getTeacherColor(teacher);
+  box.style.setProperty("background-color", color[1]);
+
+  // Add image
   const img = createImage(teacher.imagePath, 80);
-  img.classList.add("teacherImg");
+  img.style.setProperty("background-color", color[0]);
+  img.style.setProperty("border", "4px solid " + color[1]);
   box.appendChild(img);
 
+  // Add text
   const text = document.createElement("div");
   text.classList.add("teacherText");
   const teacherName = teacher.firstName + " " + (teacher.lastName ?? "");
@@ -25,6 +34,5 @@ export const createTeacherBox = (teacher: ITeacher) => {
     text.appendChild(createLabel(TeacherFunction[teacher.function]));
 
   box.appendChild(text);
-  box.classList.add("teacherBox");
   return box;
 };
