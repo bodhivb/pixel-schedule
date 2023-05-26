@@ -7,7 +7,7 @@ import { RoomType } from "../interfaces/roomType";
 import { School } from "../objects/school";
 import { Teacher } from "../objects/teacher";
 import { View } from "./view";
-import { TeacherManager } from "../managers/teacherManager";
+import { teacherStore } from "../store/teacherStore";
 
 export class SchoolView extends View {
   private school: School;
@@ -27,7 +27,7 @@ export class SchoolView extends View {
 
     // Add teachers
     this.loadTeacher();
-    TeacherManager.updateTeacher = () => this.loadTeacher();
+    teacherStore.on(() => this.loadTeacher());
 
     // Add ground floor
     const graphics = new Graphics();
@@ -95,7 +95,7 @@ export class SchoolView extends View {
     this.teacherGroup = [];
 
     // Load new teachers
-    const teachers = TeacherManager.teachers;
+    const teachers = teacherStore.GetData();
     for (let teacher of teachers) {
       let sprite = new Teacher(teacher);
       this.addChild(sprite);

@@ -1,7 +1,7 @@
 import { createBox } from "../elements/box";
 import { createLabel } from "../elements/label";
 import { createTeacherBox } from "../elements/teacherBox";
-import { TeacherManager } from "../managers/teacherManager";
+import { teacherStore } from "../store/teacherStore";
 
 // SearchList component
 export class SearchListComponent {
@@ -16,7 +16,12 @@ export class SearchListComponent {
     this.box = createBox("searchList");
     this.box.appendChild(createLabel("Search teacher"));
 
-    for (let teacher of TeacherManager.teachers) {
+    this.loadTeacherData();
+    teacherStore.on(() => this.loadTeacherData());
+  }
+
+  private loadTeacherData() {
+    for (let teacher of teacherStore.GetData()) {
       const teacherBox = createTeacherBox(teacher);
       this.box.appendChild(teacherBox);
     }

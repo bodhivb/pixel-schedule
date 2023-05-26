@@ -1,7 +1,7 @@
 import { createInputFile } from "../elements/inputFile";
 import { createLabel } from "../elements/label";
 import { isTeacher } from "../interfaces/teacher/teacherInterface";
-import { TeacherManager } from "../managers/teacherManager";
+import { teacherStore } from "../store/teacherStore";
 
 // UploadData component
 export class UploadDataComponent {
@@ -61,7 +61,7 @@ export class UploadDataComponent {
 
     // Check if the data is correct
     if (Array.isArray(data) && data.length > 0 && isTeacher(data[0])) {
-      TeacherManager.SetTeachers(data);
+      teacherStore.SetData(data);
     }
   }
 }
