@@ -6,6 +6,7 @@ import { teacherStore } from "../store/teacherStore";
 // SearchList component
 export class SearchListComponent {
   private box: HTMLElement;
+  private items: HTMLDivElement[] = [];
 
   public get view(): HTMLElement {
     return this.box;
@@ -21,9 +22,17 @@ export class SearchListComponent {
   }
 
   private loadTeacherData() {
+    // Clear the box first
+    for (let i = this.items.length - 1; i >= 0; i--) {
+      this.box.removeChild(this.items[i]);
+    }
+    this.items = [];
+
+    // Load the teacher data
     for (let teacher of teacherStore.GetData()) {
       const teacherBox = createTeacherBox(teacher);
       this.box.appendChild(teacherBox);
+      this.items.push(teacherBox);
     }
   }
 }
