@@ -2,8 +2,8 @@
   {
     "firstName": "Bodhi",
     "lastName": "van Baardewijk",
-    "imageKey": "bodhi",
-    "imagePath": "assets/teachers/bodhi.png",
+    "imageKey": "bb",
+    "imagePath": "assets/teachers/bb.png",
     "function": 1,
     "team": 2,
     "skills": [
