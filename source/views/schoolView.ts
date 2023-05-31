@@ -1,33 +1,33 @@
-import { Graphics } from "pixi.js";
+import { Graphics, Point } from "pixi.js";
 import { Director } from "../builders/director";
 import { SchoolBuilder } from "../builders/schoolBuilder";
 import { IFloor } from "../interfaces/floorInterface";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
 import { School } from "../objects/school";
-import { Teacher } from "../objects/teacher";
 import { View } from "./view";
-import { teacherStore } from "../store/teacherStore";
+import { Visitors } from "../objects/visitors";
 
 export class SchoolView extends View {
   private school: School;
-  private teacherGroup: Teacher[] = [];
+  private visitors: Visitors;
 
   test_classroom: IRoom = {
     number: "72a",
     type: RoomType.classroom,
   };
 
-  constructor() {
+  constructor(worldPosition: Point = new Point(200, 800)) {
     super({ name: "School" });
 
     // Add school
     this.school = this.LoadSchool();
+    //xthis.school.position = worldPosition;
     this.addChild(this.school);
 
-    // Add teachers
-    this.loadTeacher();
-    teacherStore.on(() => this.loadTeacher());
+    this.visitors = new Visitors();
+    //this.teacherGroup.position = worldPosition;
+    this.position = worldPosition;
 
     // Add ground floor
     const graphics = new Graphics();
@@ -49,9 +49,6 @@ export class SchoolView extends View {
     director.buildSintLucas(data);
 
     const school = schoolBuilder.GetProduct();
-    school.x = 200;
-    school.y = 800;
-
     return school;
   }
 
@@ -86,27 +83,21 @@ export class SchoolView extends View {
     ];
   }
 
-  public loadTeacher() {
-    // Remove old teachers
-    for (let i = this.teacherGroup.length - 1; i >= 0; i--) {
-      this.teacherGroup[i].destroy();
-      this.removeChild(this.teacherGroup[i]);
-    }
-    this.teacherGroup = [];
-
-    // Load new teachers
-    const teachers = teacherStore.GetData();
-    for (let teacher of teachers) {
-      let sprite = new Teacher(teacher);
-      this.addChild(sprite);
-      this.teacherGroup.push(sprite);
-    }
-  }
-
   /**
    * Put the teacher in the room.
    */
   public SetTeacherIntoRoom() {
-    //TODO
+    for (let teacher of this.visitors.teachers) {
+      // Find the room
+      const room = this.school.GetRoomByName("Netwerkplein");
+      if (room) {
+        console.log("ROom found");
+
+        console.log(teacher.position);
+        console.log(room.position);
+        // Put the teacher in the room
+        teacher.SetTarget(room.position);
+      }
+    }
   }
 }

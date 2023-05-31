@@ -8,6 +8,9 @@ import { getTeacherColorNumber } from "../utils/teacherColor";
 
 export class Teacher extends Sprite implements IEntityEvent {
   // Input variable
+  public readonly data: ITeacher;
+
+  // Hidden variable
   private target: Point;
   private idleDistance = 140;
   private idleWait = 4;
@@ -15,10 +18,13 @@ export class Teacher extends Sprite implements IEntityEvent {
   // Output variable
   private targetIdle?: Point;
 
+  // Render variable
   private outlineFilter;
 
   constructor(teacherData: ITeacher) {
     super(Cache.get(teacherData.imageKey));
+
+    this.data = teacherData;
 
     // Set outline color
     const color = getTeacherColorNumber(teacherData);
@@ -26,7 +32,7 @@ export class Teacher extends Sprite implements IEntityEvent {
 
     // Set teacher position
     this.anchor.set(0.5, 0.9);
-    this.target = new Point(400, 799);
+    this.target = new Point(400, 0); //799
     this.position = this.target;
 
     this.zIndex = SortingLayer.Character;
@@ -67,7 +73,13 @@ export class Teacher extends Sprite implements IEntityEvent {
     }
   }
 
-  public SetNewIdlePosition() {
+  // Set the next target position of the teacher
+  public SetTarget(target: Point) {
+    this.target = target;
+    this.SetNewIdlePosition();
+  }
+
+  private SetNewIdlePosition() {
     const newIdleXPos = Math.random() * this.idleDistance;
 
     this.targetIdle = new Point(
