@@ -17,15 +17,10 @@
     ]
   },
   {
-    "firstName": "Bunny",
-    "imageKey": "bunny",
-    "imagePath": "assets/examples/bunny.png",
+    "firstName": "lp",
+    "imageKey": "lp",
+    "imagePath": "assets/teachers/lp.png",
     "function": 2,
     "team": 1
-  },
-  {
-    "firstName": "Tree",
-    "imageKey": "tree",
-    "imagePath": "assets/outdoors/tree.png"
   }
 ]
