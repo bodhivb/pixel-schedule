@@ -14,6 +14,7 @@ export class Teacher extends Sprite implements IEntityEvent {
   private target: Point;
   private idleDistance = 140;
   private idleWait = 4;
+  private idleWalkSpeed = 0.4;
 
   // Output variable
   private targetIdle?: Point;
@@ -32,7 +33,7 @@ export class Teacher extends Sprite implements IEntityEvent {
 
     // Set teacher position
     this.anchor.set(0.5, 0.9);
-    this.target = new Point(400, 0); //799
+    this.target = new Point(0, 0);
     this.position = this.target;
 
     this.zIndex = SortingLayer.Character;
@@ -54,9 +55,7 @@ export class Teacher extends Sprite implements IEntityEvent {
       const distance = this.targetIdle.subtract(this.position);
       const direction = this.SquareDirection(distance);
 
-      const speed = 0.3;
-
-      const xMove = direction.x * speed * dt;
+      const xMove = direction.x * this.idleWalkSpeed * dt;
 
       // Stop walking when it crosses the finish point
       if (Math.abs(distance.x) - Math.abs(xMove) <= 0) {
@@ -78,6 +77,9 @@ export class Teacher extends Sprite implements IEntityEvent {
     this.target = target;
 
     if (idleDistance) this.idleDistance = idleDistance;
+
+    // TODO Ajust height at elevator
+    this.position.y = target.y;
 
     this.SetNewIdlePosition();
   }
