@@ -74,8 +74,11 @@ export class Teacher extends Sprite implements IEntityEvent {
   }
 
   // Set the next target position of the teacher
-  public SetTarget(target: Point) {
+  public SetTarget(target: Point, idleDistance?: number) {
     this.target = target;
+
+    if (idleDistance) this.idleDistance = idleDistance;
+
     this.SetNewIdlePosition();
   }
 

@@ -6,11 +6,12 @@ import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
 import { School } from "../objects/school";
 import { View } from "./view";
-import { Visitors } from "../objects/visitors";
+import { Teacher } from "../objects/teacher";
+import { teacherStore } from "../store/teacherStore";
 
 export class SchoolView extends View {
   private school: School;
-  private visitors: Visitors;
+  public teachers: Teacher[] = [];
 
   test_classroom: IRoom = {
     number: "72a",
@@ -19,20 +20,20 @@ export class SchoolView extends View {
 
   constructor(worldPosition: Point = new Point(200, 800)) {
     super({ name: "School" });
+    this.position = worldPosition;
 
     // Add school
     this.school = this.LoadSchool();
-    //xthis.school.position = worldPosition;
     this.addChild(this.school);
 
-    this.visitors = new Visitors();
-    //this.teacherGroup.position = worldPosition;
-    this.position = worldPosition;
+    // Add teachers
+    this.loadTeacher();
+    teacherStore.on(() => this.loadTeacher());
 
     // Add ground floor
     const graphics = new Graphics();
     graphics.beginFill(0x292929);
-    graphics.drawRect(190, 800, 1000, 3);
+    graphics.drawRect(-10, 0, 1000, 3);
     graphics.endFill();
 
     this.addChild(graphics);
@@ -59,7 +60,7 @@ export class SchoolView extends View {
         floor: 0,
         rooms: [
           this.test_classroom,
-          { number: "74", type: RoomType.classroom_window },
+          { number: "N.0.74", type: RoomType.classroom_window },
           { number: "75", type: RoomType.classroom_window },
           { number: "76", type: RoomType.classroom },
         ],
@@ -77,27 +78,48 @@ export class SchoolView extends View {
         rooms: [
           { number: "32", type: RoomType.classroom_window },
           { number: "33", type: RoomType.classroom },
-          { number: "37", type: RoomType.networking_plaza },
+          { number: "N.0.60", type: RoomType.networking_plaza },
         ],
       },
     ];
   }
 
+  public loadTeacher() {
+    // Remove old teachers
+    for (let i = this.teachers.length - 1; i >= 0; i--) {
+      this.teachers[i].destroy();
+      this.removeChild(this.teachers[i]);
+    }
+    this.teachers = [];
+
+    // Load new teachers
+    const teachers = teacherStore.GetData();
+    for (let teacher of teachers) {
+      let sprite = new Teacher(teacher);
+      //sprite.pivot = new Point(-200, -800);
+      this.addChild(sprite);
+      this.teachers.push(sprite);
+
+      if (teacher.firstName.charAt(0) == "B") {
+        this.SetTeacherIntoRoom(sprite, "N.0.60");
+      } else {
+        this.SetTeacherIntoRoom(sprite, "N.0.74");
+      }
+    }
+  }
+
   /**
    * Put the teacher in the room.
    */
-  public SetTeacherIntoRoom() {
-    for (let teacher of this.visitors.teachers) {
-      // Find the room
-      const room = this.school.GetRoomByName("Netwerkplein");
-      if (room) {
-        console.log("ROom found");
-
-        console.log(teacher.position);
-        console.log(room.position);
-        // Put the teacher in the room
-        teacher.SetTarget(room.position);
-      }
+  public SetTeacherIntoRoom(teacher: Teacher, roomNumber: string) {
+    // Find the room
+    const room = this.school.GetRoomByNumber(roomNumber);
+    if (room) {
+      // Walk teacher to the room
+      teacher.SetTarget(
+        new Point(room.position.x + room.width / 2, room.position.y),
+        Math.max(25, room.width - 50)
+      );
     }
   }
 }

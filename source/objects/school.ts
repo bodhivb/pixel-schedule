@@ -32,6 +32,18 @@ export class School extends Container {
     return null;
   }
 
+  /** find a room by number. */
+  GetRoomByNumber(number: string) {
+    for (let floor of this.floors.values()) {
+      for (let room of floor.rooms) {
+        if (room.number == number) {
+          return room;
+        }
+      }
+    }
+    return null;
+  }
+
   /** Get the number of floors of a school. */
   get GetAmountOfFloor() {
     return this.floors.size;
