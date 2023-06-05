@@ -33,17 +33,30 @@ export const assetsManifest: ResolverManifest = {
     {
       name: "rooms",
       assets: [
+        { name: "classroom_art", srcs: "assets/rooms/classroom_art.png" },
+        { name: "classroom_dev", srcs: "assets/rooms/classroom_dev.png" },
         { name: "classroom_large", srcs: "assets/rooms/classroom_large.png" },
+        {
+          name: "classroom_network_with_trees",
+          srcs: "assets/rooms/classroom_network_with_trees.png",
+        },
         {
           name: "classroom_network",
           srcs: "assets/rooms/classroom_network.png",
+        },
+        {
+          name: "classroom_projector",
+          srcs: "assets/rooms/classroom_projector.png",
+        },
+        {
+          name: "classroom_with_cabinet",
+          srcs: "assets/rooms/classroom_with_cabinet.png",
         },
         {
           name: "classroom_with_windows",
           srcs: "assets/rooms/classroom_with_windows.png",
         },
         { name: "classroom", srcs: "assets/rooms/classroom.png" },
-        { name: "elevator", srcs: "assets/rooms/elevator.png" },
         { name: "elevator_0", srcs: "assets/rooms/elevator_0.png" },
         { name: "elevator_1", srcs: "assets/rooms/elevator_1.png" },
         { name: "elevator_2", srcs: "assets/rooms/elevator_2.png" },
@@ -52,6 +65,7 @@ export const assetsManifest: ResolverManifest = {
         { name: "elevator_5", srcs: "assets/rooms/elevator_5.png" },
         { name: "elevator_6", srcs: "assets/rooms/elevator_6.png" },
         { name: "elevator_7", srcs: "assets/rooms/elevator_7.png" },
+        { name: "elevator", srcs: "assets/rooms/elevator.png" },
         { name: "office", srcs: "assets/rooms/office.png" },
         { name: "workplace", srcs: "assets/rooms/workplace.png" },
       ],
