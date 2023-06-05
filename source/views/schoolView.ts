@@ -33,7 +33,7 @@ export class SchoolView extends View {
     // Add ground floor
     const graphics = new Graphics();
     graphics.beginFill(0x292929);
-    graphics.drawRect(-10, 0, 1000, 3);
+    graphics.drawRect(-10, 0, this.school.GetSchoolWidth + 20, 3);
     graphics.endFill();
 
     this.addChild(graphics);
