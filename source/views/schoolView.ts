@@ -1,13 +1,13 @@
 import { Graphics, Point } from "pixi.js";
 import { Director } from "../builders/director";
 import { SchoolBuilder } from "../builders/schoolBuilder";
-import { IFloor } from "../interfaces/floorInterface";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
 import { School } from "../objects/school";
 import { View } from "./view";
 import { Teacher } from "../objects/teacher";
 import { teacherStore } from "../store/teacherStore";
+import { SintLucasSchoolData } from "../schoolData";
 
 export class SchoolView extends View {
   private school: School;
@@ -41,7 +41,7 @@ export class SchoolView extends View {
 
   public LoadSchool() {
     // Sample data - for testing
-    const data = this.GetData();
+    const data = SintLucasSchoolData;
 
     const schoolBuilder = new SchoolBuilder();
     const director = new Director(schoolBuilder);
@@ -51,37 +51,6 @@ export class SchoolView extends View {
 
     const school = schoolBuilder.GetProduct();
     return school;
-  }
-
-  // This should be replaced with schedule API
-  public GetData(): IFloor[] {
-    return [
-      {
-        floor: 0,
-        rooms: [
-          this.test_classroom,
-          { number: "N.0.74", type: RoomType.classroom_window },
-          { number: "75", type: RoomType.classroom_window },
-          { number: "76", type: RoomType.classroom },
-        ],
-      },
-      {
-        floor: 2,
-        rooms: [
-          this.test_classroom,
-          { number: "32", type: RoomType.classroom_Large },
-          { number: "33", type: RoomType.classroom_window },
-        ],
-      },
-      {
-        floor: 3,
-        rooms: [
-          { number: "32", type: RoomType.classroom_window },
-          { number: "33", type: RoomType.classroom },
-          { number: "N.0.60", type: RoomType.networking_plaza },
-        ],
-      },
-    ];
   }
 
   public loadTeacher() {
