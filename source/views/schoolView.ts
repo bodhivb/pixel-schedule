@@ -62,8 +62,8 @@ export class SchoolView extends View {
     this.teachers = [];
 
     // Load new teachers
-    const teachers = teacherStore.GetData();
-    for (let teacher of teachers) {
+    const data = teacherStore.GetData();
+    for (let teacher of data) {
       let sprite = new Teacher(teacher);
       //sprite.pivot = new Point(-200, -800);
       this.addChild(sprite);
