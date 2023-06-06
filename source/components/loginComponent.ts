@@ -52,32 +52,20 @@ export class LoginComponent {
     try {
       this.errorLabel.innerHTML = "";
 
-      await authenticationApi.authentication({
+      const res = await authenticationApi.authentication({
         username: formData.get("email")?.toString() ?? "",
         password: formData.get("password")?.toString() ?? "",
       });
 
-      /*
-      const res = await axios.post("http://localhost:3000/xedule", {
-        username: formData.get("email"),
-        password: formData.get("password"),
-      });
-
-      if (res.data.token) {
+      if (res.isSuccess) {
         // Save the token
-        localStorage.setItem("token", res.data.token);
+        localStorage.setItem("token", res.token ?? "");
         window.location.reload();
       } else {
-        this.errorLabel.innerHTML = "Unexpected error, please try again later.";
+        this.errorLabel.innerHTML = res.errorMessage ?? "Unexpected error";
       }
-      */
     } catch (ex) {
-      // Error handling
-      if (axios.isAxiosError(ex)) {
-        this.errorLabel.innerHTML = ex.response?.data.message ?? ex.message;
-      } else {
-        this.errorLabel.innerHTML = "Unexpected error: " + (ex as string);
-      }
+      this.errorLabel.innerHTML = "Unexpected error: " + (ex as string);
     }
 
     this.setEnabledForm(true);

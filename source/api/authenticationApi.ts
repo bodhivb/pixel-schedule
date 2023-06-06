@@ -7,6 +7,17 @@ interface ForwardResponse {
   lastResponse: AxiosResponse;
 }
 
+interface LoginData {
+  username: string;
+  password: string;
+}
+
+interface AuthenticationResponse {
+  isSuccess: boolean;
+  errorMessage?: string;
+  token?: string;
+}
+
 class AuthenticationApi extends Api {
   httpService: AxiosInstance;
 
@@ -15,10 +26,9 @@ class AuthenticationApi extends Api {
     this.httpService = axios.create({ withCredentials: true });
   }
 
-  public async authentication(loginData: {
-    username: string;
-    password: string;
-  }) {
+  public async authentication(
+    body: LoginData
+  ): Promise<AuthenticationResponse> {
     // Setup first request
     const firstRequest: AxiosRequestConfig = {
       method: "get",
@@ -26,22 +36,42 @@ class AuthenticationApi extends Api {
     };
 
     // Forward the request
-    const { errorText, forwardCount, lastResponse } =
-      await this.createForwardRequest(
-        this.httpService,
-        firstRequest,
-        5,
-        loginData
-      );
+    const { errorText, lastResponse } = await this.createForwardRequest(
+      this.httpService,
+      firstRequest,
+      5,
+      body
+    );
 
     // Error handling
     if (errorText) {
-      console.error(errorText);
+      return { isSuccess: false, errorMessage: errorText };
     }
     // Error handling
     if (!lastResponse.config.url?.includes("sso.xedule.nl")) {
-      console.error("Result is different");
+      return { isSuccess: false, errorMessage: "Result is different" };
     }
+
+    // Get the token
+    let token: string = lastResponse.request.path.toString();
+
+    if (token) {
+      if (token.includes("token=")) {
+        token = token.substring(token.indexOf("token=") + "token=".length);
+      }
+
+      if (token.includes("&ngsw-bypass=")) {
+        token = token.substring(0, token.indexOf("&ngsw-bypass="));
+      }
+
+      // Return token
+      return { isSuccess: true, token };
+    }
+
+    return {
+      isSuccess: false,
+      errorMessage: "This application is out of date",
+    };
   }
 
   /**
@@ -63,25 +93,14 @@ class AuthenticationApi extends Api {
     let lastResponse = await axiosInstance.request(firstRequest);
     const dom = new DOMParser();
 
-    console.log(lastResponse.config.url);
-
     for (; forwardCount < maxForwards; forwardCount++) {
       const document = dom.parseFromString(lastResponse.data, "text/html");
       const forwardForm = document.querySelector("form");
 
-      console.log("www");
       // Stop forward if response has no form
       if (!forwardForm) {
         break;
       }
-
-      console.log(forwardForm);
-      console.log(forwardForm.toString());
-      console.log(forwardForm.action);
-      console.log(forwardForm.action.toString());
-
-      console.log(window.location.origin);
-      console.log(window.location.host);
 
       // Stop forward if there are errors
       const errorElement = document.getElementById("errorText");
@@ -95,8 +114,6 @@ class AuthenticationApi extends Api {
       config.url = forwardForm.action;
       config.method = forwardForm.method ?? "post";
       config.data = {};
-
-      console.log(config.url);
 
       // Copy the form data into a new request
       const inputs = forwardForm.querySelectorAll("input");
@@ -127,10 +144,6 @@ class AuthenticationApi extends Api {
 
       // Convert json object to http query string
       config.data = new URLSearchParams(config.data);
-
-      console.log("Foward request: " + forwardCount);
-      console.log(config.url);
-
       lastResponse = await axiosInstance.request(config);
     }
 
