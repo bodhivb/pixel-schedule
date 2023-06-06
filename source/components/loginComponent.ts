@@ -1,6 +1,7 @@
 import axios from "axios";
 import { createInput } from "../elements/input";
 import { createLabel } from "../elements/label";
+import { authenticationApi } from "../api/authenticationApi";
 
 // Login component
 export class LoginComponent {
@@ -50,6 +51,13 @@ export class LoginComponent {
     // Send the form data to the server
     try {
       this.errorLabel.innerHTML = "";
+
+      await authenticationApi.authentication({
+        username: formData.get("email")?.toString() ?? "",
+        password: formData.get("password")?.toString() ?? "",
+      });
+
+      /*
       const res = await axios.post("http://localhost:3000/xedule", {
         username: formData.get("email"),
         password: formData.get("password"),
@@ -62,6 +70,7 @@ export class LoginComponent {
       } else {
         this.errorLabel.innerHTML = "Unexpected error, please try again later.";
       }
+      */
     } catch (ex) {
       // Error handling
       if (axios.isAxiosError(ex)) {
