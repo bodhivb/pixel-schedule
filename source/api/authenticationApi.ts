@@ -108,6 +108,11 @@ class AuthenticationApi extends Api {
         config.data["UserName"] = loginData.username;
         config.data["Password"] = loginData.password;
 
+        if (config.url.startsWith(window.location.origin)) {
+          // Remove the origin from the url
+          config.url = config.url.substring(window.location.origin.length);
+        }
+
         if (!config.url.startsWith("http")) {
           // Fix the url with domain name
           config.url = "https://adfsproxy.sintlucas.nl:443" + config.url;
