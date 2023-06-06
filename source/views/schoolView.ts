@@ -1,34 +1,39 @@
-import { Cache, Graphics } from "pixi.js";
+import { Graphics, Point } from "pixi.js";
 import { Director } from "../builders/director";
 import { SchoolBuilder } from "../builders/schoolBuilder";
-import { IFloor } from "../interfaces/floorInterface";
 import { IRoom } from "../interfaces/roomInterface";
 import { RoomType } from "../interfaces/roomType";
 import { School } from "../objects/school";
-import { Teacher } from "../objects/teacher";
 import { View } from "./view";
+import { Teacher } from "../objects/teacher";
+import { teacherStore } from "../store/teacherStore";
+import { SintLucasSchoolData } from "../schoolData";
 
 export class SchoolView extends View {
   private school: School;
+  public teachers: Teacher[] = [];
 
   test_classroom: IRoom = {
     number: "72a",
     type: RoomType.classroom,
   };
 
-  constructor() {
+  constructor(worldPosition: Point = new Point(200, 800)) {
     super({ name: "School" });
+    this.position = worldPosition;
 
+    // Add school
     this.school = this.LoadSchool();
     this.addChild(this.school);
 
-    let bodhi = new Teacher(Cache.get("bodhi"));
-    this.addChild(bodhi);
+    // Add teachers
+    this.loadTeacher();
+    teacherStore.on(() => this.loadTeacher());
 
-    //Add ground floor
+    // Add ground floor
     const graphics = new Graphics();
     graphics.beginFill(0x292929);
-    graphics.drawRect(190, 800, 1000, 3);
+    graphics.drawRect(-10, 0, this.school.GetSchoolWidth + 20, 3);
     graphics.endFill();
 
     this.addChild(graphics);
@@ -36,7 +41,7 @@ export class SchoolView extends View {
 
   public LoadSchool() {
     // Sample data - for testing
-    const data = this.GetData();
+    const data = SintLucasSchoolData;
 
     const schoolBuilder = new SchoolBuilder();
     const director = new Director(schoolBuilder);
@@ -45,47 +50,45 @@ export class SchoolView extends View {
     director.buildSintLucas(data);
 
     const school = schoolBuilder.GetProduct();
-    school.x = 200;
-    school.y = 800;
-
     return school;
   }
 
-  //This should be replaced with schedule API
-  public GetData(): IFloor[] {
-    return [
-      {
-        floor: 0,
-        rooms: [
-          this.test_classroom,
-          { number: "74", type: RoomType.classroom_window },
-          { number: "75", type: RoomType.classroom_window },
-          { number: "76", type: RoomType.classroom },
-        ],
-      },
-      {
-        floor: 2,
-        rooms: [
-          this.test_classroom,
-          { number: "32", type: RoomType.classroom_Large },
-          { number: "33", type: RoomType.classroom_window },
-        ],
-      },
-      {
-        floor: 3,
-        rooms: [
-          { number: "32", type: RoomType.classroom_window },
-          { number: "33", type: RoomType.classroom },
-          { number: "37", type: RoomType.networking_plaza },
-        ],
-      },
-    ];
+  public loadTeacher() {
+    // Remove old teachers
+    for (let i = this.teachers.length - 1; i >= 0; i--) {
+      this.teachers[i].destroy();
+      this.removeChild(this.teachers[i]);
+    }
+    this.teachers = [];
+
+    // Load new teachers
+    const data = teacherStore.GetData();
+    for (let teacher of data) {
+      let sprite = new Teacher(teacher);
+      //sprite.pivot = new Point(-200, -800);
+      this.addChild(sprite);
+      this.teachers.push(sprite);
+
+      if (teacher.firstName.charAt(0) == "B") {
+        this.SetTeacherIntoRoom(sprite, "N.0.60");
+      } else {
+        this.SetTeacherIntoRoom(sprite, "N.0.74");
+      }
+    }
   }
 
   /**
    * Put the teacher in the room.
    */
-  public SetTeacherIntoRoom() {
-    //TODO
+  public SetTeacherIntoRoom(teacher: Teacher, roomNumber: string) {
+    // Find the room
+    const room = this.school.GetRoomByNumber(roomNumber);
+    if (room) {
+      // Walk teacher to the room
+      teacher.SetTarget(
+        new Point(room.position.x + room.width / 2, room.position.y),
+        Math.max(25, room.width - 50)
+      );
+    }
   }
 }

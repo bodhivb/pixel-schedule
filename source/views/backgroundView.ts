@@ -1,18 +1,17 @@
-import { Cache, DisplayObject, Sprite } from "pixi.js";
-import { GameManager } from "../managers/gameManager";
+import { Cache, Rectangle } from "pixi.js";
 import { BackgroundColor } from "../objects/backgroundColor";
 import { Cloud } from "../objects/cloud";
 import { Grass } from "../objects/grass";
 import { getRandomInteger } from "../utils/random";
 import { View } from "./view";
+import { Scene } from "../scenes/scene";
 
 export class BackgroundView extends View {
-  readonly gameManager: GameManager;
+  private currentScene: Scene;
 
-  constructor(gm: GameManager) {
+  constructor(currentScene: Scene) {
     super({ name: "Background" });
-
-    this.gameManager = gm;
+    this.currentScene = currentScene;
 
     // Add background color
     const backgroundColor = new BackgroundColor();
@@ -25,20 +24,21 @@ export class BackgroundView extends View {
   public LoadBackgroundAssets() {
     // Load clouds
     const cloudCount = 10;
-    const view = this.gameManager.application.view;
+    const bounds =
+      this.currentScene.camera.bounds ?? new Rectangle(0, 0, 1920, 1080);
 
     for (let i = 0; i < cloudCount; i++) {
-      let cloud = new Cloud(this.gameManager);
+      let cloud = new Cloud(bounds.width);
 
-      cloud.x = (view.width / cloudCount) * i;
-      cloud.y = getRandomInteger(0, view.height / 3);
+      cloud.x = (bounds.width / cloudCount) * i;
+      cloud.y = getRandomInteger(0, bounds.height / 3);
 
       //this.entities.push(cloud);
       this.addChild(cloud);
     }
 
     // Load ground
-    const ground = new Grass(Cache.get("grass"), view.width, 800);
+    const ground = new Grass(Cache.get("grass"), bounds.width, 800);
     this.addChild(ground);
   }
 }

@@ -6,9 +6,9 @@ export class Floor {
   public elevator?: Sprite;
   public doorTexture: Texture<Resource>;
 
-  //Hallway door
+  // Hallway door
   public doors: Sprite[];
-  //Rooms on this floor
+  // Rooms on this floor
   public rooms: Room[];
 
   constructor() {

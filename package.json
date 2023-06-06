@@ -7,6 +7,7 @@
     "start": "webpack serve --mode=development",
     "build": "webpack --mode=production",
     "build:dev": "webpack --mode=development",
+    "updateAssets": "node ./source/updateAssetsManifest.js",
     "lint": "eslint source --ext .ts"
   },
   "repository": {
@@ -26,8 +27,10 @@
   },
   "homepage": "https://github.com/Bodhivb/pixel-schedule#readme",
   "dependencies": {
-    "@pixi/math-extras": "^7.1.2",
-    "pixi.js": "7.1.0"
+    "@pixi/filter-outline": "5.2.0",
+    "@pixi/math-extras": "7.1.4",
+    "axios": "1.4.0",
+    "pixi.js": "7.1.4"
   },
   "devDependencies": {
     "@types/node": "^18.8.1",

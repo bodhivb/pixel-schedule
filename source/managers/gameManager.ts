@@ -2,27 +2,50 @@ import { Assets } from "pixi.js";
 import { assetsManifest } from "../assetsManifest";
 import App from "../app";
 import Overlay from "../overlay";
-import { BackgroundView } from "../views/backgroundView";
-import { LoginView } from "../views/loginView";
-import { SchoolView } from "../views/schoolView";
 import { SceneManager } from "./sceneManager";
 import { MainScene } from "../scenes/mainScene";
+import { SetupView } from "../views/setupView";
+import { SearchView } from "../views/searchView";
 
-//TODO Convert this class to singleton or static class
 export class GameManager {
-  readonly application: App;
+  // #region singleton
+
+  /** The singleton instance. */
+  private static _instance: GameManager;
+
+  /** The gateway to the GameManager instance. Please make sure to call GameManager.init() first.*/
+  public static get instance() {
+    if (!GameManager._instance) {
+      throw new Error(
+        "GameManager class is not registered as a singleton. Please make sure to call GameManager.init() first."
+      );
+    }
+    return GameManager._instance;
+  }
+
+  /**
+   * Initialize this class.
+   * @param app PIXI.Application
+   * @param overlay Custom html overlay
+   */
+  public static init(app: App, overlay?: Overlay) {
+    GameManager._instance = new GameManager(app, overlay);
+  }
+
+  // #endregion
+  // #region properties
+
+  // PIXI Application
+  public readonly application: App;
 
   // The html overlay screen
-  readonly HTMLoverlay?: Overlay;
+  public readonly HTMLoverlay?: Overlay;
 
-  // The canvas screen
-  readonly screen: SceneManager;
+  // #endregion
 
-  constructor(app: App, overlay?: Overlay) {
+  private constructor(app: App, overlay?: Overlay) {
     this.application = app;
     this.HTMLoverlay = overlay;
-
-    this.screen = new SceneManager(this);
 
     // Load all assets
     this.LoadAssets().then(() => {
@@ -31,7 +54,7 @@ export class GameManager {
   }
 
   /** Load all manifest assets. */
-  async LoadAssets() {
+  private async LoadAssets() {
     // Low priority: here you can create a loading screen
 
     // Link the manifest to the assets class
@@ -50,14 +73,17 @@ export class GameManager {
     return assets;
   }
 
-  OpenActiveScreen() {
-    this.screen.Add(new MainScene(this));
+  private OpenActiveScreen() {
+    SceneManager.Add(new MainScene());
     // Page -> View -> Component -> Element
-    //const loginView = new LoginView();
-    //this.HTMLoverlay?.Add(loginView);
+    const setupView = new SetupView();
+    this.HTMLoverlay?.Add(setupView);
+
+    const searchView = new SearchView();
+    this.HTMLoverlay?.Add(searchView);
   }
 
-  Update(dt: number) {
-    this.screen.UpdateScenes(dt);
+  public Update(dt: number) {
+    SceneManager.UpdateScenes(dt);
   }
 }

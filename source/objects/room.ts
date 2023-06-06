@@ -1,4 +1,4 @@
-import { Cache, Sprite, Texture } from "pixi.js";
+import { Cache, Sprite } from "pixi.js";
 import { IRoom } from "../interfaces/roomInterface";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 

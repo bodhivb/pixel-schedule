@@ -1,4 +1,4 @@
-import { ColorMatrix, Sprite, Texture } from "pixi.js";
+import { Sprite, Texture } from "pixi.js";
 import { IEntityEvent } from "../interfaces/entityEvent";
 
 export class BackgroundColor extends Sprite implements IEntityEvent {

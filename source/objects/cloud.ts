@@ -1,6 +1,5 @@
 import { Cache, Resource, Sprite, Texture } from "pixi.js";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
-import { GameManager } from "../managers/gameManager";
 import { getRandomInteger } from "../utils/random";
 import { IEntityEvent } from "../interfaces/entityEvent";
 
@@ -11,16 +10,16 @@ enum ICloudSize {
 }
 
 export class Cloud extends Sprite implements IEntityEvent {
-  readonly gameManager: GameManager;
-
-  constructor(gm: GameManager) {
+  private worldWidth: number;
+  constructor(worldWidth: number) {
     const size: ICloudSize = getRandomInteger(
       ICloudSize.Small,
       ICloudSize.Large
     );
 
     super(Cloud.GetTexture(size));
-    this.gameManager = gm;
+
+    this.worldWidth = worldWidth;
 
     this.anchor.set(0);
     this.zIndex = SortingLayer.Background;
@@ -28,7 +27,7 @@ export class Cloud extends Sprite implements IEntityEvent {
   }
 
   public Update(dt: number): void {
-    if (this.x > this.gameManager.application.view.width) {
+    if (this.x > this.worldWidth) {
       this.x = -this.width;
     }
 

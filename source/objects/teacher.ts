@@ -1,28 +1,50 @@
-import { Point, Resource, Sprite, Texture, Ticker } from "pixi.js";
+import { Cache, Point, Sprite, Ticker } from "pixi.js";
+import { OutlineFilter } from "@pixi/filter-outline";
 import { IEntityEvent } from "../interfaces/entityEvent";
 import { SortingLayer } from "../interfaces/sortingLayerEnum";
 import "@pixi/math-extras";
+import { ITeacher } from "../interfaces/teacher/teacherInterface";
+import { getTeacherColorNumber } from "../utils/teacherColor";
 
 export class Teacher extends Sprite implements IEntityEvent {
   // Input variable
+  public readonly data: ITeacher;
+
+  // Hidden variable
   private target: Point;
   private idleDistance = 140;
-  private idleWait = 6;
+  private idleWait = 4;
+  private idleWalkSpeed = 0.4;
 
   // Output variable
   private targetIdle?: Point;
 
-  constructor(texture?: Texture<Resource> | undefined) {
-    super(texture);
+  // Render variable
+  private outlineFilter;
 
+  constructor(teacherData: ITeacher) {
+    super(Cache.get(teacherData.imageKey));
+
+    this.data = teacherData;
+
+    // Set outline color
+    const color = getTeacherColorNumber(teacherData);
+    this.outlineFilter = new OutlineFilter(2, color[1]);
+
+    // Set teacher position
     this.anchor.set(0.5, 0.9);
-    this.target = new Point(400, 400);
-
+    this.target = new Point(0, 0);
     this.position = this.target;
 
     this.zIndex = SortingLayer.Character;
-    this.scale.set(2);
+    this.scale.set(1.3);
     this.SetNewIdlePosition();
+
+    // Set interactive
+    this.interactive = true;
+    this.cursor = "pointer";
+    this.on("pointerover", this.onPointerOver);
+    this.on("pointerout", this.onPointerOut);
   }
 
   private waitTimer = 0;
@@ -33,9 +55,7 @@ export class Teacher extends Sprite implements IEntityEvent {
       const distance = this.targetIdle.subtract(this.position);
       const direction = this.SquareDirection(distance);
 
-      const speed = 0.3;
-
-      const xMove = direction.x * speed * dt;
+      const xMove = direction.x * this.idleWalkSpeed * dt;
 
       // Stop walking when it crosses the finish point
       if (Math.abs(distance.x) - Math.abs(xMove) <= 0) {
@@ -52,17 +72,37 @@ export class Teacher extends Sprite implements IEntityEvent {
     }
   }
 
-  public SetNewIdlePosition() {
+  // Set the next target position of the teacher
+  public SetTarget(target: Point, idleDistance?: number) {
+    this.target = target;
+
+    if (idleDistance) this.idleDistance = idleDistance;
+
+    // TODO Ajust height at elevator
+    this.position.y = target.y;
+
+    this.SetNewIdlePosition();
+  }
+
+  private SetNewIdlePosition() {
     const newIdleXPos = Math.random() * this.idleDistance;
 
     this.targetIdle = new Point(
-      this.target.x - newIdleXPos / 2 + newIdleXPos,
+      this.target.x - this.idleDistance / 2 + newIdleXPos,
       this.target.y
     );
   }
 
   public SetWaitTime(second: number) {
     this.waitTimer = second * (Ticker.targetFPMS * 1000);
+  }
+
+  private onPointerOver() {
+    this.filters = [this.outlineFilter];
+  }
+
+  private onPointerOut() {
+    this.filters = [];
   }
 
   /**
