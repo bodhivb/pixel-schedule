@@ -30,6 +30,7 @@
     "@pixi/filter-outline": "5.2.0",
     "@pixi/math-extras": "7.1.4",
     "axios": "1.4.0",
+    "axios-cookiejar-support": "^4.0.6",
     "pixi.js": "7.1.4"
   },
   "devDependencies": {
