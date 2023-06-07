@@ -65,7 +65,8 @@ export class GameManager {
 
     // Download all assets
     const assets = await Assets.loadBundle(bundleIds, (value) =>
-      console.log(value)
+      //TODO Add loading bar (value increase from 0.0 to 1.0)
+      {}
     );
 
     // Loading assets is complete
