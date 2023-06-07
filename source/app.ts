@@ -32,4 +32,6 @@ export default class App extends Application<HTMLCanvasElement> {
   private Update(dt: number) {
     GameManager.instance.Update(dt);
   }
+
+  //TODO optional. add update function for minute or hour
 }
