@@ -18,9 +18,13 @@ export default class App extends Application<HTMLCanvasElement> {
 
     // Initialize GameManager
     GameManager.init(this, overlay);
-
-    this.ticker.maxFPS = 90;
+    
     this.ticker.add((dt) => this.Update(dt));
+
+    // call updateMinute once every minute
+    setInterval(function(self) {
+      self.ticker.addOnce((dt) => self.UpdateMinute(dt));
+    }, 60 * 1000, this)
   }
 
   // Trigger when the browser window is resized.
@@ -33,5 +37,8 @@ export default class App extends Application<HTMLCanvasElement> {
     GameManager.instance.Update(dt);
   }
 
-  //TODO optional. add update function for minute or hour
+  private UpdateMinute(dt: number) {
+    GameManager.instance.UpdateMinute(dt);
+  }
+
 }

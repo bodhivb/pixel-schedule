@@ -63,10 +63,7 @@ export class BackgroundColor extends Sprite implements IEntityEvent {
     return Texture.from(canvas);
   }
 
-  dayTimer = 0;
-  daySwitch = false;
-
-  Update(dt: number) {
+  UpdateMinute(dt: number) {
     this.texture = BackgroundColor.createGradientTexture(
       500,
       BackgroundColor.getDaylightValue()
