@@ -7,7 +7,7 @@ export class BackgroundColor extends Sprite implements IEntityEvent {
     const c_height = 800 + 2;
     const c_width = 1920;
 
-    const gradTexture = BackgroundColor.createGradientTexture(c_height);
+    const gradTexture = BackgroundColor.createGradientTexture(c_height, BackgroundColor.getDaylightValue());
     super(gradTexture);
 
     this.position.set(0, 0);
@@ -63,10 +63,7 @@ export class BackgroundColor extends Sprite implements IEntityEvent {
     return Texture.from(canvas);
   }
 
-  dayTimer = 0;
-  daySwitch = false;
-
-  Update(dt: number) {
+  UpdateMinute(dt: number) {
     this.texture = BackgroundColor.createGradientTexture(
       500,
       BackgroundColor.getDaylightValue()

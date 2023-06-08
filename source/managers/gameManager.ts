@@ -87,4 +87,8 @@ export class GameManager {
   public Update(dt: number) {
     SceneManager.UpdateScenes(dt);
   }
+
+  public UpdateMinute(dt: number) {
+    SceneManager.UpdateMinuteScenes(dt);
+  }
 }

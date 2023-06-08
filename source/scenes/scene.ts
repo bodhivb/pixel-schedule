@@ -25,6 +25,19 @@ export abstract class Scene extends Container<View> {
     }
   }
 
+  UpdateMinute(dt: number) {
+    // List of all views
+    for (let v = 0; v < this.children.length; v++) {
+      // TODO Check before if function exists. If yes > add it to event listeren
+      (this.children[v] as IEntityEvent).UpdateMinute?.(dt);
+
+      // List of all entities from view
+      for (let e = 0; e < this.children[v].children.length; e++) {
+        (this.children[v].children[e] as IEntityEvent).UpdateMinute?.(dt);
+      }
+    }
+  }
+
   Remove() {
     //List of all views
     for (let v = 0; v < this.children.length; v++) {

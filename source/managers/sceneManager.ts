@@ -28,6 +28,14 @@ export class SceneManager {
       this.activeScenes[s].Update(dt);
     }
   }
+  
+  /** Update the active scene(s). */
+  public static UpdateMinuteScenes(dt: number) {
+    // Loop over list of all opened scenes
+    for (let s = 0; s < this.activeScenes.length; s++) {
+      this.activeScenes[s].UpdateMinute(dt);
+    }
+  }
 
   /** Remove the active scene(s). */
   public static RemoveScene() {

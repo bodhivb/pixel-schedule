@@ -5,6 +5,9 @@ export interface IEntityEvent {
   /** Update is called once per frame. */
   Update?(dt: number): void;
 
+  /** Update is called once per minute. */
+  UpdateMinute?(dt: number): void;
+
   /** OnDestroy is called when the object was disabled during the frame. */
   OnDestroy?(): void;
 }
