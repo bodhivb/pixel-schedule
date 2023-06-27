@@ -24,7 +24,7 @@ export class SetupView extends HTMLView {
 
     const spaceLine = document.createElement("div");
     spaceLine.id = "spaceLine";
-    spaceLine.appendChild(createLabel("or"));
+    spaceLine.appendChild(createLabel("and"));
 
     this.uploadDataComponent = new UploadDataComponent();
     this.uploadDataComponent.view.classList.add("clickable");

@@ -1,4 +1,3 @@
-import axios from "axios";
 import { createInput } from "../elements/input";
 import { createLabel } from "../elements/label";
 import { authenticationApi } from "../api/authenticationApi";
@@ -16,7 +15,7 @@ export class LoginComponent {
     // Create the login form
     this.form = document.createElement("form");
     this.form.id = "loginForm";
-    this.form.appendChild(createLabel("Log in to retrieve the data"));
+    this.form.appendChild(createLabel("Log in to retrieve the schedule data"));
 
     // Add the submit event
     this.form.addEventListener("submit", (event) => this.Submit(event));
@@ -60,12 +59,13 @@ export class LoginComponent {
       if (res.isSuccess) {
         // Save the token
         localStorage.setItem("token", res.token ?? "");
-        window.location.reload();
+        // TODO restart the service
+        //window.location.reload();
       } else {
-        this.errorLabel.innerHTML = res.errorMessage ?? "Unexpected error";
+        this.errorLabel.innerHTML = res.errorMessage ?? "Unexpected error (21)";
       }
     } catch (ex) {
-      this.errorLabel.innerHTML = "Unexpected error: " + (ex as string);
+      this.errorLabel.innerHTML = (ex as string) ?? "Unexpected error (22)";
     }
 
     this.setEnabledForm(true);

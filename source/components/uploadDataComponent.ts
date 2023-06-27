@@ -16,19 +16,12 @@ export class UploadDataComponent {
     // Create the upload data form
     this.form = document.createElement("form");
     this.form.id = "uploadDataForm";
-    this.form.appendChild(createLabel("Upload the local data"));
+    this.form.appendChild(createLabel("Upload the teacher data"));
 
     // Create the error label
     this.errorLabel = document.createElement("div");
     this.errorLabel.id = "errorLabel";
     this.form.appendChild(this.errorLabel);
-
-    // Create the rooster data input field
-    this.form.appendChild(createLabel("Rooster data"));
-    const roosterInput = createInputFile((value) =>
-      this.handleRoosterData(value)
-    );
-    this.form.appendChild(roosterInput);
 
     // Create the teacher data input field
     this.form.appendChild(createLabel("Teacher data"));
@@ -36,19 +29,6 @@ export class UploadDataComponent {
       this.handleTeacherData(value)
     );
     this.form.appendChild(teacherInput);
-  }
-
-  /**
-   * Handle the rooster data.
-   * @param data rooster data interface
-   * @returns
-   */
-  private handleRoosterData(data: any) {
-    if (typeof data == "string") return;
-
-    // Check if the data is correct
-    if (Array.isArray(data) && data.length > 0) {
-    }
   }
 
   /**

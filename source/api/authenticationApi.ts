@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import { Api } from "./api";
 
 interface ForwardResponse {
   errorText: string;
@@ -18,21 +17,27 @@ interface AuthenticationResponse {
   token?: string;
 }
 
-class AuthenticationApi extends Api {
-  httpService: AxiosInstance;
+class AuthenticationApi {
+  private httpService: AxiosInstance;
+  private readonly authenticationUrl: string =
+    "https://myx-silu.xedule.nl/Authentication/sso/SSOLogin.aspx?ngsw-bypass=true";
 
   constructor() {
-    super();
     this.httpService = axios.create({ withCredentials: true });
   }
 
+  /**
+   * Authenticated via SURFConext authentication and return token
+   * @param body login data
+   * @returns response result status with token
+   */
   public async authentication(
     body: LoginData
   ): Promise<AuthenticationResponse> {
     // Setup first request
     const firstRequest: AxiosRequestConfig = {
       method: "get",
-      url: "https://myx-silu.xedule.nl/Authentication/sso/SSOLogin.aspx?ngsw-bypass=true",
+      url: this.authenticationUrl,
     };
 
     // Forward the request
@@ -53,7 +58,9 @@ class AuthenticationApi extends Api {
     }
 
     // Get the token
-    let token: string = lastResponse.request.path.toString();
+    let token: string = (
+      lastResponse.request.path ?? lastResponse.request.responseURL
+    ).toString();
 
     if (token) {
       if (token.includes("token=")) {
