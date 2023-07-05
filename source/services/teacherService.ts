@@ -1,11 +1,12 @@
 import { TeacherApi } from "../api/teacherApi";
 import { ITeacher } from "../interfaces/teacher/teacherInterface";
 import { teacherStore } from "../store/teacherStore";
-import { BaseService } from "./baseService";
 
-class TeacherService extends BaseService<TeacherApi> {
+class TeacherService {
+  public api: TeacherApi;
+
   constructor() {
-    super(new TeacherApi());
+    this.api = new TeacherApi();
 
     // TODO: Check first if user is authenticated
     // Then fetch the teachers
