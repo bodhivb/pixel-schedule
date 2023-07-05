@@ -1,5 +1,5 @@
 import { Assets } from "pixi.js";
-import { assetsManifest } from "../assetsManifest";
+import { assetsManifest } from "../constants/assetsManifest";
 import App from "../app";
 import Overlay from "../overlay";
 import { SceneManager } from "./sceneManager";

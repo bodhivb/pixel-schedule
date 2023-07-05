@@ -7,7 +7,7 @@ import { School } from "../objects/school";
 import { View } from "./view";
 import { Teacher } from "../objects/teacher";
 import { teacherStore } from "../store/teacherStore";
-import { SintLucasSchoolData } from "../schoolData";
+import { SintLucasSchoolData } from "../constants/schoolData";
 
 export class SchoolView extends View {
   private school: School;

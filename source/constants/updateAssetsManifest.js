@@ -29,7 +29,7 @@ try {
       bundle.assets = [];
 
       const files = fs.readdirSync(
-        path.resolve(__dirname, "../assets/teachers")
+        path.resolve(__dirname, "../../assets/teachers")
       );
 
       // Push new assets to bundle

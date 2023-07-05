@@ -1,5 +1,5 @@
-import { IFloor } from "./interfaces/floorInterface";
-import { RoomType } from "./interfaces/roomType";
+import { IFloor } from "../interfaces/floorInterface";
+import { RoomType } from "../interfaces/roomType";
 
 /**
  * SintLucas front rooms.
