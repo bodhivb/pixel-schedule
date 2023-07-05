@@ -5,13 +5,13 @@ import { createPopup } from "../elements/popup";
 import { createLabel } from "../elements/label";
 import { UploadDataComponent } from "../components/uploadDataComponent";
 import { createImage } from "../elements/image";
+import { authenticationService } from "../services/authenticationService";
 
 export class SetupView extends HTMLView {
   private loginComponent: LoginComponent;
   private uploadDataComponent: UploadDataComponent;
 
   private popup: HTMLElement;
-
   private setupButton: HTMLButtonElement;
 
   private isOpen: boolean = false;
@@ -53,6 +53,14 @@ export class SetupView extends HTMLView {
     this.popup.appendChild(setupData);
 
     this.Add(this.setupButton);
+
+    // Open the login popup if user is not logged in
+    this.openSetupIfNotLoggedIn();
+  }
+
+  private async openSetupIfNotLoggedIn() {
+    const isLoggedIn = await authenticationService.isLoggedIn();
+    if (!isLoggedIn) this.openSetup();
   }
 
   private openSetup() {

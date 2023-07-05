@@ -1,3 +1,4 @@
+import axios from "axios";
 import { AuthenticationApi } from "../api/authenticationApi";
 
 class AuthenticationService {
@@ -12,14 +13,25 @@ class AuthenticationService {
     const currentToken = localStorage.getItem("token");
     if (!currentToken) return false;
 
-    const result = await this.api.checkAuthStatus();
+    try {
+      const result = await this.api.checkAuthStatus();
 
-    // Must be successful
-    if (result.status != 200) return false;
+      // Must be successful
+      if (result.status != 200) return false;
 
-    // Login page has a length of 24324
-    // Granted page has a length of 7140
-    if (result.data.length > 10000) return false;
+      // Login page has a length of 24324
+      // Granted page has a length of 7140
+      if (result.data.length > 10000) return false;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (!error.response) {
+          console.log("Network error");
+          console.log("Can be caused by a CORS error");
+        }
+      }
+
+      return false;
+    }
 
     return true;
   }

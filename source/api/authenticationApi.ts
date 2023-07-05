@@ -26,6 +26,10 @@ export class AuthenticationApi {
     this.httpService = axios.create({ withCredentials: true });
   }
 
+  public async checkAuthStatus() {
+    return this.httpService.get(this.authenticationUrl);
+  }
+
   /**
    * Authenticated via SURFConext authentication and return token
    * @param body login data

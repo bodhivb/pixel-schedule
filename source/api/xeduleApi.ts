@@ -24,7 +24,7 @@ export class XeduleApi<T = any> {
       headers: { Authorization: "Bearer " + localStorage.getItem("token") },
     });
 
-    if (res.status == 200 && res.data.result) {
+    if (res.status == 200 && res.data.result && res.data.result.length > 0) {
       this.data = res.data.result;
     } else {
       //TODO error handling
