@@ -9,6 +9,7 @@ export interface ITeacher {
   imagePath: string;
 
   // Optional properties
+  id?: number;
   lastName?: string;
   function?: TeacherFunction;
   team?: TeacherTeam;
