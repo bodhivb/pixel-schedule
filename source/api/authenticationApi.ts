@@ -17,7 +17,7 @@ interface AuthenticationResponse {
   token?: string;
 }
 
-class AuthenticationApi {
+export class AuthenticationApi {
   private httpService: AxiosInstance;
   private readonly authenticationUrl: string =
     "https://myx-silu.xedule.nl/Authentication/sso/SSOLogin.aspx?ngsw-bypass=true";
@@ -157,5 +157,3 @@ class AuthenticationApi {
     return { errorText, forwardCount, lastResponse };
   }
 }
-
-export const authenticationApi = new AuthenticationApi();
