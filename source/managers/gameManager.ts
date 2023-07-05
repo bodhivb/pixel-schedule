@@ -7,6 +7,7 @@ import { MainScene } from "../scenes/mainScene";
 import { SetupView } from "../views/setupView";
 import { SearchView } from "../views/searchView";
 import { teacherStore } from "../store/teacherStore";
+import { teacherService } from "../services/teacherService";
 
 export class GameManager {
   // #region singleton
@@ -52,6 +53,7 @@ export class GameManager {
     this.LoadAssets().then(() => {
       // Loading assets is complete
       teacherStore.resetToDefaultData();
+      teacherService.fetchTeachers();
 
       this.OpenActiveScreen();
     });

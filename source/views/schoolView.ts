@@ -68,12 +68,14 @@ export class SchoolView extends View {
       //sprite.pivot = new Point(-200, -800);
       this.addChild(sprite);
       this.teachers.push(sprite);
-
+      this.SetTeacherIntoRoom(sprite, "N.0.60");
+      /*
       if (teacher.firstName.charAt(0) == "B") {
         this.SetTeacherIntoRoom(sprite, "N.0.60");
       } else {
         this.SetTeacherIntoRoom(sprite, "N.0.74");
       }
+      */
     }
   }
 

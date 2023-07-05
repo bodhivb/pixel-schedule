@@ -1,6 +1,7 @@
 import { Assets } from "pixi.js";
 import { ITeacher } from "../interfaces/teacher/teacherInterface";
 import { DataStore } from "./dataStore";
+import { LinkTeacherData } from "../constants/linkTeacherData";
 
 /** Teacher Store */
 class TeacherStore extends DataStore<ITeacher[]> {
@@ -15,11 +16,15 @@ class TeacherStore extends DataStore<ITeacher[]> {
 
     const teacherData: ITeacher[] = [];
 
-    for (let name of teachers) {
+    const linkIds = LinkTeacherData;
+
+    for (let imageKey of teachers) {
+      const id = linkIds.find((e) => e.imageKey == imageKey)?.teacherId;
+
       teacherData.push({
-        firstName: name,
-        imageKey: name,
-        imagePath: `assets/teachers/${name}.png`,
+        id,
+        imageKey,
+        imagePath: `assets/teachers/${imageKey}.png`,
       });
     }
 
