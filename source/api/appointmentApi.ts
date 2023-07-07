@@ -1,7 +1,7 @@
 import { IXeduleAppointment } from "../interfaces/xedule/xeduleAppointment";
 import { XeduleApi } from "./xeduleApi";
 
-class AppointmentApi extends XeduleApi<IXeduleAppointment> {
+export class AppointmentApi extends XeduleApi<IXeduleAppointment> {
   constructor() {
     super("Appointment/Date/");
   }
@@ -41,5 +41,3 @@ class AppointmentApi extends XeduleApi<IXeduleAppointment> {
     return `${year}-${month}-${day}`;
   }
 }
-
-export const appointmentApi = new AppointmentApi();

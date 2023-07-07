@@ -1,6 +1,6 @@
 import { createInput } from "../elements/input";
 import { createLabel } from "../elements/label";
-import { authenticationApi } from "../api/authenticationApi";
+import { authenticationService } from "../services/authenticationService";
 
 // Login component
 export class LoginComponent {
@@ -27,7 +27,7 @@ export class LoginComponent {
 
     // Create the input fields
     this.form.appendChild(
-      createInput("email", "iemand@example.com", "username")
+      createInput("email", "iemand@sintlucas.nl", "username")
     );
     this.form.appendChild(
       createInput("password", "Wachtwoord", "current-password")
@@ -51,18 +51,15 @@ export class LoginComponent {
     try {
       this.errorLabel.innerHTML = "";
 
-      const res = await authenticationApi.authentication({
-        username: formData.get("email")?.toString() ?? "",
-        password: formData.get("password")?.toString() ?? "",
-      });
+      const isSuccessful = await authenticationService.login(
+        formData.get("email")?.toString() ?? "",
+        formData.get("password")?.toString() ?? ""
+      );
 
-      if (res.isSuccess) {
-        // Save the token
-        localStorage.setItem("token", res.token ?? "");
-        // TODO restart the service
-        //window.location.reload();
+      if (isSuccessful) {
+        window.location.reload();
       } else {
-        this.errorLabel.innerHTML = res.errorMessage ?? "Unexpected error (21)";
+        this.errorLabel.innerHTML = "Unexpected error (21)";
       }
     } catch (ex) {
       this.errorLabel.innerHTML = (ex as string) ?? "Unexpected error (22)";

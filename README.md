@@ -38,5 +38,30 @@ Caution: don't disable web security on other sites without understanding their s
 
 The webapp is written in TypeScript using [PixiJS](https://github.com/pixijs/pixijs) v7. When building the project, TypeScript files are compiles to JavaScript and all code is bundled into one minified file using [Webpack](https://github.com/webpack/webpack).
 
+Feel free to view the source code and add something fun as a pull request to make the SintLucas Pixel-Schedule even cooler!
+
 If you have any questions? Feel free to contact me via Discord [Bodhi#0001](https://discord.com/users/151423248020537345).
-Your feedbacks are welcome! :)
+
+# Desired outcomes
+
+### Real-time Schedule
+
+That teachers stay in the classroom where their lesson is, is not quite finished yet, when they are finished then the basic concept is finished!
+
+### Interactive
+
+However, it still lacks interactive feature, including clickable teacher profiles and random speech bubbles corresponding to their current lesson and other fun interactives. Feel free to suggest any other additions!
+
+### Pixel Schedule API
+
+Build an API that users can connect to via [SurfConext](https://wiki.surfnet.nl/display/surfconextdev/Documentation+for+Service+Providers) to access data on teachers presence, skills, and important notifications/changes.
+
+### Display date
+
+Display the date and time in the top left corner, resembling a lock screen or Wallpaper Engine. This allows for convenient access to useful default information while maintaining a visually pleasing background.
+
+### Weather
+
+Add weather integration, based on school location. Show corresponding weather conditions within the Pixel Schedule, such as rain when it's raining.
+
+Furthermore, the app already includes real-time background changes for daytime and evening. Thanks to [@Martijndewin](https://github.com/Martijndewin) for his contribution to the development of this feature.

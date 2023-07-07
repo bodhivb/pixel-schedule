@@ -1,11 +1,14 @@
 import { Assets } from "pixi.js";
-import { assetsManifest } from "../assetsManifest";
+import { assetsManifest } from "../constants/assetsManifest";
 import App from "../app";
 import Overlay from "../overlay";
 import { SceneManager } from "./sceneManager";
 import { MainScene } from "../scenes/mainScene";
 import { SetupView } from "../views/setupView";
 import { SearchView } from "../views/searchView";
+import { teacherStore } from "../store/teacherStore";
+import { teacherService } from "../services/teacherService";
+import { LoginView } from "../views/loginView";
 
 export class GameManager {
   // #region singleton
@@ -49,6 +52,10 @@ export class GameManager {
 
     // Load all assets
     this.LoadAssets().then(() => {
+      // Loading assets is complete
+      teacherStore.resetToDefaultData();
+      teacherService.fetchTeachers();
+
       this.OpenActiveScreen();
     });
   }
@@ -77,6 +84,9 @@ export class GameManager {
   private OpenActiveScreen() {
     SceneManager.Add(new MainScene());
     // Page -> View -> Component -> Element
+    const loginView = new LoginView();
+    this.HTMLoverlay?.Add(loginView);
+
     const setupView = new SetupView();
     this.HTMLoverlay?.Add(setupView);
 

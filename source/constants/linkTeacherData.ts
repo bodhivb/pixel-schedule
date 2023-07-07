@@ -1,0 +1,33 @@
+import { ILinkTeacher } from "../interfaces/linkTeacherInterface";
+
+/** linking the Xedule teacher to their pixel images. */
+export const LinkTeacherData: ILinkTeacher[] = [
+  { imageKey: "ah", teacherId: 0 },
+  { imageKey: "bb", teacherId: 17877 },
+  { imageKey: "bk", teacherId: 0 },
+  { imageKey: "bp", teacherId: 0 },
+  { imageKey: "bt", teacherId: 0 },
+  { imageKey: "cs", teacherId: 0 },
+  { imageKey: "db", teacherId: 0 },
+  { imageKey: "dr", teacherId: 0 },
+  { imageKey: "ew", teacherId: 0 },
+  { imageKey: "fv", teacherId: 0 },
+  { imageKey: "gk", teacherId: 0 },
+  { imageKey: "jk", teacherId: 0 },
+  { imageKey: "js", teacherId: 0 },
+  { imageKey: "jw", teacherId: 0 },
+  { imageKey: "kd", teacherId: 0 },
+  { imageKey: "lf", teacherId: 0 },
+  { imageKey: "lp", teacherId: 0 },
+  { imageKey: "mh-1", teacherId: 0 },
+  { imageKey: "mh-2", teacherId: 0 },
+  { imageKey: "no", teacherId: 0 },
+  { imageKey: "pg", teacherId: 0 },
+  { imageKey: "pl-1", teacherId: 0 },
+  { imageKey: "pl-2", teacherId: 0 },
+  { imageKey: "rh", teacherId: 0 },
+  { imageKey: "ss", teacherId: 0 },
+  { imageKey: "tb-1", teacherId: 0 },
+  { imageKey: "tb-2", teacherId: 0 },
+  { imageKey: "wh", teacherId: 0 },
+];
