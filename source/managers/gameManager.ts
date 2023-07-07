@@ -8,6 +8,7 @@ import { SetupView } from "../views/setupView";
 import { SearchView } from "../views/searchView";
 import { teacherStore } from "../store/teacherStore";
 import { teacherService } from "../services/teacherService";
+import { LoginView } from "../views/loginView";
 
 export class GameManager {
   // #region singleton
@@ -83,6 +84,9 @@ export class GameManager {
   private OpenActiveScreen() {
     SceneManager.Add(new MainScene());
     // Page -> View -> Component -> Element
+    const loginView = new LoginView();
+    this.HTMLoverlay?.Add(loginView);
+
     const setupView = new SetupView();
     this.HTMLoverlay?.Add(setupView);
 
