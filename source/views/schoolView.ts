@@ -7,7 +7,7 @@ import { School } from "../objects/school";
 import { View } from "./view";
 import { Teacher } from "../objects/teacher";
 import { teacherStore } from "../store/teacherStore";
-import { SintLucasSchoolData } from "../schoolData";
+import { SintLucasSchoolData } from "../constants/schoolData";
 
 export class SchoolView extends View {
   private school: School;
@@ -69,10 +69,11 @@ export class SchoolView extends View {
       this.addChild(sprite);
       this.teachers.push(sprite);
 
-      if (teacher.firstName.charAt(0) == "B") {
-        this.SetTeacherIntoRoom(sprite, "N.0.60");
+      // Testing or it works
+      if (teacher.imageKey.charAt(0) == "b") {
+        this.SetTeacherIntoRoom(sprite, "N.3.31");
       } else {
-        this.SetTeacherIntoRoom(sprite, "N.0.74");
+        this.SetTeacherIntoRoom(sprite, "N.0.60");
       }
     }
   }

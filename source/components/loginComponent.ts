@@ -1,6 +1,6 @@
-import axios from "axios";
 import { createInput } from "../elements/input";
 import { createLabel } from "../elements/label";
+import { authenticationService } from "../services/authenticationService";
 
 // Login component
 export class LoginComponent {
@@ -15,7 +15,7 @@ export class LoginComponent {
     // Create the login form
     this.form = document.createElement("form");
     this.form.id = "loginForm";
-    this.form.appendChild(createLabel("Log in to retrieve the data"));
+    this.form.appendChild(createLabel("Log in to retrieve the schedule data"));
 
     // Add the submit event
     this.form.addEventListener("submit", (event) => this.Submit(event));
@@ -27,7 +27,7 @@ export class LoginComponent {
 
     // Create the input fields
     this.form.appendChild(
-      createInput("email", "iemand@example.com", "username")
+      createInput("email", "iemand@sintlucas.nl", "username")
     );
     this.form.appendChild(
       createInput("password", "Wachtwoord", "current-password")
@@ -50,25 +50,19 @@ export class LoginComponent {
     // Send the form data to the server
     try {
       this.errorLabel.innerHTML = "";
-      const res = await axios.post("http://localhost:3000/xedule", {
-        username: formData.get("email"),
-        password: formData.get("password"),
-      });
 
-      if (res.data.token) {
-        // Save the token
-        localStorage.setItem("token", res.data.token);
+      const isSuccessful = await authenticationService.login(
+        formData.get("email")?.toString() ?? "",
+        formData.get("password")?.toString() ?? ""
+      );
+
+      if (isSuccessful) {
         window.location.reload();
       } else {
-        this.errorLabel.innerHTML = "Unexpected error, please try again later.";
+        this.errorLabel.innerHTML = "Unexpected error (21)";
       }
     } catch (ex) {
-      // Error handling
-      if (axios.isAxiosError(ex)) {
-        this.errorLabel.innerHTML = ex.response?.data.message ?? ex.message;
-      } else {
-        this.errorLabel.innerHTML = "Unexpected error: " + (ex as string);
-      }
+      this.errorLabel.innerHTML = (ex as string) ?? "Unexpected error (22)";
     }
 
     this.setEnabledForm(true);

@@ -4,11 +4,12 @@ import { ITeacherSkill } from "./teacherSkillInterface";
 
 export interface ITeacher {
   // Required properties
-  firstName: string;
   imageKey: string;
   imagePath: string;
 
   // Optional properties
+  id?: number;
+  firstName?: string;
   lastName?: string;
   function?: TeacherFunction;
   team?: TeacherTeam;

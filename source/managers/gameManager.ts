@@ -1,11 +1,14 @@
 import { Assets } from "pixi.js";
-import { assetsManifest } from "../assetsManifest";
+import { assetsManifest } from "../constants/assetsManifest";
 import App from "../app";
 import Overlay from "../overlay";
 import { SceneManager } from "./sceneManager";
 import { MainScene } from "../scenes/mainScene";
 import { SetupView } from "../views/setupView";
 import { SearchView } from "../views/searchView";
+import { teacherStore } from "../store/teacherStore";
+import { teacherService } from "../services/teacherService";
+import { LoginView } from "../views/loginView";
 
 export class GameManager {
   // #region singleton
@@ -49,6 +52,10 @@ export class GameManager {
 
     // Load all assets
     this.LoadAssets().then(() => {
+      // Loading assets is complete
+      teacherStore.resetToDefaultData();
+      teacherService.fetchTeachers();
+
       this.OpenActiveScreen();
     });
   }
@@ -65,7 +72,8 @@ export class GameManager {
 
     // Download all assets
     const assets = await Assets.loadBundle(bundleIds, (value) =>
-      console.log(value)
+      //TODO Add loading bar (value increase from 0.0 to 1.0)
+      {}
     );
 
     // Loading assets is complete
@@ -76,6 +84,9 @@ export class GameManager {
   private OpenActiveScreen() {
     SceneManager.Add(new MainScene());
     // Page -> View -> Component -> Element
+    const loginView = new LoginView();
+    this.HTMLoverlay?.Add(loginView);
+
     const setupView = new SetupView();
     this.HTMLoverlay?.Add(setupView);
 
@@ -85,5 +96,9 @@ export class GameManager {
 
   public Update(dt: number) {
     SceneManager.UpdateScenes(dt);
+  }
+
+  public UpdateMinute(dt: number) {
+    SceneManager.UpdateMinuteScenes(dt);
   }
 }

@@ -12,7 +12,7 @@ import { createLabel } from "./label";
 export const createTeacherBox = (teacher: ITeacher) => {
   // Create box
   const box = document.createElement("div");
-  box.id = teacher.firstName;
+  box.id = teacher.firstName ?? "Teacher";
   box.classList.add("teacherBox");
 
   const color = getTeacherColor(teacher);
@@ -27,7 +27,14 @@ export const createTeacherBox = (teacher: ITeacher) => {
   // Add text
   const text = document.createElement("div");
   text.classList.add("teacherText");
-  const teacherName = teacher.firstName + " " + (teacher.lastName ?? "");
+
+  let teacherName = "";
+  if (teacher.firstName || teacher.lastName) {
+    teacherName = (teacher.firstName ?? "") + " " + (teacher.lastName ?? "");
+  } else {
+    teacherName = teacher.imageKey;
+  }
+
   text.appendChild(createLabel(teacherName));
 
   if (teacher.function)
