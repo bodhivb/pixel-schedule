@@ -27,7 +27,7 @@ export class LoginComponent {
 
     // Create the input fields
     this.form.appendChild(
-      createInput("email", "iemand@example.com", "username")
+      createInput("email", "iemand@sintlucas.nl", "username")
     );
     this.form.appendChild(
       createInput("password", "Wachtwoord", "current-password")
