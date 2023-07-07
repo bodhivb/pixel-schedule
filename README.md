@@ -64,4 +64,4 @@ Display the date and time in the top left corner, resembling a lock screen or Wa
 
 Add weather integration, based on school location. Show corresponding weather conditions within the Pixel Schedule, such as rain when it's raining.
 
-Furthermore, the app already includes real-time background changes for daytime and evening. Thanks to @Martijndewin for his contribution to the development of this feature.
+Furthermore, the app already includes real-time background changes for daytime and evening. Thanks to [@Martijndewin](https://github.com/Martijndewin) for his contribution to the development of this feature.
